@@ -50,23 +50,7 @@ public class BannerParser {
 					}
 				}
 			}
-			//Elements courses = doc.getElementsByClass("ddlabel");
-			//Elements tables = doc.select("[summary=\"This table lists the scheduled meeting times and assigned instructors for this class..\"]");
-			//Elements times;
-			/*for(Element course : courses){
-				output.write(course.html() + "\n");
-			}*/
-			/*for(int i = 0; i < courses.size() && i < tables.size(); i++ ){
-				//times = tables.get(i).select("td:nth-child(2)");
-				output.write(i + "\t" + courses.get(i).text() + "\n");
-				times = courses.get(i).siblingElements().select("[summary=\"This table lists the scheduled meeting times and assigned instructors for this class..\"] td:nth-child(2)");
-				for(Element time : times){
-					output.write(i + "\t" +time.text() + "\n");
-				}
-			}*/
 			output.close();
-			//System.out.println(courses.size());
-			//System.out.println(tables.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
