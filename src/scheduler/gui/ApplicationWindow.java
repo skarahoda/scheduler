@@ -1,6 +1,7 @@
 package scheduler.gui;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -37,7 +38,12 @@ public class ApplicationWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		BannerParser.getCourses();
+		try {
+			BannerParser.getCourses("201402");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
