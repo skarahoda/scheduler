@@ -1,11 +1,11 @@
-package scheduler.gui;
+package io.scheduler.gui;
+
+import io.scheduler.data.BannerParser;
 
 import java.awt.EventQueue;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-
-import scheduler.data.BannerParser;
 
 public class ApplicationWindow {
 

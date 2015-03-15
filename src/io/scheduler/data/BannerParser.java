@@ -1,4 +1,4 @@
-package scheduler.data;
+package io.scheduler.data;
 
 import java.io.IOException;
 

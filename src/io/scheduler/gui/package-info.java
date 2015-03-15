@@ -5,4 +5,4 @@
  * @author skarahoda
  *
  */
-package scheduler.gui;
+package io.scheduler.gui;

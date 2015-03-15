@@ -5,4 +5,4 @@
  * @author skarahoda
  *
  */
-package scheduler.data;
+package io.scheduler.data;
