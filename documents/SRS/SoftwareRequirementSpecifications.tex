@@ -11,6 +11,7 @@
 \usepackage{supertabular}
 \usepackage{hhline}
 \usepackage{hyperref}
+\usepackage[toc,page]{appendix}
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SOFTWARE REQUIREMENTS SPECIFICATION (SRS) TEMPLATE, pdfauthor=Serta\c{c} Karahoda, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
 % Outline numbering
@@ -46,49 +47,15 @@
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\arabic{page}}
 }
-\newcommand\ps@Convertviii{
-  \renewcommand\@oddhead{}
+\newcommand\ps@Preface{
+  \pagenumbering{Roman}
+  \renewcommand\@oddhead{\selectlanguage{english}\rmfamily\color{black} Sabanc{\i} University CS Department Instructional Use\hfill \hfill Scheduler}
   \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
+  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{SRS Page }}\foreignlanguage{english}{\textcolor{black}{\thepage{}}}}
   \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
+  \renewcommand\thepage{\roman{page}}
 }
-\newcommand\ps@Convertvii{
-  \renewcommand\@oddhead{}
-  \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
-  \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
-}
-\newcommand\ps@Convertvi{
-  \renewcommand\@oddhead{}
-  \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
-  \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
-}
-\newcommand\ps@Convertv{
-  \renewcommand\@oddhead{}
-  \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
-  \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
-}
-\newcommand\ps@Convertiv{
-  \renewcommand\@oddhead{}
-  \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
-  \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
-}
-\newcommand\ps@Convertii{
-  \renewcommand\@oddhead{}
-  \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{}
-  \renewcommand\@evenfoot{\@oddfoot}
-  \renewcommand\thepage{\arabic{page}}
-}
-\newcommand\ps@FirstPage{
+\newcommand\ps@Appendix{
   \renewcommand\@oddhead{}
   \renewcommand\@evenhead{\@oddhead}
   \renewcommand\@oddfoot{}
@@ -107,12 +74,12 @@
 \author{Serta\c{c} Karahoda}
 \date{16 March 2015}
 \begin{document}
-\clearpage\setcounter{page}{1}\pagestyle{FirstPage}
+\setcounter{page}{1}\pagestyle{Preface}
 
 \vspace*{1.5in}
-\centering\selectlanguage{english}\bfseries\color{black}
+{\centering\selectlanguage{english}\bfseries\color{black}
 SOFTWARE REQUIREMENTS SPECIFICATION (SRS) FOR 
-\par
+\par}
 
 \bigskip
 
@@ -215,19 +182,19 @@ change &
 ~
 
 \centering\arraybslash \selectlanguage{english}\color{black} Author\\\hline
-\textnormal{\centering{0}}
+\centering{0}
  &
-\textnormal{\centering{15 March 2015}}
+\centering{15 March 2015}
  &
-\textnormal{\centering{All}}
+All
  &
-\textnormal{\centering{A}}
+\centering{A}
  &
- \textnormal{\centering{The document created}}
+ The document created
  &
  \vspace{0.05in}
- \textnormal{\centering{Serta\c{c}, Yavuz}}
-\\\hline
+ Serta\c{c}, Yavuz
+ \\\hline
 \end{supertabular}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
@@ -705,7 +672,7 @@ text here ]}}
 
 \bigskip
 
-\clearpage\setcounter{page}{1}\pagestyle{Standard}
+\clearpage\pagestyle{Standard}
 \subsection[SYSTEM
 FEATURES]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 SYSTEM FEATURES}
@@ -913,7 +880,7 @@ Detailed functional requirements of this feature}
 
 
 
-\clearpage\setcounter{page}{1}\pagestyle{Convertvi}
+\clearpage\pagestyle{Standard}
 \section[REQUIREMENTS
 TRACEABILITY]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 REQUIREMENTS TRACEABILITY}
@@ -1313,10 +1280,10 @@ SDD link is version and page number or function name.}
 Test cases and results are file names and \textbf{P}ass/\textbf{F}ail or
 \% passing.}
 
-\clearpage\clearpage\setcounter{page}{1}\pagestyle{Standard}
+\clearpage\pagestyle{Standard}
 \section[SYSTEM EVOLUTION]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 SYSTEM EVOLUTION}
-\clearpage\setcounter{page}{1}\pagestyle{Convertvii}
+\clearpage\pagestyle{Appendix}
 \section[APPENDIX A. \ [insert name
 here{]}]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 APPENDIX A. \ [insert name here]}
@@ -1333,7 +1300,7 @@ derived from the customer. \ Appendices are labeled A, B, {\dots}n.
 \foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert appendix
 A here ]}}
 
-\clearpage\setcounter{page}{1}\pagestyle{Convertviii}
+\clearpage\pagestyle{Appendix}
 \section[APPENDIX B. \ [insert name
 here{]}]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 APPENDIX B. \ [insert name here]}
@@ -1342,7 +1309,6 @@ APPENDIX B. \ [insert name here]}
 
 {\selectlanguage{english}\color{black}
 [ insert appendix B here ]}
-
 
 \bigskip
 \end{document}
