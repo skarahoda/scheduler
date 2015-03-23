@@ -1,0 +1,8 @@
+1. Reviewing glossary of terms(Sertaç)
+2. Reviewing language of the document(Pamir)
+3. Determine missing user requirements, system requirements or mockup(Yavuz)
+4. Producing use cases and missing system requirements(Sertaç, Berk)
+5. Producing missing user requirements(Pamir)
+6. Producing missing mockup(Elif)
+7. System architecture(Sertaç)
+8. Traceablity(Yavuz, Sertaç)
