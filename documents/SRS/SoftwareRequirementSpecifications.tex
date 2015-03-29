@@ -295,6 +295,19 @@ Section 1.4
  \vspace{0.05in}
  Serta\c{c}
  \\\hline
+\centering{8}
+ &
+\centering{29 March 2015}
+ &
+Section 2.2
+ &
+\centering{M}
+ &
+ Related section, figure links added 
+ &
+ \vspace{0.05in}
+ Berk
+ \\\hline
 \end{supertabular}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
@@ -445,7 +458,11 @@ Grid schedule}
 
 {\selectlanguage{english}\color{black}
 Scheduler application shall provide a grid facility where a matrix of horizontal and vertical lines provide a background to the editor window. This grid shall be a passive grid where the alignment of courses is the user's responsibility. From the given or searched course list, user shall drag-and-drop the appropriate courses to Grid schedules. }
+	
+\smallskip
 
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:openAppDiagram}}
 
 \subsubsection[Schedule tabs
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -453,20 +470,40 @@ Scheduler application shall provide a grid facility where a matrix of horizontal
 
 {\selectlanguage{english}\color{black}
 	The Scheduler application shall allow the user to create more than one schedule. User shall save, load, create, rename and delete schedules. The existing schedules can be seen at the tabs section and user swap between different schedules.}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:openAppDiagram}, Figure \ref{fig:NewScheduleDiagram}}
 
 \subsubsection[Search box
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 	Search box}
 
 {\selectlanguage{english}\color{black}
-	Scheduler application shall provide a detailed search tool with different types of filters to find the courses easily. Courses can be searched with name, CRN, date-time, credit amount, faculty, department or education year. The user is the best person to decide which courses should be taken and positioned to schedules. }
+	Scheduler application shall provide a detailed search tool with different types of filters to find the courses easily. Courses can be searched with name, CRN, date-time, credit amount, faculty, department or education year. The user is the best person to decide which courses should be taken and positioned to schedules.}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related system features:}} Section \ref{sssec:timeHandler}, Section \ref{sssec:timeFilter}}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:AddCourseScheduleDiagram}, Figure \ref{fig:FilterCourseScheduleDiagram}}
 
 \subsubsection[Course restriction handler]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 	Course restriction handler}
 
 {\selectlanguage{english}\color{black}
 	Scheduler shall warn the user to prevent creating a schedule which is against the regulations of Sabanci University. As the errors and warnings shall be seen at the errors section, user may avoid the errors or informed that a special permission is being required from the Sabanci University or tutors to register the course.}
-	
+
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}, Figure \ref{fig:AddCourseScheduleDiagram}}
+
 \subsubsection[Social media account login
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 	Social media account login}
@@ -478,6 +515,11 @@ Scheduler application shall provide a grid facility where a matrix of horizontal
 
 {\selectlanguage{english}\color{black}
 	The Scheduler shall provide a social media account login where user informations and course data will be stored for multi-device usage. The user shall use Scheduler application within different devices without losing data. On the other hand, the user shall directly use Scheduler without using any social media account which will disable the opportunity to transfer the information between devices. }
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:SocialMediaDiagram}}
 
 
 \subsubsection[Course 
@@ -490,6 +532,12 @@ recommendation]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 
 {\selectlanguage{english}\color{black}
 	Scheduler shall recommend courses according to the needs of the user. The recommendations shall be updated and able to fit the existing schedules whenever the user changes the schedules. The user simply drags-and-drops the courses from recommendations section to schedule grids.}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:SocialMediaDiagram}, Figure \ref{fig:RecommendationDiagram}}
+
 \subsection[USER
 CHARACTERISTICS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 USER CHARACTERISTICS}
@@ -712,6 +760,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Time conflict handler}
+\label{sssec:timeHandler}
 
 \emph{\textbf{Input:}}  Current course and a course list that occured by the chosen courses for the current term.
 
@@ -734,6 +783,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Time conflict filter}
+\label{sssec:timeFilter}
 
 \emph{\textbf{Input:}}  A course list that stores choosen courses and a course list to be filtered
 
@@ -802,6 +852,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Importing degree requirements}
+\label{sssec:importdegre}
 
 \emph{\textbf{Description:}} Gets degree requirements for a given degree program from bannerweb
 
@@ -850,6 +901,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Opening application}
+\label{fig:openAppDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -878,6 +930,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Configure user information}
+\label{fig:ConfigureDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -890,7 +943,7 @@ SEQUENCE DIAGRAMS}
 \end{umlcall}
 \begin{umlcall}[op={getScheduleName()}, padding=3, return=scheduleName]{app}{user}
 \end{umlcall}
-\begin{umlfragment}[type=while, label={courseName exists}, inner xsep=14] 
+\begin{umlfragment}[type=while, label={scheduleName exists}, inner xsep=14] 
 \begin{umlcall}[op={getScheduleName()}, padding=3, return=scheduleName, dt=6]{app}{user}
 \end{umlcall}
 \end{umlfragment}
@@ -899,6 +952,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Create new schedule}
+\label{fig:NewScheduleDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -947,6 +1001,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Add course to schedule}
+\label{fig:AddCourseScheduleDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -966,6 +1021,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Filter course list for schedule}
+\label{fig:FilterCourseScheduleDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -986,6 +1042,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Delete course from schedule}
+\label{fig:FilterCourseScheduleDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1116,6 +1173,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Social media login}
+\label{fig:SocialMediaDiagram}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1146,6 +1204,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Course recommendation}
+\label{fig:RecommendationDiagram}
 \end{figure}
 
 \end{document}
