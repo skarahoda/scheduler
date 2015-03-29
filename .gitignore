@@ -14,5 +14,31 @@ hs_err_pid*
 /target/
 
 #latex outputs
-!/documents/SRS/*.tex
-/documents/SRS/*
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.synctex.gz
+*.swp
+*.pdf
+
+#sqlite database file
+*.sqlite
