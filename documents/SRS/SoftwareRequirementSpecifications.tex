@@ -13,6 +13,7 @@
 \usepackage{hyperref}
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SOFTWARE REQUIREMENTS SPECIFICATION (SRS) TEMPLATE, pdfauthor=Serta\c{c} Karahoda, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
+\usepackage{tikz-uml}
 % Outline numbering
 \setcounter{secnumdepth}{5}
 \renewcommand\thesection{\arabic{section}}
@@ -42,7 +43,7 @@
 \newcommand\ps@Standard{
   \renewcommand\@oddhead{\selectlanguage{english}\rmfamily\color{black} Sabanc{\i} University CS Department Instructional Use\hfill \hfill Scheduler}
   \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{SRS Page }}\foreignlanguage{english}{\textcolor{black}{\thepage{}}}}
+  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{SRS}}\foreignlanguage{english}{\textcolor{black}{\thepage{}}}}
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\arabic{page}}
 }
@@ -60,6 +61,14 @@
   \renewcommand\@oddfoot{}
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\arabic{page}}
+}
+
+\newcommand{\featuresection}[1] {
+\subsubsection[System feature: #1]{\selectlanguage{english}\rmfamily\bfseries\color{black} System feature: #1}
+}
+
+\newcommand{\sequencediagramsection}[1] {
+\subsubsection[Sequence diagram: #1]{\selectlanguage{english}\rmfamily\bfseries\color{black} Sequence diagram: #1}
 }
 \makeatother
 \pagestyle{Standard}
@@ -195,6 +204,97 @@ All
  \vspace{0.05in}
  Serta\c{c}, Yavuz
  \\\hline
+ \centering{1}
+ &
+\centering{22 March 2015}
+ &
+Section 2
+ &
+\centering{M}
+ &
+ User Requirements added
+ &
+ \vspace{0.05in}
+ Pamir
+ \\\hline
+ \centering{2}
+ &
+\centering{22 March 2015}
+ &
+Section 4.2
+ &
+\centering{M}
+ &
+ System Requirements added
+ &
+ \vspace{0.05in}
+ Serta\c{c}, Yavuz, Berk
+ \\\hline
+  \centering{3}
+ &
+\centering{28 March 2015}
+ &
+Section 3
+ &
+\centering{M}
+ &
+ System Architecture added
+ &
+ \vspace{0.05in}
+ Serta\c{c}, Yavuz
+ \\\hline
+ \centering{4}
+ &
+\centering{28 March 2015}
+ &
+Section 2
+ &
+\centering{M}
+ &
+ Use case diagram added
+ &
+ \vspace{0.05in}
+ Serta\c{c}, Yavuz
+ \\\hline
+  \centering{5}
+ &
+\centering{28 March 2015}
+ &
+Section 4
+ &
+\centering{M}
+ &
+ Sequence diagrams added
+ &
+ \vspace{0.05in}
+ Serta\c{c}, Yavuz, Berk
+ \\\hline
+  \centering{6}
+ &
+\centering{29 March 2015}
+ &
+Section 5, 6, 7
+ &
+\centering{D}
+ &
+ Useless sections deleted
+ &
+ \vspace{0.05in}
+ Serta\c{c}
+ \\\hline
+   \centering{7}
+ &
+\centering{29 March 2015}
+ &
+Section 1.4
+ &
+\centering{M}
+ &
+ Unexplained terms added
+ &
+ \vspace{0.05in}
+ Serta\c{c}
+ \\\hline
 \end{supertabular}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
@@ -242,7 +342,7 @@ version under development is version 1.0.\end{flushleft}}
 PURPOSE}
 
 {\selectlanguage{english}\color{black}
-\begin{flushleft}The purpose of the system under development is to help students while making course schedule. \ While the system will be used by Sabanc{\i} University students,
+\begin{flushleft}The purpose of the system under development is to make course schedule for Sabanc\i{} University students. \ The main goal is to help students before and during the registration period. \ While the system will be used by Sabanc{\i} University students,
 this document is intended to be read and understood by Teaching Assitants and Instructor of Software Engineering course.\end{flushleft}}
 
 \subsection[SCOPE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -251,8 +351,6 @@ SCOPE}
 {\selectlanguage{english}\color{black}
 \begin{flushleft}
 This software system will be a course scheduling application for Sabanc\i{} University students. \ The application is based on a cross platform Java form application. \ The project will be developed in 4 months by 5 software engineers. \ There will be no sponsor or any investor. \ It has GPL license, it can be maintained and contributed by volunteer developers.
-
-
 
 \end{flushleft}}
 
@@ -268,32 +366,36 @@ GLOSSARY}
 Acronym &
 \centering\arraybslash \selectlanguage{english}\bfseries\color{black}
 Definition\\\hline
-\selectlanguage{english}\color{black} Alpha test &
+\selectlanguage{english}\color{black} \textbf{Alpha test} &
 \selectlanguage{english}\color{black} Limited release(s) to selected,
 outside testers\\\hline
-\selectlanguage{english}\color{black} Beta test &
+\selectlanguage{english}\color{black} \textbf{Beta test} &
 \selectlanguage{english}\color{black} Limited release(s) to cooperating
 customers wanting early access to developing systems\\\hline
-\selectlanguage{english}\color{black} Final test &
+\selectlanguage{english}\color{black} \textbf{Final test} &
 \selectlanguage{english}\color{black} aka, Acceptance test, release of
 full functionality to customer for approval\\\hline
-\selectlanguage{english}\color{black} DFD &
-\selectlanguage{english}\color{black} Data Flow Diagram\\\hline
-\selectlanguage{english}\color{black} SDD &
-\selectlanguage{english}\color{black} Software Design Document, aka SDS,
-Software Design Specification\\\hline
-\selectlanguage{english}\color{black} SRS &
-\selectlanguage{english}\color{black} Software Requirements
-Specification\\\hline
-\selectlanguage{english}\color{black} Bannerweb &
+\selectlanguage{english}\color{black} \textbf{Bannerweb} &
 \selectlanguage{english}\color{black} A course registration system for Sabanc{\i} University\\\hline
-\selectlanguage{english}\color{black} Cross platform &
+\selectlanguage{english}\color{black} \textbf{Cross platform }&
 \selectlanguage{english}\color{black} Systems that can run on different operating system like Windows, Linux and Mac OS\\\hline
-\selectlanguage{english}\color{black} Java &
+\selectlanguage{english}\color{black} \textbf{Java} &
 \selectlanguage{english}\color{black} An object oriented, cross platform programming language \\\hline
+\selectlanguage{english}\color{black} \textbf{GPL} &
+\selectlanguage{english}\color{black} GNU General Public License is a free software license, which guarantees end users the freedoms to use, study, share, and modify the software. \\\hline
+\selectlanguage{english}\color{black} \textbf{CRN} &
+\selectlanguage{english}\color{black} Course Reference Number  \\\hline
+\selectlanguage{english}\color{black} \textbf{Middleware} &
+\selectlanguage{english}\color{black} The software that connects software components\\\hline
+\selectlanguage{english}\color{black} \textbf{Parser} &
+\selectlanguage{english}\color{black} a software component that takes input data and builds a data structure\\\hline
+\selectlanguage{english}\color{black} \textbf{Boolean Type} &
+\selectlanguage{english}\color{black} A data type that has only two value, true and false\\\hline
 
 \end{supertabular}
 \end{flushleft}
+
+\clearpage
 
 \subsection[OVERVIEW]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 OVERVIEW}
@@ -321,19 +423,7 @@ requirements are enumerated and described to a degree sufficient for a
 knowledgeable designer or coder to begin crafting an architectural
 solution to the proposed system.}
 
-
-\bigskip
-
-{\selectlanguage{english}\color{black}
-Section 5 provides the requirements traceability information for the
-project. \ Each feature of the system is indexed by the SRS
-requirement number and linked to its SDD and test references.}
-
-\bigskip
-
-{\selectlanguage{english}\color{black}
-Sections 6 and up are appendices including original information and
-communications used to create this document.}\end{flushleft}
+\end{flushleft}
 
 \clearpage\section[USER REQUIREMENTS DEFINITION]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 USER REQUIREMENTS DEFINITION}
@@ -343,35 +433,74 @@ PERSPECTIVE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 PRODUCT PERSPECTIVE}
 
 {\selectlanguage{english}\color{black}
-Scheduler is a self-contained, standalone software that helps the Sabanc\i{} Univeristy students to efficiently create their own schudules without any external application. \ Although the application has a self-contained structure, it uses some webpages of Sbanc\i{} University as sources. \ It will be explained with details in section 2.5.}
+Scheduler is a self-contained, standalone software that helps the Sabanc\i{} Univeristy students to efficiently create their own schudules without any external application. \ Although the application has a self-contained structure, it uses some webpages of Sabanc\i{} University as sources. \ It will be explained with details in section 2.5.}
 
 \subsection[PRODUCT
 FUNCTIONS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 PRODUCT FUNCTIONS}
 
-\subsubsection[Grid facilities
+\subsubsection[Grid schedules
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Grid facilities}
+Grid schedule}
 
 {\selectlanguage{english}\color{black}
-The editor shall provide a grid facility where a matrix of horizontal and vertical lines provide a background to the editor window. This grid shall be a passive grid where the alignment of entities is the user's responsibility.}
+Scheduler application shall provide a grid facility where a matrix of horizontal and vertical lines provide a background to the editor window. This grid shall be a passive grid where the alignment of courses is the user's responsibility. From the given or searched course list, user shall drag-and-drop the appropriate courses to Grid schedules. }
+
+
+\subsubsection[Schedule tabs
+]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	Schedule tabs}
+
+{\selectlanguage{english}\color{black}
+	The Scheduler application shall allow the user to create more than one schedule. User shall save, load, create, rename and delete schedules. The existing schedules can be seen at the tabs section and user swap between different schedules.}
+
+\subsubsection[Search box
+]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	Search box}
+
+{\selectlanguage{english}\color{black}
+	Scheduler application shall provide a detailed search tool with different types of filters to find the courses easily. Courses can be searched with name, CRN, date-time, credit amount, faculty, department or education year. The user is the best person to decide which courses should be taken and positioned to schedules. }
+
+\subsubsection[Course restriction handler]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	Course restriction handler}
+
+{\selectlanguage{english}\color{black}
+	Scheduler shall warn the user to prevent creating a schedule which is against the regulations of Sabanci University. As the errors and warnings shall be seen at the errors section, user may avoid the errors or informed that a special permission is being required from the Sabanci University or tutors to register the course.}
+	
+\subsubsection[Social media account login
+]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	Social media account login}
+
+{\noindent\selectlanguage{english}\color{black}
+	\textbf{\emph{! According to the state of affair, social media account login may not be implemented (stretched goal).}}}
 
 \smallskip
 
-{\noindent\selectlanguage{english}\color{black}
-\textbf{\emph{Rationale:}} A grid helps the user to create a tidy diagram with well-spaced entities. Although an active grid, where entities 'snap-to' grid lines can be useful, the positioning is imprecise. The user is the best person to decide where entities should be positioned.}
+{\selectlanguage{english}\color{black}
+	The Scheduler shall provide a social media account login where user informations and course data will be stored for multi-device usage. The user shall use Scheduler application within different devices without losing data. On the other hand, the user shall directly use Scheduler without using any social media account which will disable the opportunity to transfer the information between devices. }
 
+
+\subsubsection[Course 
+recommendation]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	Course recommendation}
+{\noindent\selectlanguage{english}\color{black}
+	\textbf{\emph{! According to the state of affair, course recommendation may not be implemented (stretched goal).}}}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+	Scheduler shall recommend courses according to the needs of the user. The recommendations shall be updated and able to fit the existing schedules whenever the user changes the schedules. The user simply drags-and-drops the courses from recommendations section to schedule grids.}
 \subsection[USER
 CHARACTERISTICS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 USER CHARACTERISTICS}
 
 {\selectlanguage{english}\color{black}
-The end-users of the application are university students. \ Computer is very important component of their education life. \ Therfore it can be assumed that all users have intermediate knowledge about using computer.}
+The end-users of the application are university students. \ Computer is very important component of their education life. \ Therefore it can be assumed that all users have intermediate knowledge about using computer.}
 
 \smallskip
 
 { \noindent \selectlanguage{english}\color{black}
-Since there are computer science students, one of target auidance is well-exprienced user and potential developer. \ In section 3, the relation between the application and user characteristics will be specified.}
+Since there are computer science students, one of target audience is well-exprienced user and potential developer. \ In section 3, the relation between the application and user characteristics will be specified.}
 
 \subsection[CONSTRAINTS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 CONSTRAINTS}
@@ -389,7 +518,7 @@ The application needs a network interface to get course information from the int
 \smallskip
 
 \noindent{\selectlanguage{english}\color{black}
-Other than these constraint it may need social media integration. \ The application may require an interface to connect social media to store personal information. \ However many social media does not support to communacition with form application. \ We will look interfaces of several social media and then make a decision wheter we use a social media interface or not.  
+Other than these constraint it may need social media integration. \ The application may require an interface to connect social media to store personal information. \ However many social media does not support to communication with form application. \ We will look interfaces of several social media and then make a decision whether we use a social media interface or not.  
 }
 
 \subsection[ASSUMPTIONS AND
@@ -425,7 +554,7 @@ requirements]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 Packaging and delivery requirements}
 
 {\selectlanguage{english}\color{black}
-The executable system and all associated documentation (i.e., SRS, SDD,
+The executable system and all associated documentation (i.e., SRS,
 code listing, test plan (data and results), and user manual) will be
 delivered to the customer via web service and/or email, as
 specified by the customer at time of delivery. \ Although document
@@ -456,7 +585,7 @@ requirements]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 Logistics-related requirements}
 
 {\selectlanguage{english}\color{black}
-As a minimum hardware requirement, the application shall run on Lenovo G550{\textquoteright}s which are the oldest computers that distributed by Sabanc\i{} Univeristy to their students. \ As this application is a cross-platform application, it can be oparated in any platform that has Java.}
+As a minimum hardware requirement, the application shall run on Lenovo G550{\textquoteright}s which are the oldest computers that distributed by Sabanc\i{} Univeristy to their students. \ As this application is a cross-platform application, it can be operated in any platform that can run Java.}
 
 \subsubsection[Precedence and criticality of
 requirements]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -465,79 +594,124 @@ Precedence and criticality of requirements}
 {\selectlanguage{english}\color{black}
 All six requirements before this title, are evenly equal.}
 
+\subsection[USE CASES]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+USE CASES}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{usecasediagram.png}
+\caption{Use case diagram}
+\label{fig:usecase_diagram}
+\end{figure}
+
 \clearpage\section[SYSTEM ARCHITECTURE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 SYSTEM ARCHITECTURE}
+
+{\selectlanguage{english}\color{black}
+The application consists of three main components which are user interface, middleware and database. \ The main structure is shown in Figure \ref{fig:architecture_diagram} and described below.}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{architecturediagram.png}
+\caption{Architecture diagram}
+\label{fig:architecture_diagram}
+\end{figure}
+
+\subsection[USER INTERFACE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+USER INTERFACE}
+
+\subsubsection[Configure user information]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Configure user information}
+{\selectlanguage{english}\color{black}
+{Users shall enter their terms, degree program and entrance year. \ If they have minor or double major degree, it should be entered as well. \ When the user enter the information, the module passes the information to the database connector and sends the current term to bannerweb parser in order to get course list.}}
+
+\subsubsection[Degree summary]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Degree summary}
+{\selectlanguage{english}\color{black}
+{Users can see their completed courses and types of these courses. \ Ones can also see remaining courses to graduate in this module. \ The module will get the information from course handlers.}}
+
+\subsubsection[Schedule]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Schedule}
+{\selectlanguage{english}\color{black}
+{Users shall see their schedule from the graphical table which contains currently taken courses. \ The module will get the information from course handlers.}}
+
+\subsubsection[Add delete courses]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Add delete courses}
+{\selectlanguage{english}\color{black}
+{Users can add or delete courses to shape schedule and degree summary. \ In order to provide ease of access, this module shall cooperate with the filter courses module.}}
+
+\subsubsection[Filter courses]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Filter courses}
+{\selectlanguage{english}\color{black}
+{Users can filter the course list to pick with using some filter options. \ Filter module sends the filter options to middleware and gets the filtered course list from course handler. }}
+
+\subsubsection[Warning page]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Warning page}
+{\selectlanguage{english}\color{black}
+{This module gets the warnings from course handlers and shows to users. }}
+
+\subsection[MIDDLEWARE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+MIDDLEWARE}
+\subsubsection[Database connector]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Database connector}
+{\selectlanguage{english}\color{black}
+{Database connector generates queries to get information from database.}}
+
+\subsubsection[Bannerweb parser]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Bannerweb parser}
+{\selectlanguage{english}\color{black}
+{Bannerweb parser gets the specific information of courses with given term and passes to database connector.}}
+
+\subsubsection[Course handlers]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Course handlers}
+{\selectlanguage{english}\color{black}
+{Course handlers gets the course information and convert to specific types that user interface modules can understand.}}
+
+\subsection[DATABASE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+DATABASE}
+{\selectlanguage{english}\color{black}
+{The module stores the course information, degree requirement and user information with given queries.}}
+
+
+
 \clearpage\section[SYSTEM REQUIREMENTS SPECIFICATION]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 SYSTEM REQUIREMENTS SPECIFICATION}
-{\selectlanguage{english}\itshape\color{black}
-This section of the document should contain all of the software
-requirements to a level of detail sufficient to enable designers to
-design a system to satisfy those requirements, and testers to test that
-the system satisfies those requirements. \ Throughout this section,
-every stated requirement should be externally perceivable by users,
-operators, or other external systems. \ These requirements should
-include at a minimum a description of every input \ into the system,
-every output from the system, and all functions performed by the system
-in response to an input or in support of an output. \ As this is often
-the largest and most important part of the document, all requirements
-should be uniquely identifiable and careful attention should be given
-to organizing the requirements to maximize readability.}
+
 
 \subsection[EXTERNAL INTERFACE
 REQUIREMENTS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 EXTERNAL INTERFACE REQUIREMENTS}
-{\selectlanguage{english}\itshape\color{black}
-This subsection should be a detailed description of all inputs into and
-outputs from the software system. \ It should complement the
-constraints and dependencies defined in earlier sections, but not
-repeat that information. \ Hardware, software, user, and other
-communication interfaces need to be specified. \ Use the four
-subsections listed below or the table on the next page, or some
-combination of both.}
 
 \subsubsection[Hardware
-Interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Hardware Interfaces}
+interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Hardware interfaces}
 {\selectlanguage{english}\color{black}
-\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert your
-text here ]}}
+\foreignlanguage{english}{\ }\foreignlanguage{english}{Hardware interface is a simple computer that has a network adapter. \ Since the application communicate with bannerweb, there shall be a proper internet connection.}}
 
 \subsubsection[Software
-Interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Software Interfaces}
+interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Software interfaces}
 {\selectlanguage{english}\color{black}
-\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert your
-text here ]}}
+\foreignlanguage{english}{\ }\foreignlanguage{english}{Since the application is a Java project, it will be a cross platform application. \ The application will be run in any operating system that has Java.}}
 
 \subsubsection[User
-Interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-User Interfaces}
+interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+User interfaces}
 {\selectlanguage{english}\color{black}
-\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert your
-text here ]}}
+\foreignlanguage{english}{\ }\foreignlanguage{english}{The application has a graphical user interface that lets users communicate with the application via a form based window.}
 
-\subsubsection[Other Communication
-Interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Other Communication Interfaces}
+\subsubsection[Other communication
+interfaces]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Other communication interfaces}
 {\selectlanguage{english}\color{black}
-\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert your
-text here ]}}
+\foreignlanguage{english}{\ }\foreignlanguage{english}{There will be no other communication interfaces.}}
 
-
-\bigskip
-
-
-\bigskip
-
-\bigskip
-
-\clearpage\pagestyle{Standard}
 \subsection[SYSTEM
 FEATURES]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 SYSTEM FEATURES}
 
-\subsubsection[System feature 1: Time Conflict Handler]{\selectlanguage{english}\rmfamily\bfseries\color{black} System feature 1: Time Conflict Handler}
-\emph{\textbf{Description:}} Detects time conflicts for the input course based on already chosen courses for the current term 
+
+\featuresection{Time conflict handler}
 
 \emph{\textbf{Input:}}  Current course and a course list that occured by the chosen courses for the current term.
 
@@ -557,18 +731,19 @@ SYSTEM FEATURES}
 
 \emph{\textbf{Side effects:}} None
 
-\subsubsection[System feature 2: Time Conflict Filter]{\selectlanguage{english}\rmfamily\bfseries\color{black} System feature 2: Time Conflict Filter}
-\emph{\textbf{Description:}} Detects the courses from the list that has no time conflicts with the choosen courses. 
 
-\emph{\textbf{Input:}}  A course list that stores choosen courses and a course list to be filtered.
 
-\emph{\textbf{Source:}} Database that has the course information.
+\featuresection{Time conflict filter}
+
+\emph{\textbf{Input:}}  A course list that stores choosen courses and a course list to be filtered
+
+\emph{\textbf{Source:}} Database that has the course information
 
 \emph{\textbf{Outputs:}} Filtered course list
 
 \emph{\textbf{Destination:}} Main module
 
-\emph{\textbf{Action:}} Finds the courses that has no time conflict with choosen courses 
+\emph{\textbf{Action:}} Finds the courses that has no time conflict with choosen courses .
 
 \emph{\textbf{Require:}} Time Conflict Handler
 
@@ -578,453 +753,399 @@ SYSTEM FEATURES}
 
 \emph{\textbf{Side effects:}} None
 
-\subsubsection[System feature 3: Time Conflict Filter]{\selectlanguage{english}\rmfamily\bfseries\color{black} System feature 2: Time Conflict Filter}
-\emph{\textbf{Description:}} Detects the courses from the list that has no time conflicts with the choosen courses. 
 
-\emph{\textbf{Input:}}  A course list that stores choosen courses and a course list to be filtered.
 
-\emph{\textbf{Source:}} Database that has the course information.
+\featuresection{Importing course list}
 
-\emph{\textbf{Outputs:}} Filtered course list
+\emph{\textbf{Input:}}  Term code
 
-\emph{\textbf{Destination:}} Main module
+\emph{\textbf{Source:}} bannerweb
 
-\emph{\textbf{Action:}} Finds the courses that has no time conflict with choosen courses 
+\emph{\textbf{Outputs:}} None
 
-\emph{\textbf{Require:}} Time Conflict Handler
+\emph{\textbf{Destination:}} Database
 
-\emph{\textbf{Pre-condition: }} Course information is available.
+\emph{\textbf{Action:}} Connects to the website with using term code, then parse the website and write the information of courses to the database.  
 
-\emph{\textbf{Post-condition: }} None
+\emph{\textbf{Require:}} None
+
+\emph{\textbf{Pre-condition: }} The connection to the website
+
+\emph{\textbf{Post-condition: }} Database is updated
 
 \emph{\textbf{Side effects:}} None
 
-\clearpage\pagestyle{Standard}
-\section[REQUIREMENTS
-TRACEABILITY]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-REQUIREMENTS TRACEABILITY}
-{\selectlanguage{english}\itshape\color{black}
-This section shall contain traceability information from each system
-requirement in this specification to the system (or subsystem, if
-applicable) requirements it addresses. \ A tabular form is preferred,
-but not mandatory.}
 
 
-\bigskip
+\featuresection{Importing restrictions}
 
-\begin{flushleft}
-\tablehead{\hline
-\multicolumn{1}{|m{0.9212598in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Feature Name} &
-\centering \selectlanguage{english}\bfseries\color{black} Req No. &
-\centering \selectlanguage{english}\bfseries\color{black} Requirement
-Description &
-\centering \selectlanguage{english}\bfseries\color{black} Priority &
-\centering \selectlanguage{english}\bfseries\color{black} SDD &
-\multicolumn{2}{m{1.2872598in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Alpha Release} &
-\multicolumn{2}{m{1.3587599in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Beta Release} &
-\multicolumn{2}{m{1.3795599in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Final Test}\\\hline
- &
- &
- &
- &
- &
-\centering \selectlanguage{english}\bfseries\color{black} Test Case(s) &
-\centering \selectlanguage{english}\bfseries\color{black} Test Res. &
-\centering \selectlanguage{english}\bfseries\color{black} Test Case(s) &
-\centering \selectlanguage{english}\bfseries\color{black} Test Res. &
-\centering \selectlanguage{english}\bfseries\color{black} Test Case(s) &
-\selectlanguage{english}\bfseries\color{black} Test
-Res.\\\hhline{~~~~~------}}
-\begin{supertabular}{m{0.9212598in}|m{0.42125985in}|m{1.9212599in}|m{0.39275986in}|m{0.7587598in}|m{0.6622598in}|m{0.5462598in}|m{0.6712598in}|m{0.6087598in}|m{0.6712598in}|m{0.6295598in}|}
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} 1.1 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
- &
-\centering \selectlanguage{english}\color{black} 1.2 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} {\dots} &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} 1.[n] &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} 2.1 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
- &
-\centering \selectlanguage{english}\color{black} 2.2 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} {\dots} &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} 2.[n] &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} 3.1 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
- &
-\centering \selectlanguage{english}\color{black} 3.2 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} {\dots} &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
- &
-\centering \selectlanguage{english}\color{black} 3.[n] &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
-\multicolumn{1}{|m{0.9212598in}|}{\selectlanguage{english}\color{black}
-{\dots}} &
-\centering \selectlanguage{english}\color{black} {\dots} &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} [m].1 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
- &
-\centering \selectlanguage{english}\color{black} [m].2 &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hhline{~----------}
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} {\dots} &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-\multicolumn{1}{|m{0.9212598in}|}{~
-} &
-\centering \selectlanguage{english}\color{black} [m.n] &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-\end{supertabular}
-\end{flushleft}
-{\selectlanguage{english}\color{black}
-Priorities are: \textbf{M}andatory, \textbf{L}ow, \textbf{H}igh}
+\emph{\textbf{Description:}} Imports the restrictions of the given course from bannerweb.
 
-{\selectlanguage{english}\color{black}
-SDD link is version and page number or function name.}
+\emph{\textbf{Input:}}  Term code and CRN code
 
-{\selectlanguage{english}\color{black}
-Test cases and results are file names and \textbf{P}ass/\textbf{F}ail or
-\% passing.}
+\emph{\textbf{Source:}} bannerweb
 
-\clearpage\pagestyle{Appendix}
-\section[APPENDIX A. \ [insert name
-here{]}]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-APPENDIX A. \ [insert name here]}
+\emph{\textbf{Outputs:}} None
 
-\bigskip
+\emph{\textbf{Destination:}} Database
 
-{\selectlanguage{english}\itshape\color{black}
-Include copies of specifications, mockups, prototypes, etc. supplied or
-derived from the customer. \ Appendices are labeled A, B, {\dots}n.
-\ \ Reference each appendix as appropriate in the text of the document.
-}
+\emph{\textbf{Action:}} Connects to the website with using term code and CRN code, then parse the website and write the restrictions to the database.  
 
-{\selectlanguage{english}\color{black}
-\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert appendix
-A here ]}}
+\emph{\textbf{Require:}}
 
-\clearpage\pagestyle{Appendix}
-\section[APPENDIX B. \ [insert name
-here{]}]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-APPENDIX B. \ [insert name here]}
+\emph{\textbf{Pre-condition: }} The connection to the website
 
-\bigskip
+\emph{\textbf{Post-condition: }} Database is updated
 
-{\selectlanguage{english}\color{black}
-[ insert appendix B here ]}
+\emph{\textbf{Side effects:}} None
 
-\bigskip
+
+
+\featuresection{Importing degree requirements}
+
+\emph{\textbf{Description:}} Gets degree requirements for a given degree program from bannerweb
+
+\emph{\textbf{Input:}}  Program, Enterance year and graduation level
+
+\emph{\textbf{Source:}} website of the given program
+
+\emph{\textbf{Outputs:}} None
+
+\emph{\textbf{Destination:}} Database
+
+\emph{\textbf{Action:}} Connects to the website with using enterance year, program and graduation level, then parse the website and write the degree requirements to the database.  
+
+\emph{\textbf{Require:}}
+
+\emph{\textbf{Pre-condition: }} The connection to the website
+
+\emph{\textbf{Post-condition: }} Database is updated
+
+\emph{\textbf{Side effects:}} None
+
+\clearpage
+\subsection[SEQUENCE DIAGRAMS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+SEQUENCE DIAGRAMS}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8]{app}
+\umldatabase[class=Database, x=9]{db}
+\begin{umlcall}[op={openApplication()}]{user}{app} 
+\begin{umlfragment}[type=if, label=exist, inner xsep=5] 
+\begin{umlcall}[op={isUserInformationExist()}, return={yes}]{app}{db} 
+\end{umlcall}
+\begin{umlcall}[op={displaySchedulePage()}]{app}{user} 
+\end{umlcall}
+\umlfpart[else] 
+\begin{umlcall}[op={isUserInformationExist()}, return={no}]{app}{db} 
+\end{umlcall}
+\begin{umlcall}[op={displayConfigurePage()}]{app}{user} 
+\end{umlcall} 
+\end{umlfragment}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Opening application}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8]{app}
+\umldatabase[class=Database, x=9]{db}
+\begin{umlcall}[op={openConfigurePage()},return={pageConfigure}, padding=5]{user}{app}
+\end{umlcall}
+\begin{umlcall}[op={formEntered()}, dt=5, padding=3]{user}{app}
+\begin{umlfragment}[type=if, label={term filled}, inner xsep=11] 
+\begin{umlcall}[op={getCourseList(term)}, return=courseList, dt=0]{app}{app}
+\end{umlcall}
+\begin{umlcall}[op={save(courseList)}, dt=4]{app}{db} 
+\end{umlcall}
+\end{umlfragment}
+\begin{umlfragment}[type=loop, label={filled programs}, inner xsep=11 ] 
+\begin{umlcall}[op={getRequirements(program)},return=requirements, dt=2]{app}{app}
+\end{umlcall}
+\begin{umlcall}[op={save(requirements)}, dt=4]{app}{db} 
+\end{umlcall}
+\end{umlfragment}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Configure user information}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=6]{app}
+\begin{umlcall}[op={createNewSchedule()}]{user}{app}
+\end{umlcall}
+\begin{umlcall}[op={getScheduleName()}, padding=3, return=scheduleName]{app}{user}
+\end{umlcall}
+\begin{umlfragment}[type=while, label={courseName exists}, inner xsep=14] 
+\begin{umlcall}[op={getScheduleName()}, padding=3, return=scheduleName, dt=6]{app}{user}
+\end{umlcall}
+\end{umlfragment}
+\begin{umlcall}[op={displaySchedulePage(scheduleName)}, dt=6]{app}{user} 
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Create new schedule}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=6]{app}
+\umldatabase[class=Database, x=12]{db}
+\begin{umlcall}[op={buttonAddCourse()}]{user}{app}
+\begin{umlcall}[op={getCurrentTerm()}, return={term}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={getCourseList(term)}, return={courseList}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={displayAddCoursePage(courseList)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcall}[op={addCourse(CRN)}, dt=4]{user}{app}
+\end{umlcall}
+\begin{umlcall}[op={getRestrictions(CRN)}, return={restrictions}]{app}{db} 
+\end{umlcall}
+\begin{umlfragment}[type=if, label={restrictions exist}]
+\begin{umlcall}[op={handleRestrictions(CRN)}, return=warnings, dt=4]{app}{app}
+\end{umlcall}
+\begin{umlcall}[op={display(warnings)}]{app}{user}
+\end{umlcall}
+\begin{umlfragment}[type=case, label={confirm}, inner xsep=8]
+\begin{umlcall}[op={confirm(CRN)}, dt=6]{user}{app}
+\begin{umlcall}[op={save(course, scheduleName)}]{app}{db}
+\end{umlcall} 
+\begin{umlcall}[op={display(Done)}]{app}{user} 
+\end{umlcall}
+\end{umlcall}
+\umlfpart[abort]
+\begin{umlcall}[op={abort(CRN)}, dt=4]{user}{app}
+\begin{umlcall}[op={display(Aborted)}]{app}{user} 
+\end{umlcall}
+\end{umlcall}
+\end{umlfragment}
+\umlfpart[else]
+\begin{umlcall}[op={save(course, scheduleName)}]{app}{db}
+\end{umlcall} 
+\begin{umlcall}[op={display(Done)}]{app}{user} 
+\end{umlcall}
+\end{umlfragment}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Add course to schedule}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=6]{app}
+\begin{umlcall}[op={buttonFilterCourse()}]{user}{app}
+\begin{umlcall}[op={PageFilterCourse(courseList)}, return=filters]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcall}[op={filter(courseList,filters)}, return=courseList]{app}{app}
+\end{umlcall}
+\begin{umlcall}[op={updatePageAddCourse(courseList)}]{app}{user}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Filter course list for schedule}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8]{app}
+\umldatabase[class=Database, x=9]{db}
+\begin{umlcall}[op={buttonDeleteCourse()}]{user}{app}
+\begin{umlcall}[op={getCourse()}, return=CRN]{app}{user}
+\end{umlcall}
+\begin{umlcall}[op={delete(CRN, scheduleName)}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={display(Done)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Delete course from schedule}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8]{app}
+\umldatabase[class=Database, x=11]{db}
+\begin{umlcall}[op={buttonUpdate()}]{user}{app}
+\begin{umlcall}[op={getCurrentTerm()}, return=term]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={getCoursesFromBanneweb(term)}]{app}{app}
+\begin{umlcall}[op={deleteCourseList(term)}, dt=4]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={save(courseList, term)}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={display(Done)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Update database}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=5]{app}
+\umldatabase[class=Database, x=10]{db}
+\begin{umlcall}[op={buttonAddCourse()}]{user}{app}
+\begin{umlcall}[op={getCourseListForDegree()}, return=courseList]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={PageAddCourse(courseList)}, return=courseName]{app}{user}
+\end{umlcall}
+\begin{umlcall}[op={addTakenCourse(courseName)}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={display(Done)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Add course to degree requirements}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=6]{app}
+\umldatabase[class=Database, x=12]{db}
+\begin{umlcall}[op={buttonAddCourse()}]{user}{app}
+\begin{umlcall}[op={getCourseListForDegree()}, return=courseList]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={PageAddCourse(courseList)}, return=courseName]{app}{user}
+\begin{umlcall}[op={onChangedFilterBox()},]{user}{app}
+\begin{umlcall}[op={filter(courseList,filterText)}, return=courseList]{app}{app}
+\end{umlcall}
+\begin{umlcall}[op={updatePageAddCourse(courseList)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcall}[op={addTakenCourse(courseName)}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={display(Done)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Add course to degree requirements with filter}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=5]{app}
+\umldatabase[class=Database, x=11]{db}
+\begin{umlcall}[op={buttonDeleteCourse()}]{user}{app}
+\begin{umlcall}[op={getCourse()}, return=courseName]{app}{user}
+\end{umlcall}
+\begin{umlcall}[op={deleteTakenCourse(courseName)}]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={display(Done)}]{app}{user}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Delete course from degree requirements}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8]{app}
+\umlobject[class=Social media, y=0.8]{sm}
+\umldatabase[class=Database]{db}
+\begin{umlcall}[op={buttonSocialMedia()}]{user}{app}
+\begin{umlcall}[op={getCredentials()}, return=credentials]{app}{user}
+\end{umlcall}
+\begin{umlcall}[op={validate(credentials)}, return=boolean]{app}{sm}
+\end{umlcall}
+\begin{umlfragment}[type=while, label={valid credentials}, inner xsep=14] 
+\begin{umlcall}[op={getCredentials()}, return=credentials]{app}{user}
+\end{umlcall}
+\begin{umlcall}[op={validate(credentials)}, return=boolean]{app}{sm}
+\end{umlcall}
+\end{umlfragment}
+\begin{umlfragment}[type=if, label={logged in before}, inner xsep=14] 
+\begin{umlcall}[op={getUserInfo()}, return=userInfo, dt=4]{app}{sm}
+\end{umlcall}
+\begin{umlcall}[op={update(userInfo)}, dt=4]{app}{db} 
+\end{umlcall}
+\umlfpart[else]
+\begin{umlcall}[op={getUserInfo()}, return=userInfo, dt=4]{app}{db}
+\end{umlcall}
+\begin{umlcall}[op={update(userInfo)}, dt=4]{app}{sm} 
+\end{umlcall}
+\end{umlfragment}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Social media login}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{umlseqdiag} 
+\umlactor[class=User]{user} 
+\umlobject[class=Application, y=0.8, x=5]{app}
+\umlobject[class=Social media, y=0.8, x=9]{sm}
+\umldatabase[class=Database]{db}
+\begin{umlcall}[op={buttonRecommendation()}]{user}{app}
+\begin{umlcall}[op={isLoggedIn()}]{app}{sm} 
+\end{umlcall}
+\begin{umlfragment}[type=if, label={logged in}, inner xsep=9] 
+\begin{umlcall}[op={getRecommendation()}, return=courseList, dt=4]{app}{sm}
+\begin{umlcall}[op={generateRecommendation()}, return=courseList, dt=4]{sm}{sm}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcall}[op={getTimeAndSchedule(courseList)}, return=courseList, dt=4]{app}{db} 
+\end{umlcall}
+\begin{umlcall}[op={display(courseList)}, dt=4]{app}{user}
+\end{umlcall}
+\umlfpart[else]
+\begin{umlcall}[op={display(notLoggedIn)}, dt=4]{app}{user}
+\end{umlcall}
+\end{umlfragment}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+\caption{Course recommendation}
+\end{figure}
+
 \end{document}
