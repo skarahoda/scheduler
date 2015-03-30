@@ -43,7 +43,7 @@
 \newcommand\ps@Standard{
   \renewcommand\@oddhead{\selectlanguage{english}\rmfamily\color{black} Sabanc{\i} University CS Department Instructional Use\hfill \hfill Scheduler}
   \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{SRS}}\foreignlanguage{english}{\textcolor{black}{\thepage{}}}}
+  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{\centerline{\thepage{}}}}}
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\arabic{page}}
 }
@@ -51,7 +51,7 @@
   \pagenumbering{Roman}
   \renewcommand\@oddhead{\selectlanguage{english}\rmfamily\color{black} Sabanc{\i} University CS Department Instructional Use\hfill \hfill Scheduler}
   \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{SRS Page }}\foreignlanguage{english}{\textcolor{black}{\thepage{}}}}
+  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{\centerline{\thepage{}}}}}
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\roman{page}}
 }
@@ -161,6 +161,10 @@ SCHEDULER SRS
 \bigskip
 
 {\centering\selectlanguage{english}\bfseries\color{black}
+PREFACE
+
+\smallskip
+
 RECORD OF CHANGES
 \par}
 
@@ -307,6 +311,19 @@ Section 2.2
  &
  \vspace{0.05in}
  Berk
+ \\\hline
+ \centering{9}
+ &
+\centering{29 March 2015}
+ &
+Section 2.2
+ &
+\centering{M}
+ &
+ Some functions added 
+ &
+ \vspace{0.05in}
+ Pamir
  \\\hline
 \end{supertabular}
 \end{flushleft}
@@ -498,11 +515,55 @@ Scheduler application shall provide a grid facility where a matrix of horizontal
 
 {\selectlanguage{english}\color{black}
 	Scheduler shall warn the user to prevent creating a schedule which is against the regulations of Sabanci University. As the errors and warnings shall be seen at the errors section, user may avoid the errors or informed that a special permission is being required from the Sabanci University or tutors to register the course.}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related system features:}} Section \ref{sssec:importRestrictions}}
 
 \smallskip
 
 {\selectlanguage{english}\color{black}
 \emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}, Figure \ref{fig:AddCourseScheduleDiagram}}
+
+\clearpage
+
+\subsubsection[Configuration of User Information
+]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Configuration of User Information}
+
+{\selectlanguage{english}\color{black}
+Scheduler shall open a configuration page as the user opens the Scheduler application for first time. The user shall fill the following sections in the configuration section:}
+
+\begin{itemize}
+			\item Major and minor program(s)
+			\item Starting term for each programs
+			\item Current term	
+		\end{itemize}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related system features:}} Section \ref{sssec:importCourse}, Section \ref{sssec:importRestrictions}, Section \ref{sssec:importDegree}}
+
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}}
+
+
+
+\subsubsection[Degree Requirements
+]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+Degree Requirements}
+
+{\selectlanguage{english}\color{black}
+Scheduler shall inform the user according to the desired graduation program(s) where the user will be capable of adding more than one graduation program, if has any extra major or minor program(s). As the user generates new program evaluation, Scheduler shall show the taken and required course number by type (free, area, core) for graduation.}
+
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:addDegree}, Figure \ref{fig:filterDegree}, Figure \ref{fig:deleteDegree}}
 
 \subsubsection[Social media account login
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -806,6 +867,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Importing course list}
+\label{sssec:importCourse}
 
 \emph{\textbf{Input:}}  Term code
 
@@ -828,6 +890,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Importing restrictions}
+\label{sssec:importRestrictions}
 
 \emph{\textbf{Description:}} Imports the restrictions of the given course from bannerweb.
 
@@ -852,7 +915,7 @@ SYSTEM FEATURES}
 
 
 \featuresection{Importing degree requirements}
-\label{sssec:importdegre}
+\label{sssec:importDegree}
 
 \emph{\textbf{Description:}} Gets degree requirements for a given degree program from bannerweb
 
@@ -1089,6 +1152,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Add course to degree requirements}
+\label{fig:addDegree}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1117,6 +1181,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Add course to degree requirements with filter}
+\label{fig:filterDegree}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1137,6 +1202,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Delete course from degree requirements}
+\label{fig:deleteDegree}
 \end{figure}
 
 \begin{figure}[h!]
