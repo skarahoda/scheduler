@@ -11,6 +11,7 @@
 \usepackage{supertabular}
 \usepackage{hhline}
 \usepackage{hyperref}
+\usepackage[all]{hypcap} 
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SOFTWARE REQUIREMENTS SPECIFICATION (SRS) TEMPLATE, pdfauthor=Serta\c{c} Karahoda, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
 \usepackage{tikz-uml}
@@ -325,6 +326,19 @@ Section 2.2
  \vspace{0.05in}
  Pamir
  \\\hline
+  \centering{10}
+ &
+\centering{29 March 2015}
+ &
+Section 2.8
+ &
+\centering{A}
+ &
+ Mockups 
+ &
+ \vspace{0.05in}
+ Serta\c{c}
+ \\\hline
 \end{supertabular}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
@@ -490,7 +504,7 @@ Scheduler shall open a configuration page as the user opens the Scheduler applic
 \smallskip
 
 {\selectlanguage{english}\color{black}
-\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}, Figure \ref{fig:UpdateDiagram}}
 
 \subsubsection[Degree Requirements
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -712,52 +726,67 @@ USE CASES}
 \subsection[MOCKUPS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
 	MOCKUPS}
 
+{\selectlanguage{english}\color{black}
+When program is opened for the first time, user encounters with configure panel. In this panel there are several different input options to configure user information (Figure \ref{fig:mockupConfig}).
+
+\smallskip
+
+If the user information is entered, it skips the configuration panel to the schedule panel (Figure \ref{fig:mockupSchedule}). In this panel, there is a tabbed structure for schedules. This panel has several buttons to add course, delete course and the warnings. When user clicks the buttons relevant window pops up.
+
+\smallskip
+
+The window for adding course to schedule has several filter options (Figure \ref{fig:mockupScheduleAdd}). In order to apply these filters to schedules the user shall click apply button, then one can see the filtered course list in the window. When they choose a course, the window is closed and returns to schedule panel.
+
+\smallskip
+
+To see the degree summary the user shall click menu button and the program switches the schedule panel to degree summary panel. The panel shows the summaries for all entered programs with tabbed structure. The panel also has buttons for course deletion and addition (Figure \ref{fig:mockupDegree}).}
+
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.6]{Mockups/config.png}
-\caption{Configuration page}
+\caption{Configuration window}
 \label{fig:mockupConfig}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.6]{Mockups/schedule.png}
-\caption{Schedule page}
+\caption{Schedule panel}
 \label{fig:mockupSchedule}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.45]{Mockups/addCourseSchedule.png}
-\caption{Add course page for schedule}
+\caption{Add course window for schedule}
 \label{fig:mockupScheduleAdd}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.45]{Mockups/deleteCourse.png}
-\caption{Delete course page}
+\caption{Delete course window}
 \label{fig:mockupDelete}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.45]{Mockups/warning.png}
-\caption{Warnings page for time confilct and restrictions}
+\caption{Warnings window for time confilct and restrictions}
 \label{fig:mockupWarning}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.65]{Mockups/degree.png}
-\caption{Page for degree summary}
+\caption{Panel for degree summary}
 \label{fig:mockupDegree}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[keepaspectratio, scale=0.6]{Mockups/addCourseDegree.png}
-\caption{Course adding page for degree summary}
+\caption{Course adding window for degree summary}
 \label{fig:mockupAddDegree}
 \end{figure}
 
@@ -1153,7 +1182,7 @@ SEQUENCE DIAGRAMS}
 \end{umlseqdiag} 
 \end{tikzpicture}
 \caption{Delete course from schedule}
-\label{fig:FilterCourseScheduleDiagram}
+\label{fig:UpdateDiagram}
 \end{figure}
 
 \begin{figure}[h!]
