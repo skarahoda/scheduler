@@ -471,18 +471,26 @@ PRODUCT FUNCTIONS}
 
 \subsubsection[Configuration of User Information
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-	Configuration of User Information}
+Configuration of User Information}
 
 {\selectlanguage{english}\color{black}
-	Scheduler shall open a configuration page as the user opens the Scheduler application for first time. The user shall fill the following sections in the configuration section:}
+Scheduler shall open a configuration page as the user opens the Scheduler application for first time. The user shall fill the following sections in the configuration section:}
 
 \begin{itemize}
-	\item List of the completed courses.
-	\item Number of the completed credits.
-	\item Major and minor program(s).
-	\item Freshman starting semester/year.
-	\item Total studied semester number.	
-\end{itemize}
+			\item Major and minor program(s)
+			\item Starting term for each programs
+			\item Current term	
+		\end{itemize}
+	
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related system features:}} Section \ref{sssec:importCourse}, Section \ref{sssec:importRestrictions}, Section \ref{sssec:importDegree}}
+
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}}
 
 \subsubsection[Degree Requirements
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -490,6 +498,11 @@ PRODUCT FUNCTIONS}
 
 {\selectlanguage{english}\color{black}
 	Scheduler shall inform the user according to the desired graduation program(s) where the user will be capable of adding more than one graduation program, if has any extra major or minor program(s). As the user generates new program evaluation, Scheduler shall show the taken and required course number by type (free, area, core) for graduation.}
+
+\smallskip
+
+{\selectlanguage{english}\color{black}
+\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:addDegree}, Figure \ref{fig:filterDegree}, Figure \ref{fig:deleteDegree}}
 
 \subsubsection[Grid schedules
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -547,45 +560,6 @@ Scheduler application shall provide a grid facility where a matrix of horizontal
 
 {\selectlanguage{english}\color{black}
 \emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}, Figure \ref{fig:AddCourseScheduleDiagram}}
-
-\clearpage
-
-\subsubsection[Configuration of User Information
-]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Configuration of User Information}
-
-{\selectlanguage{english}\color{black}
-Scheduler shall open a configuration page as the user opens the Scheduler application for first time. The user shall fill the following sections in the configuration section:}
-
-\begin{itemize}
-			\item Major and minor program(s)
-			\item Starting term for each programs
-			\item Current term	
-		\end{itemize}
-	
-\smallskip
-
-{\selectlanguage{english}\color{black}
-\emph{\textbf{Related system features:}} Section \ref{sssec:importCourse}, Section \ref{sssec:importRestrictions}, Section \ref{sssec:importDegree}}
-
-\smallskip
-
-{\selectlanguage{english}\color{black}
-\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:ConfigureDiagram}}
-
-
-
-\subsubsection[Degree Requirements
-]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-Degree Requirements}
-
-{\selectlanguage{english}\color{black}
-Scheduler shall inform the user according to the desired graduation program(s) where the user will be capable of adding more than one graduation program, if has any extra major or minor program(s). As the user generates new program evaluation, Scheduler shall show the taken and required course number by type (free, area, core) for graduation.}
-
-\smallskip
-
-{\selectlanguage{english}\color{black}
-\emph{\textbf{Related sequence diagrams:}} Figure \ref{fig:addDegree}, Figure \ref{fig:filterDegree}, Figure \ref{fig:deleteDegree}}
 
 \subsubsection[Social media account login
 ]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -733,6 +707,58 @@ USE CASES}
 \includegraphics[width=\linewidth]{usecasediagram.png}
 \caption{Use case diagram}
 \label{fig:usecase_diagram}
+\end{figure}
+
+\subsection[MOCKUPS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
+	MOCKUPS}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.6]{Mockups/config.png}
+\caption{Configuration page}
+\label{fig:mockupConfig}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.6]{Mockups/schedule.png}
+\caption{Schedule page}
+\label{fig:mockupSchedule}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.45]{Mockups/addCourseSchedule.png}
+\caption{Add course page for schedule}
+\label{fig:mockupScheduleAdd}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.45]{Mockups/deleteCourse.png}
+\caption{Delete course page}
+\label{fig:mockupDelete}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.45]{Mockups/warning.png}
+\caption{Warnings page for time confilct and restrictions}
+\label{fig:mockupWarning}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.65]{Mockups/degree.png}
+\caption{Page for degree summary}
+\label{fig:mockupDegree}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[keepaspectratio, scale=0.6]{Mockups/addCourseDegree.png}
+\caption{Course adding page for degree summary}
+\label{fig:mockupAddDegree}
 \end{figure}
 
 \clearpage\section[SYSTEM ARCHITECTURE]{\selectlanguage{english}\rmfamily\bfseries\color{black}
@@ -1295,20 +1321,5 @@ SEQUENCE DIAGRAMS}
 \label{fig:RecommendationDiagram}
 \end{figure}
 
-\clearpage\pagestyle{Appendix}
-\section[MOCKUPS]{\selectlanguage{english}\rmfamily\bfseries\color{black}
-	MOCKUPS}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{1.png}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{2.png}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{3.png}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{4.png}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{5.png}
-
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{6.png}
 
 \end{document}
