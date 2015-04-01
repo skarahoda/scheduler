@@ -54,6 +54,7 @@ public class ApplicationWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					ApplicationWindow window = new ApplicationWindow();
 					window.frmScheduler.setVisible(true);
 				} catch (Exception e) {
@@ -76,11 +77,22 @@ public class ApplicationWindow {
 	private void initialize() {
 		try {
 			BannerParser.getCourses("201402");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		panel_gradresult = new JPanel(); // instantiations
+	    panel_home = new JPanel();
+	    panel_scheduler = new JPanel();
+	    panel_gradfield = new JPanel();
+	    panel_gradclasses = new JPanel();
+		
+		
 		frmScheduler = new JFrame();
+		
+		
 		frmScheduler.setTitle("Scheduler");
 		frmScheduler.setBounds(100, 100, 450, 300);
 		frmScheduler.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,11 +103,17 @@ public class ApplicationWindow {
 		JMenu mnHome = new JMenu("Home");
 		menuBar.add(mnHome);
 		
+		
+		
+		
+		
+		
+		
 		JMenuItem mntmHome = new JMenuItem("Home");
 		mntmHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				panel_home.setVisible(true);
+				 panel_home.setVisible(true);
 				 panel_scheduler.setVisible(false);
 				 panel_gradfield.setVisible(false);
 				 panel_gradclasses.setVisible(false);
@@ -161,7 +179,7 @@ public class ApplicationWindow {
 		mnHelp.add(mntmAbout);
 		frmScheduler.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		final JPanel panel_home = new JPanel();
+		
 		panel_home.setBackground(Color.GRAY);
 		frmScheduler.getContentPane().add(panel_home, "name_1427149448872557000");
 		panel_home.setLayout(null);
@@ -186,7 +204,7 @@ public class ApplicationWindow {
 		lblWelcomeToScheduler.setBounds(144, 39, 199, 16);
 		panel_home.add(lblWelcomeToScheduler);
 		
-		final JPanel panel_scheduler = new JPanel();
+		
 		frmScheduler.getContentPane().add(panel_scheduler, "name_1427149452860129000");
 		panel_scheduler.setLayout(null);
 		
@@ -217,7 +235,7 @@ public class ApplicationWindow {
 		panel_scheduler.add(list);
 		
 		
-		final JPanel panel_gradfield = new JPanel();
+		
 		frmScheduler.getContentPane().add(panel_gradfield, "name_1427149454943753000");
 		panel_gradfield.setLayout(null);
 		
@@ -250,7 +268,7 @@ public class ApplicationWindow {
 		btnNext.setBounds(163, 190, 117, 29);
 		panel_gradfield.add(btnNext);
 		
-		final JPanel panel_gradclasses = new JPanel();
+		
 		frmScheduler.getContentPane().add(panel_gradclasses, "name_1427149457111841000");
 		panel_gradclasses.setLayout(null);
 		
@@ -299,7 +317,7 @@ public class ApplicationWindow {
 		scrollBar_1.setBounds(151, 62, 15, 139);
 		panel_gradclasses.add(scrollBar_1);
 		
-		JPanel panel_gradresult = new JPanel();
+		
 		frmScheduler.getContentPane().add(panel_gradresult, "name_1427150508354750000");
 		panel_gradresult.setLayout(null);
 	}
