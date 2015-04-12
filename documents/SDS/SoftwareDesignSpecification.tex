@@ -192,10 +192,23 @@ All
  &
 \centering{A}
  &
- The document created
+\raggedright{The document created}
  &
  \vspace{0.05in}
  Serta\c{c}
+ \\\hline
+ \centering{1}
+ &
+\centering{12 April 2015}
+ &
+Section \ref{sec:intro}, \ref{sec:overview}
+ &
+\centering{M}
+ &
+ \raggedright{Introduction and System Overview added}
+ &
+ \vspace{0.05in}
+ Berk
  \\\hline
 \end{supertabular}
 \end{flushleft}
@@ -222,74 +235,28 @@ Section\ \ Page}
 \bigskip
 \clearpage\setcounter{page}{1}\pagestyle{Standard}
 \section{INTRODUCTION}
-{\selectlanguage{english}\itshape\color{black}
-This section of this document should introduce this document and its
-audience, and the project, the system, and the software object of this
-SSDD. \ For compliance with ISO/IEC 42010:2007 (and ISO/IEC
-12207:2008) at a minimum the following information shall be included in
-this SSDD document: Date of Document Issue, Document Status, Document
-Issuing Organization, Document Change History, Document Summary,
-Document Scope, Document Context, Glossary, and References.}
+\label{sec:intro}
 
 \subsection{IDENTIFICATION}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall contain a full identification of this document,
-and the system and software to which this document applies, including,
-as applicable, identification number(s), title(s), abbreviation(s),
-version number(s) for the document, the system, and the software, and
-software release number(s).}
 
-[Insert text here.]
+This document is the software design document of the program called "Scheduler". \ This document is designed for Ramin Armanfar and all developers who are working in the project. \  This a new project effort, so the version under development is Version 1.0.
 
 \subsection{DOCUMENT PURPOSE, SCOPE, AND INTENDED AUDIENCE}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall contain a statement on the purpose of this
-document, the scope or context of the document, and the intended
-audience.}
 
 \subsubsection{Document Purpose}
 
-[Insert text here.]
+This document will describe the architect of our system and provide a brief summary for the specifications of software design.
 
-\subsubsection{Document Scope and/or Context}
-
-[Insert text here.]
+\subsubsection{Document Scope}
+The scope of this document is to inform our customer about the architect and the design of our system and inform him about the details of our software.
 
 \subsubsection{Intended Audience for Document}
 
-[Insert text here.]
+The intended audience of this document originally will be our customer, Ramin Armanfar and the workers of this project but as we released our document on web environment, anyone who are interested with the project can read our document.
 
-\subsection{SYSTEM AND SOFTWARE PURPOSE, SCOPE, AND INTENDED USERS}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall contain a statement on the purpose of this system
-and software, the scope or context of the system and software, and the
-intended users of the system and software. The subsection shall
-describe the system boundaries and the software boundaries, both with
-respect to their containing system and other systems of interest. It
-shall be clear from this section: 1) what is the relationship of other
-systems-of-interest with the system described in this document and 2)
-what is the relationship between the system and the particular software
-described in this SSDD.}
-
-\subsubsection{System and Software Purpose}
-
-[Insert text here.]
-
-\subsubsection{System and Software Scope or Context}
-
-[Insert text here.]
-
-\subsubsection{Intended Users for the System and Software}
-[Insert text here.]
 
 \subsection{DEFINITIONS, ACRONYMS, AND ABBREVIATIONS}
-{\selectlanguage{english}\itshape\color{black}
-This section shall list and define all special terms, acronyms and
-abbreviations used throughout this document. \ A tabular form is
-preferable, but not mandatory.}
 
-
-\bigskip
 
 \begin{flushleft}
 \tablehead{\hline
@@ -298,17 +265,6 @@ Acronym &
 \centering\arraybslash \selectlanguage{english}\bfseries\color{black}
 Definition\\\hline}
 \begin{supertabular}{|m{1.3587599in}|m{5.00806in}|}
-Acquirer &
-The person, team, or organization
-that pursues a system or software product or service from a supplier.
-The acquirer may be a buyer, customer, owner, purchaser, or user.
-\\\hline
-AD &
-Architectural Description
-\\\hline
-Architectural Description &
-A collection of products to document an architecture
-\\\hline
 Architect &
 The person, team, or organization responsible for systems
 architecture.
@@ -321,11 +277,6 @@ Architecture &
 The fundamental organization of a system embodied in its components, their
 relationships to each other, and to the environment, and the principles
 guiding its design and evolution.
-\\\hline
-Design Entity &
-An element (component) of a design that is structurally and functionally
-distinct from other elements and that is separately named and
-referenced.
 \\\hline
 Design View &
 A subset of design entity attribute information that is specifically
@@ -348,68 +299,95 @@ System &
 A collection of components organized to accomplish a specific function or
 set of functions.
 \\\hline
-\selectlanguage{english}\color{black} System and Software Architecture
-and Design Description &
-\selectlanguage{english}\color{black} An architectural and detailed
-design description that includes a software system within the context
-of its enclosing system and describes the enclosing system, the
-enclosed software, and their relationship and interfaces.
-\\\hline
 System Stakeholder &
 An individual, team, or organization (or classes thereof) with interests
 in, or concerns, relative to, a system.
 \\\hline
+Bannerweb &
+A course registration system for Sabanc{\i} University
+\\\hline
+Cross platform &
+Systems that can run on different operating system like Windows, Linux and Mac OS
+\\\hline
+Java & 
+An object oriented, cross platform programming language
+\\\hline
+GPL &
+GNU General Public License is a free software license, which guarantees end users the freedoms to use, study, share, and modify the software. 
+\\\hline
+CRN &
+Course Reference Number  
+\\\hline
+
 \end{supertabular}
 \end{flushleft}
 
+\smallskip
+
 \subsection{DOCUMENT OVERVIEW}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall provide an overview of the organization of this
-SSDD.}
 
 \noindent
-Section 2 of this document describes the system and software constraints
-imposed by the operational environment, system requirements and user
-characteristics, and then identifies the system stakeholders and lists
-describes their concerns and mitigations to those concerns.
+Section \ref{sec:overview} of this document describes the system and software purpose, scope and intended audience of program. \ 
+It describes the functionalities of the program and how it will work while user is using the program. 
 
-\smallskip
+\bigskip
 
 \noindent
-Section 3 of this document describes the system and software
-architecture from several viewpoints, including, but not limited to,
-the developer{\textquoteright}s view and the user{\textquoteright}s
-view.
+Section \ref{sec:considerations} of this document describes the considerations of design like assumptions, dependencies, goals, general constraints and priorities. \ It will also describe the issues which should be solved before completing the design.
 
-\smallskip
+\bigskip
 
 \noindent
-Section 4 provides detailed design descriptions for every component
-defined in the architectural view(s). \ Sections 5 provides
-traceability information connecting the original specifications
-(referenced above) to the architectural components and design entities
-identified in this document.
+Section \ref{sec:architecture} of this document describes the system and software architecture from several viewpoints, including, chosen system architecture and interface, discussions about other alternative designs. \ It will describe why this architecture selected to design after the discussions about alternative system designs.
 
-\smallskip
+\bigskip
 
 \noindent
-Section 6 and beyond are appendices including original information and
-communications used to create this document.
+Section \ref{sec:description} provides detailed design descriptions for every component defined in the architectural view(s). 
 
 \clearpage\pagestyle{Standard}
 \section{SYSTEM OVERVIEW}
+\label{sec:overview}
+
+\subsection{SYSTEM AND SOFTWARE PURPOSE}
+
+The purpose of the system under development is to make course schedule for Sabanc\i{} University students. \ The main goal is to help students before and during the registration period. \ While the system will be used by Sabanc{\i} University students,
+this document is intended to be read and understood by Teaching Assistants and Instructor of Software Engineering course.
+
+\subsection{SYSTEM AND SOFTWARE SCOPE}
+
+This software system will be a course scheduling application for Sabanc\i{} University students. \ The application is based on a cross platform Java form application. \ The project will be developed in 4 months by 5 software engineers. \ There will be no sponsor or any investor. \ It has GPL license, it can be maintained and contributed by volunteer developers.
+
+\subsection{SYSTEM AND SOFTWARE CONTEXT}
+
+This program will be effective for 2 certain operations. \ One of them will be creating a schedule for the student and the other one will be summarizing graduation specifications.
+\bigskip
+
+\noindent
+For the scheduler part, program will ask the term from the user and pull the courses from Bannerweb. \ After pulling the courses, program can filter some features of the courses if the user wants to be filtered. \ These filters are about time and days of the courses, course types, time conflicts etc.. \ After choosing filters the new course list will be shown to the user and user can easily add courses to or remove courses from the schedule. \ When the user finishes the operations about the schedule, schedule can be saved by the program and user can load it any time (s)he wants.
+\bigskip
+
+\noindent
+For the graduation specifications, user can see the remaining courses and necessary processes for graduation with the remaining schedules that user created.
+
+\subsection{INTENDED USERS FOR THE SYSTEM AND SOFTWARE}
+
+The intended users of the system will be the Sabanc\i{} University students who are willing to create a schedule for themselves and need a program which helps them to create a schedule by certain specifications.
 
 \clearpage\pagestyle{Standard}
 \section{DESIGN CONSIDERATIONS}
+\label{sec:considerations}
 \subsection{ASSUMPTIONS AND DEPENDENCIES}
 \subsection{GENERAL CONSTRAINTS}
 \subsection{GOALS AND GENERAL PRIORITIES}
 
 \clearpage\pagestyle{Standard}
 \section{SYSTEM ARCHITECTURAL DESIGN}
+\label{sec:architecture}
 
 \clearpage\pagestyle{Standard}
 \section{DETAILED DESCRIPTION OF COMPONENTS, SUBSYSTEMS AND MODULES}
+\label{sec:description}
 
 
 \iffalse
