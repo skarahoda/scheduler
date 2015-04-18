@@ -8,7 +8,7 @@
 \usepackage{amssymb,amsfonts,textcomp}
 \usepackage{color}
 \usepackage{array}
-\usepackage{supertabular}
+\usepackage{longtable}
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage{datetime}
@@ -161,8 +161,7 @@ RECORD OF CHANGES (Change History)
 \par}
 
 \begin{flushleft}
-\tablehead{}
-\begin{supertabular}{|m{0.47685984in}|m{1.2418196in}|m{1.3587599in}|m{0.23375985in}|m{2.0462599in}|m{0.7337598in}|}
+\begin{longtable}{|m{0.47685984in}|m{1.2418196in}|m{1.3587599in}|m{0.23375985in}|m{2.0462599in}|m{0.7337598in}|}
 \hline
 ~
 
@@ -183,7 +182,9 @@ D &
 change &
 ~
 
-\centering\arraybslash \selectlanguage{english}\color{black} Author\\\hline
+\centering\arraybslash \selectlanguage{english}\color{black} Author
+\\\hline
+\endhead
 \centering{0}
  &
 \centering{9 April 2015}
@@ -210,7 +211,20 @@ Section \ref{sec:intro}, \ref{sec:overview}
  \vspace{0.05in}
  Berk
  \\\hline
-\end{supertabular}
+  \centering{2}
+ &
+\centering{18 April 2015}
+ &
+Section \ref{sec:description}
+ &
+\centering{M}
+ &
+ \raggedright{Detailed Descriptions of components are added}
+ &
+ \vspace{0.05in}
+ Berk, Serta\c{c}
+ \\\hline
+\end{longtable}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
 A - ADDED \ M - MODIFIED \ D -- DELETED}
@@ -259,12 +273,13 @@ The intended audience of this document originally will be our customer, Ramin Ar
 
 
 \begin{flushleft}
-\tablehead{\hline
+\begin{longtable}{|m{1.3587599in}|m{5.00806in}|}
+\hline
 \centering \selectlanguage{english}\bfseries\color{black} Term or
 Acronym &
 \centering\arraybslash \selectlanguage{english}\bfseries\color{black}
-Definition\\\hline}
-\begin{supertabular}{|m{1.3587599in}|m{5.00806in}|}
+Definition\\\hline
+\endhead
 Architect &
 The person, team, or organization responsible for systems
 architecture.
@@ -312,6 +327,9 @@ Systems that can run on different operating system like Windows, Linux and Mac O
 Java & 
 An object oriented, cross platform programming language
 \\\hline
+JVM & 
+Java Virtual Machine
+\\\hline
 GPL &
 GNU General Public License is a free software license, which guarantees end users the freedoms to use, study, share, and modify the software. 
 \\\hline
@@ -319,7 +337,7 @@ CRN &
 Course Reference Number  
 \\\hline
 
-\end{supertabular}
+\end{longtable}
 \end{flushleft}
 
 \smallskip
@@ -378,6 +396,12 @@ The intended users of the system will be the Sabanc\i{} University students who 
 \section{DESIGN CONSIDERATIONS}
 \label{sec:considerations}
 \subsection{ASSUMPTIONS AND DEPENDENCIES}
+
+As it is described in SRS, there are few dependencies. \ The project will be Java project, therefore 
+it is hardware and software independent. \  It will run at all devices that have JVM. \ The end-user 
+will be a standard Sabanc\i{} University Student. \ So we can assume that our users have basic 
+computer knowledge. \ There will be no training for the project. 
+
 \subsection{GENERAL CONSTRAINTS}
 \subsection{GOALS AND GENERAL PRIORITIES}
 
@@ -389,765 +413,61 @@ The intended users of the system will be the Sabanc\i{} University students who 
 \section{DETAILED DESCRIPTION OF COMPONENTS, SUBSYSTEMS AND MODULES}
 \label{sec:description}
 
-
-\iffalse
-\clearpage\pagestyle{Standard}
-\section{CONSTRAINTS and stakeholder concerns}
-
-{\selectlanguage{english}\itshape\color{black}
-This section of the document shall identify environmental or usability
-constraints placed upon the development and use of the system and
-software, the stakeholders of the system and software, and their
-concerns about the system and software, if any.}
-
-\subsection{CONSTRAINTS}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall identify and describe in detail the architectural
-and usability constraints that are imposed by the physical environment
-or system requirements or the user characteristics.}
-
-\subsubsection{Environmental constraints.}
-{\selectlanguage{english}\color{black}
-[Insert text here.] }
-
-\subsubsection{System requirement constraints.}
-{\selectlanguage{english}\color{black}
-[Insert text here.]}
-
-\subsubsection{User characteristic constraints.}
-{\selectlanguage{english}\color{black}
-[Insert text here.]}
-
-\subsection[STAKEHOLDER
-CONCERNS]{\selectlanguage{english}\bfseries\color{black} STAKEHOLDER
-CONCERNS}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall identify all the system and software stakeholders.
-Some categories have already been included, add more categories as
-needed. Within each category add the list of stakeholders and their
-details. For compliance with ISO/IEC 42010:2007 at a minimum the
-following concerns shall be identified and described for the system and
-software object of this SSDD: appropriateness of the architected
-solution for achieving its desired mission, feasibility of
-construction, risks of system construction and operation to all
-stakeholders, maintainability, deployability, and evolvability. \ Other
-stakeholder concerns for the system and software might be: construction
-cost, expected lifetime, cost of operation, cost of maintenance, system
-safety, data security and privacy, operator and user safety, etc. For
-each concern make a reference to the corresponding stakeholder(s) (a
-concern might come from more than one stakeholder).}
-
-
-\bigskip
-
-{\selectlanguage{english}\itshape\color{black}
-The following tabular form is preferred, but not required. \ You may
-eliminate inappropriate rows and add categories and concerns as
-needed.}
-
-\begin{flushleft}
-\tablehead{\hline
-\multicolumn{4}{|m{7.42956in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Stakeholder x Concern x
-Mitigation Table}\\\hline
-\multicolumn{1}{|m{1.2198598in}|}{\centering
-{\selectlanguage{english}\bfseries\color{black} Stakeholder}\par
-
-\centering \selectlanguage{english}\bfseries\color{black} Concern} &
-\centering \selectlanguage{english}\bfseries\color{black} List of
-Stakeholders (e.g. Acquirers, Developers, Testers, Maintainers, Users,
-Operators, Auditors, Others) &
-\centering \selectlanguage{english}\bfseries\color{black} Stated Concern
-&
-\centering\arraybslash \selectlanguage{english}\bfseries\color{black}
-Mitigation Mechanism or Design Criteria Reference Number\\\hline
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Appropriateness of the system and software in fulfilling its
-mission(s).} &
-~
- &
-~
- &
-~
-\\\hline}
-\begin{supertabular}{m{1.2198598in}|m{1.4837599in}|m{2.2962599in}|m{2.19346in}|}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Feasibility of constructing, testing, verifying and deploying the
-system and software.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Risks of constructing, deploying, and using the system and software
-object of this SSDD.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Concerns with respect to the deployability of the system and software.}
-&
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Concerns with respect to the maintainability and evolvability of the
-system and software.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Concerns with respect to the security of the data the system and
-software will handle.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Concerns with respect to the safety of the people interacting with the
-system and software.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-Cost concerns.} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-[ list concern ]} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\multicolumn{1}{|m{1.2198598in}|}{\selectlanguage{english}\color{black}
-[ list concern ]} &
-~
- &
-~
- &
-~
-\\\hline
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
- &
-~
- &
-~
- &
-~
-\\\hhline{~---}
-\end{supertabular}
-\end{flushleft}
-\clearpage\pagestyle{Standard}
-\section[SYSTEM AND SOFTWARE
-ARCHITECTURE]{\selectlanguage{english}\bfseries\color{black} SYSTEM AND
-SOFTWARE ARCHITECTURE}
-{\selectlanguage{english}\itshape\color{black}
-This section of the document shall describe with detail every detailed
-design entity or component of the system as well as the relationship
-and interface between them. These architectural entities, when
-integrated together as specified within this document, shall implement
-all functions performed by the system in response to an input or in
-support of an output as described by the System and Software
-Requirements Specification (SSRS). \ All architectural entities or
-components shall: be uniquely identi[FB01?]able, be well described,
-have clear responsibilities, have well specified interfaces, and have
-well described interactions with other architectural entities and any
-external systems. A system{\textquoteright}s architecture is usually
-described by using a set of different views, typically one for the
-developer and others for the customer, users, operators, etc. \ All
-necessary views at the architectural level (or high-level design) shall
-be clearly described in this section. \ In this section we assume that
-the reader is familiar with such architectural description languages.
-For compliance with ISO/ISEC 42010:2007 each view shall include
-at least the following details: identification, system representation
-using the corresponding viewpoint, configuration information, languages
-and modeling techniques, and references to detailed or further
-descriptions of the viewpoint. \ }
-
-\subsection[DEVELOPER{\textquoteright}S ARCHITECTURAL
-VIEW]{\selectlanguage{english}\bfseries\color{black}
-DEVELOPER{\textquoteright}S ARCHITECTURAL VIEW}
-{\selectlanguage{english}\itshape\color{black}
-This subsection contains the descriptions of a system and all of its
-major components, using the methods, techniques, and languages from the
-developer{\textquoteright}s viewpoint. \ Each viewpoint description
-includes the viewpoint identification, description, and diagrammatic
-representation. }
-
-\subsection[USER{\textquoteright}S ARCHITECTURAL
-VIEW]{\selectlanguage{english}\bfseries\color{black}
-USER{\textquoteright}S ARCHITECTURAL VIEW}
-{\selectlanguage{english}\itshape\color{black}
-This subsection contains the descriptions of a system and all of its
-major components, using the methods, techniques, and languages from the
-user{\textquoteright}s viewpoint. \ Each viewpoint description includes
-the viewpoint identification, description, and diagrammatic
-representation. }
-
-\subsubsection{User{\textquoteright}s View Identification}
-{\selectlanguage{english}\itshape\color{black}
-Identify the view, state the purpose of the view, and identify major
-components or processes of the architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert text here.]}
-
-\subsubsection{User{\textquoteright}s View Representation and
-Description }
-{\selectlanguage{english}\itshape\color{black}
-Provide a diagram and description of the user{\textquoteright}s view of
-the architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert diagram here.]}
-
-\subsection[Developer{\textquoteright}s View
-Identification]{\selectlanguage{english}\bfseries\color{black}
-Developer{\textquoteright}s View Identification}
-{\selectlanguage{english}\itshape\color{black}
-Identify the view, state the purpose of the view, and identify major
-components or processes of the architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert text here.]}
-
-\subsubsection[Developer{\textquoteright}s View Representation and
-Description ]{Developer{\textquoteright}s View Representation and
-Description }
-{\selectlanguage{english}\itshape\color{black}
-Provide a diagram and description of the developer{\textquoteright}s
-view of the architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert diagram here.]}
-
-\subsubsection{Developer{\textquoteright}s Architectural Rationale}
-{\selectlanguage{english}\itshape\color{black}
-For compliance with ISO/IEC 42010:2007 an Architectural
-Description (AD) shall provide the rationale that justified the
-architect{\textquoteright}s decisions and selected architectures. An AD
-shall also provide evidence of the consideration of other alternative
-architectures and the rationales for discarding them.}
-
-{\selectlanguage{english}\color{black}
-[Insert rationale here.]}
-
-\subsection[\ [ insert name of viewpoint {]} ARCHITECTURAL
-VIEW]{\foreignlanguage{english}{\ }\foreignlanguage{english}{[ insert
-name of viewpoint ] ARCHITECTURAL VIEW}}
-{\selectlanguage{english}\itshape\color{black}
-This subsection contains the descriptions of a system and all of its
-major components, using the methods, techniques, and languages from
-other than the developer{\textquoteright}s or user{\textquoteright}s
-viewpoint. \ Each viewpoint description includes the viewpoint
-identification, description, and diagrammatic representation. }
-
-
-\bigskip
-
-{\selectlanguage{english}\itshape\color{black}
-Repeat this subsection for each viewpoint identified.}
-
-\subsubsection{[ insert name of viewpoint ]{\textquoteright}s View
-Identification}
-{\selectlanguage{english}\itshape\color{black}
-Identify the view, state the purpose of the view, and identify major
-components or processes of the architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert text here.]}
-
-\subsubsection{[ insert name of viewpoint ]{\textquoteright}s View
-Representation and Description }
-{\selectlanguage{english}\itshape\color{black}
-Provide a diagram of the developer{\textquoteright}s view of the
-architecture.}
-
-{\selectlanguage{english}\color{black}
-[Insert diagram and descriptions here.]}
-
-\subsection[CONSISTENCY OF ARCHITECTURAL
-VIEWS]{\selectlanguage{english}\bfseries\color{black} CONSISTENCY OF
-ARCHITECTURAL VIEWS}
-{\selectlanguage{english}\itshape\color{black}
-For compliance with ISO/IEC 42010:2007 an Architectural
-Description (AD) shall include a list of all known inconsistencies
-between the architectural views and an analysis of consistency across
-all the architectural views.}
-
-\subsubsection{Detail of Inconsistencies between Architectural Views}
-{\selectlanguage{english}\color{black}
-[Insert text and graphics here.]}
-
-\subsubsection{Consistency Analysis and Inconsistency Mitigations}
-{\selectlanguage{english}\itshape\color{black}
-For each inconsistency identified above, provide solutions or
-mitigations that resolve potential conflicts between the stakeholder
-viewpoints.}
-
-{\selectlanguage{english}\color{black}
-[Insert text or table here.]}
-
-\section{SOFTWARE DETAILED DESIGN}
-{\selectlanguage{english}\itshape\color{black}
-This section of the document should describe with detail the design of
-the software being described in this document. \ The level of detail of
-the design entities and their relationship and interfaces shall be
-sufficient to enable software implementers to implement an integrate
-each of the described components in order to achieve full
-implementation of the software being described in this SSDD. This
-section shall specify for each design entity the following information:
-purpose, processing, data, interfaces, dependencies and relationships,
-concept of execution, needed resources, design rationale, information
-for reuse, types of errors, and error handling. \ }
-
-
-\bigskip
-
-{\selectlanguage{english}\itshape\color{black}
-The detailed design must correspond to an existing architectural view,
-normally the developer{\textquoteright}s view, but unusual
-circumstances may call for other detailed design viewpoints. \ If so,
-repeat this subsection as needed for those other viewpoints.}
-
-\subsection[\ DEVELOPER{\textquoteright}S VIEWPOINT DETAILED SOFTWARE
-DESIGN]{\foreignlanguage{english}{\ }\foreignlanguage{english}{DEVELOPER{\textquoteright}S
-VIEWPOINT DETAILED SOFTWARE DESIGN}}
-{\selectlanguage{english}\itshape\color{black}
-Identify the viewpoint and make reference to the diagram or model
-defining the view.}
-
-{\selectlanguage{english}\color{black}
-[Insert text, diagram or model here.]}
-
-\subsection[COMPONENT/ENTITY
-DICTIONARY]{\selectlanguage{english}\bfseries\color{black}
-COMPONENT/ENTITY DICTIONARY}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall list and describe all the detailed design entities
-and their corresponding attributes. \ Processing and algorithms, data
-and data structures,and detailed descriptions need NOT be included
-here, as they will be specified in subsequent sections for each
-component or entity listed in the table below.}
-
-\begin{flushleft}
-\tablehead{}
-\begin{supertabular}{|m{1.0462599in}|m{0.9837598in}|m{1.6712599in}|m{1.2962599in}|m{1.2580599in}|}
-\hline
-\multicolumn{5}{|m{6.57056in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Component/Entity
-Dictionary}\\\hline
-\centering \selectlanguage{english}\bfseries\color{black} Name &
-\centering \selectlanguage{english}\bfseries\color{black} Type/Range &
-\centering \selectlanguage{english}\bfseries\color{black}
-Purpose/Function &
-\centering \selectlanguage{english}\bfseries\color{black} Dependencies &
-\centering\arraybslash \selectlanguage{english}\bfseries\color{black}
-Subordinates\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-\end{supertabular}
-\end{flushleft}
-\subsection[COMPONENT/ENTITY DETAILED
-DESIGN]{\selectlanguage{english}\bfseries\color{black} COMPONENT/ENTITY
-DETAILED DESIGN}
-\subsubsection{Detailed Design for Component/Entity: [ insert
-Component/Entity name here ]}
-\paragraph[\ Introduction/Purpose of this
-Component/Entity]{\ Introduction/Purpose of this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph[Input for this Component/Entity]{Input for this
-Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Output for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Component/Entity Process to Convert Input to Output}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Design constraints and performance requirements of this
-Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\subsubsection{Detailed Design for Component/Entity: [ insert
-Component/Entity name here ]}
-\paragraph[\ Introduction/Purpose of this
-Component/Entity]{\ Introduction/Purpose of this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Input for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Output for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Component/Entity Process to Convert Input to Output}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Design constraints and performance requirements of this
-Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\subsubsection{Detailed Design for Component/Entity: [ insert
-Component/Entity name here ]}
-\paragraph[\ Introduction/Purpose of this
-Component/Entity]{\ Introduction/Purpose of this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Input for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Output for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Component/Entity Process to Convert Input to Output}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Design constraints and performance requirements of this
-Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\subparagraph[{\dots}]{{\dots}}
-\subsubsection{Detailed Design for Component/Entity: [ insert
-Component/Entity name here ]}
-\paragraph[\ Introduction/Purpose of this
-Component/Entity]{\ Introduction/Purpose of this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Input for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Output for this Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Component/Entity Process to Convert Input to Output}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\paragraph{Design constraints and performance requirements of this
-Component/Entity}
-{\selectlanguage{english}\color{black}
-[ insert your text here ]}
-
-\subsection{DATA DICTIONARY}
-{\selectlanguage{english}\itshape\color{black}
-This subsection shall list and describe all the data and data structures
-defined and/or used by the components and entities specified above.
-\ For each data item or structure indicate where it is defined,
-referenced, and modified.}
-
-\begin{flushleft}
-\tablehead{}
-\begin{supertabular}{|m{0.9837598in}|m{0.9212598in}|m{1.8587599in}|m{1.2962599in}|m{1.1330599in}|}
-\hline
-\multicolumn{5}{|m{6.50806in}|}{\centering
-\selectlanguage{english}\bfseries\color{black} Data Dictionary}\\\hline
-\centering \selectlanguage{english}\bfseries\color{black} Name &
-\centering \selectlanguage{english}\bfseries\color{black} Type/Range &
-\centering \selectlanguage{english}\bfseries\color{black} Defined
-by{\dots} &
-\centering \selectlanguage{english}\bfseries\color{black} Referenced
-by{\dots} &
-\centering\arraybslash \selectlanguage{english}\bfseries\color{black}
-Modified by{\dots}\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-~
- &
-~
- &
-~
- &
-~
- &
-~
-\\\hline
-\end{supertabular}
-\end{flushleft}
-
-\bigskip
-
-
-\bigskip
-
-\clearpage\setcounter{page}{1}\pagestyle{Standard}
-\section[APPENDIX A. \ [insert name
-here{]}]{\selectlanguage{english}\bfseries\color{black} APPENDIX A.
-\ [insert name here]}
-{\selectlanguage{english}\itshape\color{black}
-Include copies of specifications, mockups, prototypes, etc. supplied or
-derived from the customer. \ Appendices are labeled A, B, {\dots}n.
-\ \ Reference each appendix as appropriate in the text of the document.
-}
-
-{\selectlanguage{english}\color{black}
-\ [ insert appendix A here ]}
-
-\clearpage\setcounter{page}{1}\pagestyle{Standard}
-\section[APPENDIX B. \ [insert name
-here{]}]{\selectlanguage{english}\bfseries\color{black} APPENDIX B.
-\ [insert name here]}
-
-\bigskip
-
-{\selectlanguage{english}\color{black}
-[ insert appendix B here ]}
-
-
-\bigskip
-
-\fi
+The project will consist of three main components which are User Interface, Middleware, and Data.
+
+\subsection{USER INTERFACE}
+\subsubsection{Classification}
+User Interface is a package that stores some classes which extend from Java Swing classes. 
+\subsubsection{Definition}
+The main purpose of User Interface is storing panels and windows to interact with user.
+\subsubsection{Responsibilities}
+The main responsibility of the component is creating interaction between program and user. \ It 
+consists of main window, add course window, delete course window and warning window. \ Main window 
+screens schedules, degree summary and configuration of the program with using related panels. \ Add 
+course window shows the courses with filter options that can be added to schedule or degree summary. 
+\ Delete course window deletes the courses that has been added before. \ Warning window displays 
+warnings like class restriction or time conflict for the selected schedule.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{ui.png}
+\caption{Class Diagram of User Interface}
+\end{figure}
+
+\subsubsection{Uses/Interaction}
+It has a interaction with middleware while getting and setting the schedules and degree summary. \ Degree summary panel and schedule panel creates the windows of add and delete course windows.
+\subsubsection{Processing}
+Main window contains three panels and shows one of them. \ User can change the panels with the buttons that occur in main window. \ When program opened for the first time, user will see a configuration panel. \ Configuration panel sets the degrees and current term information. Then call the banner parser to get course information from bannerweb. \ When schedule panel is selected, it will pull the data from database connector. \ Schedule panel creates three windows, which are add course window, delete course window and warning window, when it is necessary. \  Degree summary has the same features with schedule panel except that it has no warning window.
+\subsection{MIDDLEWARE}
+\subsubsection{Classification}
+Middleware is a package. It has some classes get data from bannerweb and manipulate before showing them to user.
+\subsubsection{Definition}
+Middleware connects User Interface and Data to each other as a bridge.
+\subsubsection{Responsibilities}
+The main responsibility of this component is to manage data for user interface. Banner parser parses  bannerweb for the exact information of courses. \ DB Connector is also other component of middleware which works as bridge that it connects the data to user interface. \ Filter component is looking for the course if it is enable for that filter. \ Course handler component is working for the filtering operation of courses that user specify with the help of filter component. \ It can be course type, time etc..
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{middleware.png}
+\caption{Class Diagram of Middleware}
+\end{figure}
+\subsubsection{Uses/Interaction}
+DB connector interacts with user interface and manipulate data from local database. \ Banner parser talks with configuration panel and pulls the information from bannerweb to send to DB connector. \ Course handler interact with add course window and uses filter classes.
+\subsubsection{Processing}
+When configuration panel finishes its operation, it calls banner parser. \ When user entered to the schedule panel, degree summary panel or add course window, DB connector called. \ Then they get the releated information by the DB connector. \ When the user adds a new course to his/her schedule, schedule will be updated in database connector. \ When user wants to use any filter, the necessary filter will be occured and the course list will be updated by this information with using course handler.
+\subsection{DATA}
+\subsubsection{Classification}
+Data is a package that stores the information for the application.
+\subsubsection{Definition}
+Data stores necessary information for the application. 
+\subsubsection{Responsibilities}
+This package is responsible from storing class, course and user information. \ Also it contains degree requirement. \ It holds schedules that created by the user. \ It is explained also in the figure \ref{fig:datadiagram}.  
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{data.png}
+\caption{Class Diagram of Data}
+\label{fig:datadiagram}
+\end{figure}
+\subsubsection{Uses/Interaction}
+Course requirement interracts with middleware to create necessary warnings of courses for the user. \ Other classes have no specific methods so there is no other specific interraction to inform. \ This package is mainly used for the capsulation of information.
+\subsubsection{Processing}
+After user adds a course to the schedule, course requrements of that specific course will be called.\ Then it will return to middleware if a warning exists. \ This process will be repeated for all courses if the warining window pop up.
 \end{document}
