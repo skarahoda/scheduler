@@ -349,7 +349,15 @@ GNU General Public License is a free software license, which guarantees end user
 CRN &
 Course Reference Number  
 \\\hline
-
+JSoup &
+ A Java library for working with real-world HTML  
+\\\hline
+SQLite &
+A software library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.  
+\\\hline
+Swing &
+ a graphical user interface widget toolkit for Java.
+\\\hline
 \end{longtable}
 \end{flushleft}
 
@@ -410,18 +418,15 @@ The intended users of the system will be the Sabanc\i{} University students who 
 \label{sec:considerations}
 \subsection{ASSUMPTIONS AND DEPENDENCIES}
 
-As it is described in SRS, there are few dependencies. \ The project will be Java project, therefore 
-it is hardware and software independent. \  It will run at all devices that have JVM. \ The end-user 
-will be a standard Sabanc\i{} University Student. \ So we can assume that our users have basic 
-computer knowledge. \ There will be no training for the project. 
+As it is described in SRS, there are few dependencies. \ There is a dependency on web pages of Sabanci University, we will assume that the address and outline of web pages never change. The project will be coded by using Java language, therefore it is hardware and software independent. \  It will run at all devices that have JVM. \ The end-user will be a standard Sabanc\i{} University Student. \ So we can assume that our users have basic computer knowledge. \ There will be no training for the project. 
 
 \subsection{GENERAL CONSTRAINTS}
-Since the user will be able to use the program offline once he/she configs the system with initial internet connection, proper local database system should be used.
+Since the user will be able to use the program offline once he/she configures the system with initial internet connection, proper local database system should be used. \  We may add social media integration to our application if we can find any suitable API for form based application. So there may be a constraint for social media account.  Security will not be an issue for this application because of local storage of the information, however if we use social media login system we should use secure interface to prevent any incident.
 
 
 
 \subsection{GOALS AND GENERAL PRIORITIES}
-Since we can not assume that all the users will be equally experienced computer users, the user interface should be simple enough. 
+Since we can not assume that all the users will be equally experienced computer users, the user interface should be simple enough. \ The application will be open source and well documented so that future developers can contribute.
 
 
 \clearpage\pagestyle{Standard}
@@ -429,6 +434,7 @@ Since we can not assume that all the users will be equally experienced computer 
 \label{sec:architecture}
 
 
+As a programming language we will use Java because of the platform independent structure of it and for the user interface we will use Swing framework. Database system will be built using SQLite as we specified our need of local database system. Lastly for the parser we are planning to use JSoup library, since it provides all the necessary functions we will need while parsing the website of Sabanci University.
 
 \clearpage\pagestyle{Standard}
 \section{DETAILED DESCRIPTION OF COMPONENTS, SUBSYSTEMS AND MODULES}
