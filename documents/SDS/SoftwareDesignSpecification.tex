@@ -12,7 +12,7 @@
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage{datetime}
-\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SYSTEM AND SOFTWARE ARCHITECTURAL AND DETAILED DESIGN DESCRIPTI, pdfauthor=Clinton Jeffery, pdfsubject=, pdfkeywords=}
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SOFTWARE DESIGN SPECIFICATION, pdfauthor=Serta\c{c} Karahoda, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
 % Outline numbering
 \setcounter{secnumdepth}{5}
@@ -237,6 +237,19 @@ Section \ref{sec:considerations}
  \vspace{0.05in}
  Yavuz
  \\\hline
+  \centering{4}
+ &
+\centering{24 April 2015}
+ &
+Section \ref{sec:considerations}, \ref{sec:architecture}
+ &
+\centering{M}
+ &
+ \raggedright{Minor revisions}
+ &
+ \vspace{0.05in}
+ \begin{flushleft}Serta\c{c}, Yavuz\end{flushleft}
+ \\\hline
 \end{longtable}
 \end{flushleft}
 {\selectlanguage{english}\color{black}
@@ -421,12 +434,13 @@ The intended users of the system will be the Sabanc\i{} University students who 
 As it is described in SRS, there are few dependencies. \ There is a dependency on web pages of Sabanci University, we will assume that the address and outline of web pages never change. The project will be coded by using Java language, therefore it is hardware and software independent. \  It will run at all devices that have JVM. \ The end-user will be a standard Sabanc\i{} University Student. \ So we can assume that our users have basic computer knowledge. \ There will be no training for the project. 
 
 \subsection{GENERAL CONSTRAINTS}
-Since the user will be able to use the program offline once he/she configures the system with initial internet connection, proper local database system should be used. \  We may add social media integration to our application if we can find any suitable API for form based application. So there may be a constraint for social media account.  Security will not be an issue for this application because of local storage of the information, however if we use social media login system we should use secure interface to prevent any incident.
+
+The main constraint of the program is a hardware limitation. \ In order to get course and degree information the program needs to access internet. \ So it fails on a computer that has no network connection.\ We may add social media integration to our application if we can find any suitable API for form based application. So there may be a dependency for social media account. \ Security will not be an issue for this application because of local storage of the information, however if we use social media login system we should use secure interface to prevent any incident.
 
 
 
 \subsection{GOALS AND GENERAL PRIORITIES}
-Since we can not assume that all the users will be equally experienced computer users, the user interface should be simple enough. \ The application will be open source and well documented so that future developers can contribute.
+Since we can not assume that all the users will be equally experienced computer users, the user interface should be simple enough. \ Ease of access will be the most important goal for our project. \ The application will be open source and well documented so that future developers can contribute. 
 
 
 \clearpage\pagestyle{Standard}
@@ -434,7 +448,14 @@ Since we can not assume that all the users will be equally experienced computer 
 \label{sec:architecture}
 
 
-As a programming language we will use Java because of the platform independent structure of it and for the user interface we will use Swing framework. Database system will be built using SQLite as we specified our need of local database system. Lastly for the parser we are planning to use JSoup library, since it provides all the necessary functions we will need while parsing the website of Sabanci University.
+The program will be a stand alone program. Therefore it has a monolithic architecture. \ We will implement the project with a component based architecture. \  As a programming language we will use Java because of the platform independent structure of it and for the user interface we will use Swing framework. \ Since the nature of Java, we will create packages and use that packages as components of the application. \ Database system will be built using SQLite as we specified our need of local database system and we will connect the database with OrmLite Library. \ Lastly for the parser we are planning to use JSoup library, since it provides all the necessary functions we will need while parsing the website of Sabanc\i{} University. \ Detailed information about the components is given in Section \ref{sec:description}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{architecture.png}
+\caption{Diagram of components}
+\end{figure}
+
 
 \clearpage\pagestyle{Standard}
 \section{DETAILED DESCRIPTION OF COMPONENTS, SUBSYSTEMS AND MODULES}
