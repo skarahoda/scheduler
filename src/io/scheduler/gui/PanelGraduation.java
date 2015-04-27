@@ -4,7 +4,7 @@ import java.awt.Container;
 
 import javax.swing.JLabel;
 
-public class PanelGraduation extends CustomPanel {
+public class PanelGraduation extends CardPanel {
 
 	public PanelGraduation(Container parent, String key) {
 		super(parent, key);

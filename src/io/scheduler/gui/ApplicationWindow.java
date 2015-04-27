@@ -3,18 +3,15 @@ package io.scheduler.gui;
 import io.scheduler.data.handler.BannerParser;
 
 import java.awt.CardLayout;
-import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class ApplicationWindow {
 

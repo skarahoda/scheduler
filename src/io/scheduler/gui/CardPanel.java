@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * @author skarahoda
  *
  */
-public abstract class CustomPanel extends JPanel {
+public abstract class CardPanel extends JPanel {
 
 	/**
 	 * auto generated serial version UID
@@ -23,7 +23,7 @@ public abstract class CustomPanel extends JPanel {
 	 * @param parent: container that has cardlayout 
 	 * @param key: key for cardlayout
 	 */
-	public CustomPanel(Container parent, String key) {
+	public CardPanel(Container parent, String key) {
 		super();
 		this.isInitialized = false;
 		this.parent = parent;

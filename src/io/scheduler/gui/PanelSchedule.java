@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
-public class PanelSchedule extends CustomPanel {
+public class PanelSchedule extends CardPanel {
 
 	public PanelSchedule(Container parent, String key) {
 		super(parent, key);

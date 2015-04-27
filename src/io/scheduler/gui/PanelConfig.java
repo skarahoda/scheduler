@@ -8,7 +8,7 @@ import javax.swing.JLabel;
  * @author skarahoda
  *
  */
-public class PanelConfig extends CustomPanel {
+public class PanelConfig extends CardPanel {
 
 	/**
 	 * auto generated serial version UID
