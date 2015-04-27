@@ -12,6 +12,7 @@
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage{datetime}
+\usepackage{float}
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=SOFTWARE DESIGN SPECIFICATION, pdfauthor=Serta\c{c} Karahoda, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
 % Outline numbering
@@ -60,9 +61,9 @@
 }
 \newcommand\ps@Preface{
   \pagenumbering{Roman}
-  \renewcommand\@oddhead{\selectlanguage{english}\rmfamily\color{black} Sabanc{\i} University CS Department Instructional Use\hfill \hfill Scheduler}
+  \renewcommand\@oddhead{}
   \renewcommand\@evenhead{\@oddhead}
-  \renewcommand\@oddfoot{\foreignlanguage{english}{\textcolor{black}{\centerline{\thepage{}}}}}
+  \renewcommand\@oddfoot{}
   \renewcommand\@evenfoot{\@oddfoot}
   \renewcommand\thepage{\roman{page}}
 }
@@ -244,6 +245,18 @@ Section \ref{sec:considerations}, \ref{sec:architecture}
  \raggedright{Minor revisions}
  &
 Serta\c{c}, Yavuz
+ \\\hline
+  \centering{5}
+ &
+\centering{27 April 2015}
+ &
+Section \ref{sec:description}
+ &
+\centering{M}
+ &
+ \raggedright{Diagrams are added}
+ &
+Berk, Serta\c{c}, Yavuz
  \\\hline
 \end{longtable}
 \end{flushleft}
@@ -442,9 +455,9 @@ Since we can not assume that all the users will be equally experienced computer 
 
 The program will be a stand alone program. Therefore it has a monolithic architecture. \ We will implement the project with a component based architecture. \  As a programming language we will use Java because of the platform independent structure of it and for the user interface we will use Swing framework. \ Since the nature of Java, we will create packages and use that packages as components of the application. \ Database system will be built using SQLite as we specified our need of local database system and we will connect the database with OrmLite Library. \ Lastly for the parser we are planning to use JSoup library, since it provides all the necessary functions we will need while parsing the website of Sabanc\i{} University. \ Detailed information about the components is given in Section \ref{sec:description}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[scale=0.9]{architecture.png}
+\includegraphics[scale=0.9]{img/architecture.png}
 \caption{Diagram of components}
 \end{figure}
 
@@ -467,16 +480,30 @@ screens schedules, degree summary and configuration of the program with using re
 course window shows the courses with filter options that can be added to schedule or degree summary. 
 \ Delete course window deletes the courses that has been added before. \ Warning window displays 
 warnings like class restriction or time conflict for the selected schedule.
-\begin{figure}[h]
+
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{ui.png}
-\caption{Class Diagram of User Interface}
+\includegraphics[width=\linewidth]{img/ui.png}
+\caption{Class diagram of user interface}
 \end{figure}
 
 \subsubsection{Uses/Interaction}
 It has a interaction with middleware while getting and setting the schedules and degree summary. \ Degree summary panel and schedule panel creates the windows of add and delete course windows.
 \subsubsection{Processing}
 Main window contains three panels and shows one of them. \ User can change the panels with the buttons that occur in main window. \ When program opened for the first time, user will see a configuration panel. \ Configuration panel sets the degrees and current term information. Then call the banner parser to get course information from bannerweb. \ When schedule panel is selected, it will pull the data from database connector. \ Schedule panel creates three windows, which are add course window, delete course window and warning window, when it is necessary. \  Degree summary has the same features with schedule panel except that it has no warning window.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\linewidth]{img/guiState.png}
+\caption{State diagram for user interface}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{img/openApp.png}
+\caption{Sequence diagram for openning application}
+\end{figure}
+
 \subsection{MIDDLEWARE}
 \subsubsection{Classification}
 Middleware is a package. It has some classes get data from bannerweb and manipulate before showing them to user.
@@ -484,15 +511,31 @@ Middleware is a package. It has some classes get data from bannerweb and manipul
 Middleware connects User Interface and Data to each other as a bridge.
 \subsubsection{Responsibilities}
 The main responsibility of this component is to manage data for user interface. Banner parser parses  bannerweb for the exact information of courses. \ DB Connector is also other component of middleware which works as bridge that it connects the data to user interface. \ Filter component is looking for the course if it is enable for that filter. \ Course handler component is working for the filtering operation of courses that user specify with the help of filter component. \ It can be course type, time etc..
-\begin{figure}[h]
+
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{middleware.png}
-\caption{Class Diagram of Middleware}
+\includegraphics[width=\linewidth]{img/middleware.png}
+\caption{Class diagram of middleware}
 \end{figure}
+
 \subsubsection{Uses/Interaction}
 DB connector interacts with user interface and manipulate data from local database. \ Banner parser talks with configuration panel and pulls the information from bannerweb to send to DB connector. \ Course handler interact with add course window and uses filter classes.
 \subsubsection{Processing}
 When configuration panel finishes its operation, it calls banner parser. \ When user entered to the schedule panel, degree summary panel or add course window, DB connector called. \ Then they get the releated information by the DB connector. \ When the user adds a new course to his/her schedule, schedule will be updated in database connector. \ When user wants to use any filter, the necessary filter will be occured and the course list will be updated by this information with using course handler.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{img/submitFilter.png}
+\caption{Sequence diagram for course filtering}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{img/configSubmit.png}
+\caption{Sequence diagram for submission of configuration}
+\label{fig:datadiagram}
+\end{figure}
+
 \subsection{DATA}
 \subsubsection{Classification}
 Data is a package that stores the information for the application.
@@ -500,12 +543,14 @@ Data is a package that stores the information for the application.
 Data stores necessary information for the application. 
 \subsubsection{Responsibilities}
 This package is responsible from storing class, course and user information. \ Also it contains degree requirement. \ It holds schedules that created by the user. \ It is explained also in the figure \ref{fig:datadiagram}.  
-\begin{figure}[h]
+
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{data.png}
-\caption{Class Diagram of Data}
+\includegraphics[width=\linewidth]{img/data.png}
+\caption{Class diagram of data}
 \label{fig:datadiagram}
 \end{figure}
+
 \subsubsection{Uses/Interaction}
 Course requirement interracts with middleware to create necessary warnings of courses for the user. \ Other classes have no specific methods so there is no other specific interraction to inform. \ This package is mainly used for the capsulation of information.
 \subsubsection{Processing}
