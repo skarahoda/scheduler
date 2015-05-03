@@ -1,12 +1,15 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
+import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -21,6 +24,7 @@ public class ApplicationWindow {
 	private PanelSchedule panelSchedule;
 	private PanelGraduation panelGradSummary;
 	private PanelConfig panelConfig;
+	private User mainUser;
 	
 
 	/**
@@ -45,8 +49,19 @@ public class ApplicationWindow {
 	public ApplicationWindow() {
 		initialize();
 		try {
-			BannerParser.getSUClasses("201402");
+			this.mainUser = DatabaseConnector.getUser();
+			if(this.mainUser == null){
+				panelConfig.setVisible();
+				this.mainUser = new User("201402");
+				DatabaseConnector.setUser(this.mainUser);
+			}else{
+				panelSchedule.setVisible();
+			}
+			BannerParser.getSUClasses(mainUser.getCurrentTerm());
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -63,7 +78,6 @@ public class ApplicationWindow {
 		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),"graduation");
 		panelSchedule = new PanelSchedule(frameMain.getContentPane(),"schedule");
 		panelConfig = new PanelConfig(frameMain.getContentPane(),"schedule");
-		panelSchedule.setVisible();
 	}
 
 	private void initializeMainFrame() {

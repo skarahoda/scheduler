@@ -40,5 +40,5 @@ hs_err_pid*
 *.swp
 *.pdf
 
-#sqlite database file
-*.sqlite
+#database file
+*.db
