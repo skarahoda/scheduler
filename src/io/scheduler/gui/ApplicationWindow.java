@@ -1,5 +1,6 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.SUClass;
 import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
 import io.scheduler.data.handler.DatabaseConnector;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -57,7 +59,11 @@ public class ApplicationWindow {
 			}else{
 				panelSchedule.setVisible();
 			}
-			BannerParser.getSUClasses(mainUser.getCurrentTerm());
+			List<SUClass> classes = BannerParser.getSUClasses(mainUser.getCurrentTerm());
+			int size = classes.size();
+			DatabaseConnector.setSUClasses(classes);
+			classes = DatabaseConnector.getSUClasses();
+			System.out.println(size + " " + classes.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

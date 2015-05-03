@@ -1,11 +1,17 @@
 package io.scheduler.data.handler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
+
+import io.scheduler.data.SUClass;
 /**
  * This class parse the class list in the bannerweb
  * @author skarahoda
@@ -25,7 +31,8 @@ public class BannerParser {
 	 * 
 	 * @throws IOException: if there is an error to connect web site.
 	 */
-	public static void getSUClasses(String term) throws IOException{
+	public static List<SUClass> getSUClasses(String term) throws IOException{
+		List<SUClass> list = new ArrayList<SUClass>();
 		
 		//bannerweb connection
 		String bannerUrl = String.format(bannerUrlTemplate, term);
@@ -33,22 +40,45 @@ public class BannerParser {
 		
 		
 		Elements rows = doc.select("[summary=\"This layout table is used to present the sections found\"]").first().select("tr");
-		Elements times;
+		//Elements times;
 		Element course;
 		for(Element row : rows){
 			course = row.children().first();
 			if(course.className().equals("ddlabel")){
-				System.out.println(course.text());
-				times = row.nextElementSibling().select("[summary] td:nth-child(2)");
+				String instructor = getInstructor(row.nextElementSibling().children().first());
+				SUClass temp = createSUCLass(course.text(),instructor, term);
+				list.add(temp);
+				/*times = row.nextElementSibling().select("[summary] td:nth-child(2)");
 				for(Element time : times){
 					System.out.println(time.text() + " " + time.nextElementSibling().text());
-					Element instructor = time.nextElementSibling();
-					for(int i=0; i<4;i++){
-						instructor =  instructor.nextElementSibling();
-					}
-					System.out.println(instructor.text());
-				}
+				}*/
 			}
 		}
+		return list;
+	}
+	private static SUClass createSUCLass(String courseText, String instructor, String term) {
+		
+		Scanner scanner = new Scanner(courseText);
+		scanner.useDelimiter(" - ");
+		String courseName = scanner.next();
+		String crn = scanner.next();
+		String courseCode = scanner.next();
+		String section = scanner.next();
+		scanner.close();
+		return new SUClass(term, crn, instructor, section);
+	}
+	private static String getInstructor(Element element){
+		boolean canPrint = false;
+		String instructor = "";
+		for(Node child : element.childNodes()){
+			if(canPrint)
+				instructor += child.toString();
+			if(child.toString().contains("Instructors:"))
+				canPrint = true;
+			if(canPrint && child.toString().equals("<br>"))
+				break;
+		}
+		instructor = Jsoup.parse(instructor).text();
+		return instructor;
 	}
 }
