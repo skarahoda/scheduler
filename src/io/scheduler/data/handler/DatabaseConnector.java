@@ -1,9 +1,11 @@
 package io.scheduler.data.handler;
 
+import io.scheduler.data.Course;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.User;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
@@ -16,7 +18,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseConnector {
 	
-	private final static String DATABASE_URL = "jdbc:h2:file:./scheduler";
+	private final static String DATABASE_URL = "jdbc:h2:file:./scheduler;mv_store=false";
 	
 	public static User getUser() throws SQLException{
 		List<User> users = setDB(User.class).queryForAll();
@@ -28,15 +30,15 @@ public class DatabaseConnector {
 		QueryBuilder<SUClass, Integer> qb = daoSUClass.queryBuilder();
 		qb.where().eq(SUClass.TERM_FIELD_NAME, classes.get(0).getTerm());
 		PreparedQuery<SUClass> prepared = qb.prepare();
-		List<SUClass> deletedClasses = daoSUClass.query(prepared);
+		Collection<SUClass> deletedClasses = daoSUClass.query(prepared);
 		daoSUClass.delete(deletedClasses);
 		for(SUClass suClass: classes){
 			daoSUClass.create(suClass);
 		}
 	}
 	
-	public static List<SUClass> getSUClasses() throws SQLException{
-		List<SUClass> classes = setDB(SUClass.class).queryForAll();
+	public static Collection<SUClass> getSUClasses() throws SQLException{
+		Collection<SUClass> classes = setDB(SUClass.class).queryForAll();
 		return classes;
 	}
 	
@@ -50,5 +52,18 @@ public class DatabaseConnector {
 		Dao<T, Integer> returnVal = DaoManager.createDao(source, class1);
 		TableUtils.createTableIfNotExists(source, class1);
 		return returnVal;
+	}
+
+	public static void setCourses(Collection<Course> courses) throws SQLException {
+		Dao<Course, Integer> daoCourses = setDB(Course.class);
+		for(Course course: courses){
+			daoCourses.createIfNotExists(course);
+		}
+		
+	}	
+	
+	public static Collection<Course> getCourses() throws SQLException {
+		Collection<Course> courses = setDB(Course.class).queryForAll();
+		return courses;
 	}
 }

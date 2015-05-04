@@ -14,10 +14,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "suClasses")
 public class SUClass {
 
-	public static final String TERM_FIELD_NAME = "TERM";
+	public static final String TERM_FIELD_NAME = "term";
 	public static final String CRN_FIELD_NAME = "crn";
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";
 	public static final String SECTION_FIELD_NAME = "section";
+	public static final String COURSE_CODE_FIELD_NAME = "courseCode";
 	
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -33,6 +34,9 @@ public class SUClass {
 	
 	@DatabaseField(columnName =  SECTION_FIELD_NAME, canBeNull = false)
 	private String section;
+	
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME)
+	private Course course;
 
 	/**
 	 * 
@@ -45,12 +49,14 @@ public class SUClass {
 	 * @param crn
 	 * @param instructor
 	 * @param section
+	 * @param course
 	 */
-	public SUClass(String term, String crn, String instructor, String section) {
+	public SUClass(String term, String crn, String instructor, String section, Course course) {
 		this.term = term;
 		this.crn = crn;
 		this.instructorName = instructor;
 		this.section = section;
+		this.setCourse(course);
 	}
 
 	public String getTerm() {
@@ -90,6 +96,20 @@ public class SUClass {
 	 */
 	public void setSection(String section) {
 		this.section = section;
+	}
+
+	/**
+	 * @return the course
+	 */
+	public Course getCourse() {
+		return course;
+	}
+
+	/**
+	 * @param course the course to set
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 }

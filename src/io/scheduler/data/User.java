@@ -2,8 +2,6 @@ package io.scheduler.data;
 
 import java.util.Calendar;
 
-import org.jsoup.helper.Validate;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -20,13 +18,12 @@ public class User {
 	
 	public User(){}
 	
-	public User(String currentTerm) {
+	public User(String currentTerm) throws IllegalArgumentException{
 		validateTerm(currentTerm);
 	    this.currentTerm = currentTerm;
 	}
 	
-	private void validateTerm(String term){
-		//System.out.println(term);
+	private void validateTerm(String term) throws IllegalArgumentException{
 		if(!isTermValid(term)){
 			throw new IllegalArgumentException("term:("+ term +") is invalid.");
 		}
@@ -70,7 +67,7 @@ public class User {
 		return currentTerm;
 	}
 
-	public void setCurrentTerm(String currentTerm) {
+	public void setCurrentTerm(String currentTerm) throws IllegalArgumentException{
 		validateTerm(currentTerm);
 		this.currentTerm = currentTerm;
 	}
