@@ -1,7 +1,6 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.User;
-import io.scheduler.data.handler.BannerParser;
 import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.CardLayout;
@@ -9,7 +8,6 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -59,10 +57,10 @@ public class ApplicationWindow {
 				panelSchedule.setVisible();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO add logger
 			JPanel panel = new JPanel(new GridLayout(0, 1));
 			JOptionPane.showMessageDialog(panel,
-				    "Databes is already in use, please close the database connection.");
+				    "Database is already in use, please close the database connection.");
 			e.printStackTrace();
 			System.exit(1);
 		}

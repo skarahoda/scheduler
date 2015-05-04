@@ -7,6 +7,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class TablePanel extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8723788672175458756L;
 	private JTable table1;
 	
 	public TablePanel(){
@@ -50,7 +54,12 @@ public class TablePanel extends JPanel{
 }
 class MyTableModel extends DefaultTableModel {
 
-    public MyTableModel(Object rowData[][], Object columnNames[]) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6813433055563304420L;
+
+	public MyTableModel(Object rowData[][], Object columnNames[]) {
         super(rowData, columnNames);
     }
 

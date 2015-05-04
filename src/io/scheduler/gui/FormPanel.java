@@ -1,7 +1,5 @@
 package io.scheduler.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -11,6 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class FormPanel extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7265300738999763226L;
 
 	public FormPanel(){
 		/*Dimension dim = getPreferredSize();
