@@ -1,22 +1,23 @@
 package io.scheduler.gui;
 
-import io.scheduler.data.SUClass;
 import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
 import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class ApplicationWindow {
 
@@ -54,22 +55,16 @@ public class ApplicationWindow {
 			this.mainUser = DatabaseConnector.getUser();
 			if(this.mainUser == null){
 				panelConfig.setVisible();
-				this.mainUser = new User("201402");
-				DatabaseConnector.setUser(this.mainUser);
 			}else{
 				panelSchedule.setVisible();
 			}
-			List<SUClass> classes = BannerParser.getSUClasses(mainUser.getCurrentTerm());
-			int size = classes.size();
-			DatabaseConnector.setSUClasses(classes);
-			classes = DatabaseConnector.getSUClasses();
-			System.out.println(size + " " + classes.size());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			JPanel panel = new JPanel(new GridLayout(0, 1));
+			JOptionPane.showMessageDialog(panel,
+				    "The program is already working on this machine.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
@@ -83,7 +78,7 @@ public class ApplicationWindow {
 		
 		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),"graduation");
 		panelSchedule = new PanelSchedule(frameMain.getContentPane(),"schedule");
-		panelConfig = new PanelConfig(frameMain.getContentPane(),"schedule");
+		panelConfig = new PanelConfig(frameMain.getContentPane(),"config");
 	}
 
 	private void initializeMainFrame() {

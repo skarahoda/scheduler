@@ -1,11 +1,10 @@
 package io.scheduler.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JList;
-import javax.swing.JTextField;
+import javax.swing.JTabbedPane;
 
 public class PanelSchedule extends CardPanel {
 
@@ -19,29 +18,21 @@ public class PanelSchedule extends CardPanel {
 	private static final long serialVersionUID = 8525163294114489034L;
 
 	protected void initialize() {
-		this.setBounds(12, 12, 424, 230);
+		//this.setBounds(12, 12, 424, 230);
 		
-		JTextField txtSearchCourse = new JTextField();
-		txtSearchCourse.setText("Search Class");
-		txtSearchCourse.setBounds(263, 6, 144, 28);
-		this.add(txtSearchCourse);
-		txtSearchCourse.setColumns(10);
+		this.setLayout(new BorderLayout());
 		
-		JButton btnAddClasses = new JButton("Add Classes");
-		btnAddClasses.setBounds(263, 221, 134, 29);
-		this.add(btnAddClasses);
+		FormPanel frm = new FormPanel();
 		
-		JButton btnRemoveClasses = new JButton("Remove Classes");
-		btnRemoveClasses.setBounds(47, 221, 134, 29);
-		this.add(btnRemoveClasses);
+		this.add(frm,BorderLayout.LINE_END);
 		
-		String[] DayStrings = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-		JComboBox<?> DayStrings1 = new JComboBox<Object>(DayStrings);	
-		DayStrings1.setBounds(263, 35, 93, 27);
-		this.add(DayStrings1);
+		JTabbedPane tabbedPane = new JTabbedPane();
+		TablePanel scheduleTable = new TablePanel();
+		tabbedPane.addTab("Schedule", scheduleTable);
+		this.add(tabbedPane,BorderLayout.CENTER);
+		
 		JList<?> list = new JList<Object>();
 		this.add(list);
-		super.initialize();
 	}
 
 }

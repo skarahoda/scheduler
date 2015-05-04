@@ -32,14 +32,14 @@ public abstract class CardPanel extends JPanel {
 	
 	public void setVisible(){
 		if(!this.isInitialized){
-			this.initialize();
+			this.initialize();		
+			this.parent.add(this, this.key);
+			this.isInitialized = true;
 		}
 		CardLayout layout = (CardLayout) this.parent.getLayout();
 		layout.show(this.parent, this.key);
 	}
 
-	protected void initialize(){
-		this.parent.add(this, this.key);
-		this.isInitialized = true;
-	}
+	protected abstract void initialize();
+	
 }

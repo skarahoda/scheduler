@@ -19,7 +19,6 @@ public class PanelGraduation extends CardPanel {
 		this.setBounds(12, 12, 424, 230);
 		JLabel lblGradSummary = new JLabel("Grad Summary");
 		this.add(lblGradSummary);
-		super.initialize();
 	}
 	
 
