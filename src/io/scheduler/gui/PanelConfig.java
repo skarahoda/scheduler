@@ -1,31 +1,18 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.User;
-import io.scheduler.data.handler.BannerParser;
 import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.swing.AbstractAction;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 /**
  * @author skarahoda
@@ -38,6 +25,7 @@ public class PanelConfig extends CardPanel {
 	 */
 	private static final long serialVersionUID = -8483298720242968924L;
 	protected static String key;
+	private JTextField textField;
 	
 
 	/**
@@ -48,12 +36,38 @@ public class PanelConfig extends CardPanel {
 	 */
 	public PanelConfig(Container parent, String key) {
 		super(parent, key);
-
+		
 	}
 
 	protected void initialize() {
-
+		SpringLayout springLayout = new SpringLayout();
+		setLayout(springLayout);
 		
+		JLabel lblTerm = new JLabel("Term:");
+		add(lblTerm);
+		
+		textField = new JTextField();
+		springLayout.putConstraint(SpringLayout.NORTH, textField, 41, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, textField, 59, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, lblTerm, 3, SpringLayout.NORTH, textField);
+		springLayout.putConstraint(SpringLayout.EAST, lblTerm, -11, SpringLayout.WEST, textField);
+		add(textField);
+		textField.setColumns(10);
+		
+		String[] petStrings = { "Fall", "Spring", "Summer" };
+		final JComboBox comboTerm = new JComboBox(petStrings);
+		springLayout.putConstraint(SpringLayout.NORTH, comboTerm, 0, SpringLayout.NORTH, lblTerm);
+		springLayout.putConstraint(SpringLayout.WEST, comboTerm, 59, SpringLayout.EAST, textField);
+		add(comboTerm);
+		
+		JButton btnSubmit = new JButton("Submit");
+		springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 43, SpringLayout.SOUTH, textField);
+		springLayout.putConstraint(SpringLayout.WEST, btnSubmit, 0, SpringLayout.WEST, textField);
+		add(btnSubmit);
+		
+		
+		
+		/*
 		
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -87,7 +101,7 @@ public class PanelConfig extends CardPanel {
 		add(comboTerm, "4, 2, center, default");
 		
 		
-		
+		*/
 		
 		//System.out.println(currentYear);
     
@@ -97,14 +111,14 @@ public class PanelConfig extends CardPanel {
 	            @Override
 	            public void actionPerformed(final ActionEvent e) {
 	            	try {
-	            		
+	            		System.out.println("yavuz");
 	            		int year = Integer.parseInt(textField.getText());
 						int term = comboTerm.getSelectedIndex();
 	            		
 						User user = DatabaseConnector.getUser();
 						if(user==null){
 							user = new User(Integer.toString(year)+"0"+  Integer.toString(term+1));
-							System.out.println(user);
+							//System.out.println(user);
 						}
 					    
 						
@@ -129,5 +143,4 @@ public class PanelConfig extends CardPanel {
 		
 		
 	}
-
 }

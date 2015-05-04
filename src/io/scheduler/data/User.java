@@ -26,7 +26,8 @@ public class User {
 	}
 	
 	private void validateTerm(String term){
-		if(!isTermValid(currentTerm)){
+		//System.out.println(term);
+		if(!isTermValid(term)){
 			throw new IllegalArgumentException("term:("+ term +") is invalid.");
 		}
 	}

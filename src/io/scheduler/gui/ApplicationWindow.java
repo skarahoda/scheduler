@@ -62,7 +62,7 @@ public class ApplicationWindow {
 			// TODO Auto-generated catch block
 			JPanel panel = new JPanel(new GridLayout(0, 1));
 			JOptionPane.showMessageDialog(panel,
-				    "The program is already working on this machine.");
+				    "Databes is already in use, please close the database connection.");
 			e.printStackTrace();
 			System.exit(1);
 		}
