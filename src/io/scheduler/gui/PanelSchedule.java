@@ -29,7 +29,7 @@ public class PanelSchedule extends CardPanel {
 		JTabbedPane tabbedPane = new JTabbedPane();
 		TablePanel scheduleTable = new TablePanel();
 		tabbedPane.addTab("Schedule", scheduleTable);
-		this.add(tabbedPane,BorderLayout.CENTER);
+		this.add(tabbedPane,BorderLayout.WEST);
 		
 		JList<?> list = new JList<Object>();
 		this.add(list);
