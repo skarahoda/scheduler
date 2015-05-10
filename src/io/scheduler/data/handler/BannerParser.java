@@ -6,8 +6,11 @@ import io.scheduler.data.SUClass;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 import org.jsoup.Jsoup;
@@ -34,56 +37,59 @@ public class BannerParser {
 	 * 
 	 * @throws IOException: if there is an error to connect web site.
 	 * @throws SQLException: if there is an error to execute sql query. Database file may be already using.
+	 * @throws InterruptedException 
 	 */
 	public static void getSUClasses(String term) throws IOException, SQLException{
 		List<SUClass> suClasses = new ArrayList<SUClass>();
 		Collection<Course> courses = DatabaseConnector.getCourses();
 		//bannerweb connection
 		String bannerUrl = String.format(bannerUrlTemplate, term);
-		Document doc = Jsoup.connect(bannerUrl).get();
+		Document doc = Jsoup.connect(bannerUrl)
+				.maxBodySize(0)
+			    .get();
+        
+		Elements rows = doc.select("[summary=\"This layout table is used to present the sections found\"]")
+				.first().children().get(1).children();
+		Iterator<Element> i = rows.iterator();
 		
-		
-		Elements rows = doc.select("[summary=\"This layout table is used to present the sections found\"]").first().select("tr");
-		//Elements times;
-		Element course;
-		for(Element row : rows){
-			course = row.children().first();
-			if(course.className().equals("ddlabel")){
-				SUClass temp = createSUCLass(course.text(),row.nextElementSibling().children().first(), term, courses);
-				suClasses.add(temp);
-				/*times = row.nextElementSibling().select("[summary] td:nth-child(2)");
-				for(Element time : times){
-					System.out.println(time.text() + " " + time.nextElementSibling().text());
-				}*/
-			}
+		while(i.hasNext()){
+			Element header = i.next();
+			Element details = i.next().child(0);
+			ParseForSUClass(term, header, details, suClasses, courses);
 		}
 		DatabaseConnector.setSUClasses(suClasses);
 		DatabaseConnector.setCourses(courses);
 	}
-	private static SUClass createSUCLass(String courseText, Element courseInfo, String term, Collection<Course> courses) {
+	private static void ParseForSUClass(String term, Element header, Element details,
+			Collection<SUClass> suClasses, Collection<Course> courses) {
 		
-		Scanner scanner = new Scanner(courseText);
-		scanner.useDelimiter(" - ");
-		String courseName = scanner.next();
-		String crn = scanner.next();
-		if(!crn.matches("\\d*")){
-			courseName += " - " + crn;
-			crn = scanner.next();
+		String[] headerItems = header.text().split(" - ");
+		ListIterator<String> i = Arrays.asList(headerItems).listIterator(headerItems.length);
+		String section = i.previous();
+		String courseCode = i.previous();
+		String crn = i.previous();
+		String courseName = i.previous();
+		while(i.hasPrevious()){
+			courseName = i.previous() + " - " + courseName;
 		}
-		String courseCode = scanner.next();
-		String section = scanner.next();
-		scanner.close();
-		String instructor = getInstructor(courseInfo);
+		String instructor = BannerParser.getInstructor(details);
+		if(instructor.equals(""))
+			instructor = "TBA";
 		
 		for(Course course: courses){
 			if(course.getCode().equals(courseCode)){
-				return new SUClass(term, crn, instructor, section, course);
+				SUClass temp = new SUClass(term, crn, instructor, section, course);
+				suClasses.add(temp);
+				return;
 			}
 		}
-		Course course = new Course(courseCode, courseName, getCredit(courseInfo));
+		Course course = new Course(courseCode, courseName, getCredit(details));
 		courses.add(course);
-		return new SUClass(term, crn, instructor, section, course);
+		SUClass temp = new SUClass(term, crn, instructor, section, course);
+		suClasses.add(temp);
+		return;
 	}
+	
 	private static String getInstructor(Element element){
 		boolean canPrint = false;
 		String instructor = "";
@@ -98,6 +104,7 @@ public class BannerParser {
 		instructor = Jsoup.parse(instructor).text();
 		return instructor;
 	}
+	
 	private static float getCredit(Element element){
 		for(Node child : element.childNodes()){
 			if(child.toString().contains("Credits")){
