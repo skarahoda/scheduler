@@ -91,6 +91,7 @@ public class PanelConfig extends CardPanel {
 							user.setCurrentTerm(currentTerm);
 						}
 						BannerParser.getSUClasses(user.getCurrentTerm());
+						DatabaseConnector.setUser(user);
 					} catch (IllegalArgumentException e1) {
 						// TODO add logger
 						JPanel panel = new JPanel(new GridLayout(0, 1));
