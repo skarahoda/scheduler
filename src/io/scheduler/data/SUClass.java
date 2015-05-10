@@ -3,8 +3,10 @@
  */
 package io.scheduler.data;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -38,6 +40,9 @@ public class SUClass {
 	
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME)
 	private Course course;
+
+	@ForeignCollectionField
+	private ForeignCollection<Meeting> meetings;
 
 	/**
 	 * 
@@ -111,6 +116,13 @@ public class SUClass {
 	 */
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	/**
+	 * @return the meetings
+	 */
+	public ForeignCollection<Meeting> getMeetings() {
+		return meetings;
 	}
 
 }

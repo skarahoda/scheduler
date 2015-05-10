@@ -1,6 +1,7 @@
 package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.User;
 
@@ -27,10 +28,14 @@ public class DatabaseConnector {
 	
 	public static void setSUClasses(List<SUClass> classes) throws SQLException{
 		Dao<SUClass,Integer> daoSUClass = setDB(SUClass.class);
+		Dao<Meeting, Integer> daoMeeting= setDB(Meeting.class);;
 		QueryBuilder<SUClass, Integer> qb = daoSUClass.queryBuilder();
 		qb.where().eq(SUClass.TERM_FIELD_NAME, classes.get(0).getTerm());
 		PreparedQuery<SUClass> prepared = qb.prepare();
 		Collection<SUClass> deletedClasses = daoSUClass.query(prepared);
+		for(SUClass deletedClass:deletedClasses){
+			daoMeeting.delete(deletedClass.getMeetings());
+		}
 		daoSUClass.delete(deletedClasses);
 		for(SUClass suClass: classes){
 			daoSUClass.create(suClass);
@@ -65,5 +70,18 @@ public class DatabaseConnector {
 	public static Collection<Course> getCourses() throws SQLException {
 		Collection<Course> courses = setDB(Course.class).queryForAll();
 		return courses;
+	}
+
+	public static void setMeetings(Collection<Meeting> meetings) throws SQLException {
+		Dao<Meeting, Integer> daoCourses = setDB(Meeting.class);
+		for(Meeting meeting: meetings){
+			daoCourses.createIfNotExists(meeting);
+		}
+		
+	}	
+	
+	public static Collection<Meeting> getMeetings() throws SQLException {
+		Collection<Meeting> meetings = setDB(Meeting.class).queryForAll();
+		return meetings;
 	}
 }

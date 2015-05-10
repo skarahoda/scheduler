@@ -1,13 +1,18 @@
 package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -42,6 +47,8 @@ public class BannerParser {
 	public static void getSUClasses(String term) throws IOException, SQLException{
 		List<SUClass> suClasses = new ArrayList<SUClass>();
 		Collection<Course> courses = DatabaseConnector.getCourses();
+		Collection<Meeting> meetings = new ArrayList<Meeting>();
+		
 		//bannerweb connection
 		String bannerUrl = String.format(bannerUrlTemplate, term);
 		Document doc = Jsoup.connect(bannerUrl)
@@ -55,13 +62,14 @@ public class BannerParser {
 		while(i.hasNext()){
 			Element header = i.next();
 			Element details = i.next().child(0);
-			ParseForSUClass(term, header, details, suClasses, courses);
+			ParseForSUClass(term, header, details, suClasses, courses, meetings);
 		}
 		DatabaseConnector.setSUClasses(suClasses);
 		DatabaseConnector.setCourses(courses);
+		DatabaseConnector.setMeetings(meetings);
 	}
 	private static void ParseForSUClass(String term, Element header, Element details,
-			Collection<SUClass> suClasses, Collection<Course> courses) {
+			Collection<SUClass> suClasses, Collection<Course> courses, Collection<Meeting> meetings) {
 		
 		String[] headerItems = header.text().split(" - ");
 		ListIterator<String> i = Arrays.asList(headerItems).listIterator(headerItems.length);
@@ -76,20 +84,52 @@ public class BannerParser {
 		if(instructor.equals(""))
 			instructor = "TBA";
 		
+		boolean courseFound = false;
+		SUClass tempSUClass = null;
 		for(Course course: courses){
 			if(course.getCode().equals(courseCode)){
-				SUClass temp = new SUClass(term, crn, instructor, section, course);
-				suClasses.add(temp);
-				return;
+				tempSUClass = new SUClass(term, crn, instructor, section, course);
+				courseFound = true;
+				break;
 			}
 		}
+		
+		if(!courseFound){
 		Course course = new Course(courseCode, courseName, getCredit(details));
 		courses.add(course);
-		SUClass temp = new SUClass(term, crn, instructor, section, course);
-		suClasses.add(temp);
+		tempSUClass = new SUClass(term, crn, instructor, section, course);
+		}
+		
+		suClasses.add(tempSUClass);
+
+		Elements meetingInfos = details.select("tr:has(td)");
+		for(Element meeting: meetingInfos){
+			Meeting tempMeeting = BannerParser.createMeeting(meeting, tempSUClass);
+			meetings.add(tempMeeting);
+		}
 		return;
 	}
 	
+	private static Meeting createMeeting(Element meeting, SUClass tempSUClass) {
+		Elements columns = meeting.children();
+		String[] times = columns.get(1).text().split(" - ");
+		String day = columns.get(2).text();
+		String place = columns.get(3).text();
+		if(times[0].equals("TBA")){
+			return new Meeting(null,null,"TBA",place,tempSUClass);
+		}
+		DateFormat format = new SimpleDateFormat("h:mm a");
+		Date start = null;
+		Date end = null;
+		try {
+			start = format.parse(times[0]);
+			end = format.parse(times[1]);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Meeting(start,end,day,place,tempSUClass);
+	}
 	private static String getInstructor(Element element){
 		boolean canPrint = false;
 		String instructor = "";
