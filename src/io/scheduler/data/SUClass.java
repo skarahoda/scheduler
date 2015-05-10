@@ -3,6 +3,7 @@
  */
 package io.scheduler.data;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -29,7 +30,7 @@ public class SUClass {
 	@DatabaseField(columnName =  CRN_FIELD_NAME, canBeNull = false)
 	private String crn;
 	
-	@DatabaseField(columnName =  INSTRUCTOR_FIELD_NAME, canBeNull = false)
+	@DatabaseField(columnName =  INSTRUCTOR_FIELD_NAME, canBeNull = false, dataType=DataType.LONG_STRING)
 	private String instructorName;
 	
 	@DatabaseField(columnName =  SECTION_FIELD_NAME, canBeNull = false)
