@@ -31,9 +31,9 @@ public class Course {
 	 * @param credit
 	 */
 	public Course(String code, String name, float credit) {
-		this.code = code;
-		this.name = name;
-		this.credit = credit;
+		this.setCode(code);
+		this.setCredit(credit);
+		this.setName(name);
 	}
 
 	/**

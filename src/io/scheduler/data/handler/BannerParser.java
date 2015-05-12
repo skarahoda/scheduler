@@ -62,13 +62,20 @@ public class BannerParser {
 		while(i.hasNext()){
 			Element header = i.next();
 			Element details = i.next().child(0);
-			ParseForSUClass(term, header, details, suClasses, courses, meetings);
+			ParseForSUClass(header, details, suClasses, courses, meetings);
 		}
-		DatabaseConnector.setSUClasses(suClasses);
+		BannerParser.saveToDb(suClasses, courses, meetings);
+
+	}
+	private static void saveToDb(List<SUClass> suClasses,
+			Collection<Course> courses, Collection<Meeting> meetings) throws SQLException {
+		DatabaseConnector.clearTable(Meeting.class);
+		DatabaseConnector.clearTable(SUClass.class);
 		DatabaseConnector.setCourses(courses);
+		DatabaseConnector.setSUClasses(suClasses);
 		DatabaseConnector.setMeetings(meetings);
 	}
-	private static void ParseForSUClass(String term, Element header, Element details,
+	private static void ParseForSUClass(Element header, Element details,
 			Collection<SUClass> suClasses, Collection<Course> courses, Collection<Meeting> meetings) {
 		
 		String[] headerItems = header.text().split(" - ");
@@ -88,7 +95,7 @@ public class BannerParser {
 		SUClass tempSUClass = null;
 		for(Course course: courses){
 			if(course.getCode().equals(courseCode)){
-				tempSUClass = new SUClass(term, crn, instructor, section, course);
+				tempSUClass = new SUClass(crn, instructor, section, course);
 				courseFound = true;
 				break;
 			}
@@ -97,7 +104,7 @@ public class BannerParser {
 		if(!courseFound){
 		Course course = new Course(courseCode, courseName, getCredit(details));
 		courses.add(course);
-		tempSUClass = new SUClass(term, crn, instructor, section, course);
+		tempSUClass = new SUClass(crn, instructor, section, course);
 		}
 		
 		suClasses.add(tempSUClass);

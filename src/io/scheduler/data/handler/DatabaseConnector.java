@@ -12,8 +12,6 @@ import java.util.List;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -28,15 +26,6 @@ public class DatabaseConnector {
 	
 	public static void setSUClasses(List<SUClass> classes) throws SQLException{
 		Dao<SUClass,Integer> daoSUClass = setDB(SUClass.class);
-		Dao<Meeting, Integer> daoMeeting= setDB(Meeting.class);;
-		QueryBuilder<SUClass, Integer> qb = daoSUClass.queryBuilder();
-		qb.where().eq(SUClass.TERM_FIELD_NAME, classes.get(0).getTerm());
-		PreparedQuery<SUClass> prepared = qb.prepare();
-		Collection<SUClass> deletedClasses = daoSUClass.query(prepared);
-		for(SUClass deletedClass:deletedClasses){
-			daoMeeting.delete(deletedClass.getMeetings());
-		}
-		daoSUClass.delete(deletedClasses);
 		for(SUClass suClass: classes){
 			daoSUClass.create(suClass);
 		}
@@ -51,11 +40,11 @@ public class DatabaseConnector {
 		setDB(User.class).createOrUpdate(newUser);
 	}
 
-	private static <T> Dao<T, Integer> setDB(Class<T> class1) throws SQLException {
+	private static <T> Dao<T, Integer> setDB(Class<T> dataClass) throws SQLException {
 		
 		ConnectionSource source = new JdbcConnectionSource(DATABASE_URL);
-		Dao<T, Integer> returnVal = DaoManager.createDao(source, class1);
-		TableUtils.createTableIfNotExists(source, class1);
+		Dao<T, Integer> returnVal = DaoManager.createDao(source, dataClass);
+		TableUtils.createTableIfNotExists(source, dataClass);
 		return returnVal;
 	}
 
@@ -83,5 +72,11 @@ public class DatabaseConnector {
 	public static Collection<Meeting> getMeetings() throws SQLException {
 		Collection<Meeting> meetings = setDB(Meeting.class).queryForAll();
 		return meetings;
+	}
+	
+	public static <T> int clearTable(Class<T> dataClass) throws SQLException{
+		ConnectionSource source = new JdbcConnectionSource(DATABASE_URL);
+		TableUtils.createTableIfNotExists(source, dataClass);
+		return TableUtils.clearTable(source, dataClass);
 	}
 }

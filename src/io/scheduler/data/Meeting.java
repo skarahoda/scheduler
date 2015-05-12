@@ -16,7 +16,7 @@ public class Meeting {
 	public static final String DAY_FIELD_NAME = "day";
 	public static final String START_FIELD_NAME = "start";
 	public static final String END_FIELD_NAME = "end";
-	public static final String SUCLASS_CODE_FIELD_NAME = "suClassId";
+	public static final String SUCLASS_CODE_FIELD_NAME = "crn";
 	public static final String PLACE_FIELD_NAME = "place";
 	
 	@DatabaseField(generatedId = true)

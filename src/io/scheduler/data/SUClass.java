@@ -16,20 +16,12 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "suClasses")
 public class SUClass {
-
-	public static final String TERM_FIELD_NAME = "term";
 	public static final String CRN_FIELD_NAME = "crn";
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";
 	public static final String SECTION_FIELD_NAME = "section";
 	public static final String COURSE_CODE_FIELD_NAME = "courseCode";
 	
-	@DatabaseField(generatedId = true)
-	private int id;
-	
-	@DatabaseField(columnName =  TERM_FIELD_NAME, canBeNull = false)
-	private String term;
-	
-	@DatabaseField(columnName =  CRN_FIELD_NAME, canBeNull = false)
+	@DatabaseField(columnName =  CRN_FIELD_NAME, canBeNull = false, id = true)
 	private String crn;
 	
 	@DatabaseField(columnName =  INSTRUCTOR_FIELD_NAME, canBeNull = false, dataType=DataType.LONG_STRING)
@@ -57,20 +49,11 @@ public class SUClass {
 	 * @param section
 	 * @param course
 	 */
-	public SUClass(String term, String crn, String instructor, String section, Course course) {
-		this.term = term;
-		this.crn = crn;
-		this.instructorName = instructor;
-		this.section = section;
+	public SUClass(String crn, String instructor, String section, Course course) {
+		this.setCrn(crn);
+		this.setInstructorName(instructor);
+		this.setSection(section);
 		this.setCourse(course);
-	}
-
-	public String getTerm() {
-		return term;
-	}
-
-	public void setTerm(String term) {
-		this.term = term;
 	}
 
 	public String getCrn() {
