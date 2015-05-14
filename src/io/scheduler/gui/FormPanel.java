@@ -1,10 +1,17 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.handler.DatabaseConnector;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
+import javax.jws.Oneway;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,9 +44,32 @@ public class FormPanel extends JPanel {
 		
 		
 		gc.gridy = 1;
-		JButton btnAddClasses = new JButton("Add Classes");
+		JButton btnAddClasses = new JButton();
 		btnAddClasses.setBounds(263, 221, 134, 29);
 		this.add(btnAddClasses,gc);
+		
+		btnAddClasses.setAction(new AbstractAction("Add Classes") {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+				
+				try {
+					CourseFrame crsFrame = new CourseFrame(DatabaseConnector.getSUClasses());
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		
+		
 		
 		gc.gridy = 2;
 		JButton btnRemoveClasses = new JButton("Remove Classes");

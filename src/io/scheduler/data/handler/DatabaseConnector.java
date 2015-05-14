@@ -22,6 +22,7 @@ public class DatabaseConnector {
 	public static User getUser() throws SQLException{
 		List<User> users = setDB(User.class).queryForAll();
 		return (users.size() == 0) ? null : users.get(0);
+		
 	}
 	
 	public static void setSUClasses(List<SUClass> classes) throws SQLException{
@@ -35,6 +36,7 @@ public class DatabaseConnector {
 		Collection<SUClass> classes = setDB(SUClass.class).queryForAll();
 		return classes;
 	}
+
 	
 	public static void setUser(User newUser) throws SQLException{
 		setDB(User.class).createOrUpdate(newUser);
