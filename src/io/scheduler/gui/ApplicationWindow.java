@@ -50,7 +50,7 @@ public class ApplicationWindow {
 	public ApplicationWindow() {
 		initialize();
 		try {
-			this.mainUser = DatabaseConnector.getUser();
+			this.mainUser = DatabaseConnector.getFirst(User.class);
 			if(this.mainUser == null){
 				panelConfig.setVisible();
 			}else{

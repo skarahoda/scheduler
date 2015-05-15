@@ -1,10 +1,5 @@
 package io.scheduler.data.handler;
 
-import io.scheduler.data.Course;
-import io.scheduler.data.Meeting;
-import io.scheduler.data.SUClass;
-import io.scheduler.data.User;
-
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -18,27 +13,6 @@ import com.j256.ormlite.table.TableUtils;
 public class DatabaseConnector {
 	
 	private final static String DATABASE_URL = "jdbc:h2:file:./scheduler;mv_store=false";
-	
-	public static User getUser() throws SQLException{
-		List<User> users = setDB(User.class).queryForAll();
-		return (users.size() == 0) ? null : users.get(0);
-	}
-	
-	public static void setSUClasses(List<SUClass> classes) throws SQLException{
-		Dao<SUClass,Integer> daoSUClass = setDB(SUClass.class);
-		for(SUClass suClass: classes){
-			daoSUClass.create(suClass);
-		}
-	}
-	
-	public static Collection<SUClass> getSUClasses() throws SQLException{
-		Collection<SUClass> classes = setDB(SUClass.class).queryForAll();
-		return classes;
-	}
-	
-	public static void setUser(User newUser) throws SQLException{
-		setDB(User.class).createOrUpdate(newUser);
-	}
 
 	private static <T> Dao<T, Integer> setDB(Class<T> dataClass) throws SQLException {
 		
@@ -47,36 +21,39 @@ public class DatabaseConnector {
 		TableUtils.createTableIfNotExists(source, dataClass);
 		return returnVal;
 	}
-
-	public static void setCourses(Collection<Course> courses) throws SQLException {
-		Dao<Course, Integer> daoCourses = setDB(Course.class);
-		for(Course course: courses){
-			daoCourses.createIfNotExists(course);
-		}
-		
-	}	
-	
-	public static Collection<Course> getCourses() throws SQLException {
-		Collection<Course> courses = setDB(Course.class).queryForAll();
-		return courses;
-	}
-
-	public static void setMeetings(Collection<Meeting> meetings) throws SQLException {
-		Dao<Meeting, Integer> daoCourses = setDB(Meeting.class);
-		for(Meeting meeting: meetings){
-			daoCourses.createIfNotExists(meeting);
-		}
-		
-	}	
-	
-	public static Collection<Meeting> getMeetings() throws SQLException {
-		Collection<Meeting> meetings = setDB(Meeting.class).queryForAll();
-		return meetings;
-	}
 	
 	public static <T> int clearTable(Class<T> dataClass) throws SQLException{
 		ConnectionSource source = new JdbcConnectionSource(DATABASE_URL);
 		TableUtils.createTableIfNotExists(source, dataClass);
 		return TableUtils.clearTable(source, dataClass);
+	}
+	
+	public static <T> Collection<T> get(Class<T> dataClass) throws SQLException {
+		Collection<T> returnVal = DatabaseConnector.setDB(dataClass).queryForAll();
+		return returnVal;
+	}
+	
+	public static <T> T getFirst(Class<T> dataClass) throws SQLException {
+		List<T> list = DatabaseConnector.setDB(dataClass).queryForAll();
+		return (list.size() == 0) ? null : list.get(0);
+	}
+	
+	public static <T> void createIfNotExist(Collection<T> list, Class<T> dataClass) throws SQLException {
+		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
+		for(T item: list){
+			dao.createIfNotExists(item);
+		}	
+	}
+	
+	public static <T> void create(Collection<T> list, Class<T> dataClass) throws SQLException {
+		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
+		for(T item: list){
+			dao.create(item);
+		}	
+	}
+	
+	public static <T> void createOrUpdate(T item, Class<T> dataClass) throws SQLException {
+		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
+		dao.createOrUpdate(item);
 	}
 }

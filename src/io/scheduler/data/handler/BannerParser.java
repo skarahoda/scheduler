@@ -46,7 +46,7 @@ public class BannerParser {
 	 */
 	public static void getSUClasses(String term) throws IOException, SQLException{
 		List<SUClass> suClasses = new ArrayList<SUClass>();
-		Collection<Course> courses = DatabaseConnector.getCourses();
+		Collection<Course> courses = DatabaseConnector.get(Course.class);
 		Collection<Meeting> meetings = new ArrayList<Meeting>();
 		
 		//bannerweb connection
@@ -71,9 +71,9 @@ public class BannerParser {
 			Collection<Course> courses, Collection<Meeting> meetings) throws SQLException {
 		DatabaseConnector.clearTable(Meeting.class);
 		DatabaseConnector.clearTable(SUClass.class);
-		DatabaseConnector.setCourses(courses);
-		DatabaseConnector.setSUClasses(suClasses);
-		DatabaseConnector.setMeetings(meetings);
+		DatabaseConnector.createIfNotExist(courses, Course.class);
+		DatabaseConnector.create(suClasses, SUClass.class);
+		DatabaseConnector.create(meetings, Meeting.class);
 	}
 	private static void ParseForSUClass(Element header, Element details,
 			Collection<SUClass> suClasses, Collection<Course> courses, Collection<Meeting> meetings) {

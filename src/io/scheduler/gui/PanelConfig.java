@@ -82,7 +82,7 @@ public class PanelConfig extends CardPanel {
 	            		int year = Integer.parseInt(textField.getText());
 						int term = comboTerm.getSelectedIndex();
 	            		
-						User user = DatabaseConnector.getUser();
+						User user = DatabaseConnector.getFirst(User.class);
 						String currentTerm = Integer.toString(year)+"0"+  Integer.toString(term+1);
 						if(user==null){
 							user = new User(currentTerm);
@@ -91,7 +91,7 @@ public class PanelConfig extends CardPanel {
 							user.setCurrentTerm(currentTerm);
 						}
 						BannerParser.getSUClasses(user.getCurrentTerm());
-						DatabaseConnector.setUser(user);
+						DatabaseConnector.createOrUpdate(user, User.class);;
 					} catch (IllegalArgumentException e1) {
 						// TODO add logger
 						JPanel panel = new JPanel(new GridLayout(0, 1));
