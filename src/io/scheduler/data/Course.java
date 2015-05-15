@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "courses")
 public class Course {
-	
+
 	public static final String CODE_FIELD_NAME = "code";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String CREDIT_FIELD_NAME = "credit";
@@ -78,4 +78,19 @@ public class Course {
 		this.credit = credit;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    final Course other = (Course) obj;
+	    if ((this.code == null) ? (other.code != null) : !this.code.equals(other.code)) {
+	        return false;
+	    }
+	   
+	    return true;
+	}
 }
