@@ -44,6 +44,7 @@ public class PanelConfig extends CardPanel {
 		
 	}
 
+	@Override
 	protected void initialize() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -91,7 +92,6 @@ public class PanelConfig extends CardPanel {
 							user.setCurrentTerm(currentTerm);
 						}
 						BannerParser.getSUClasses(user.getCurrentTerm());
-						DatabaseConnector.createOrUpdate(user, User.class);;
 					} catch (IllegalArgumentException e1) {
 						// TODO add logger
 						JPanel panel = new JPanel(new GridLayout(0, 1));

@@ -83,7 +83,8 @@ public class CourseFrame{
 		
 		 ListDataListener listDataListener = new ListDataListener() {
 			 
-		      public void contentsChanged(ListDataEvent listDataEvent) {
+		      @Override
+			public void contentsChanged(ListDataEvent listDataEvent) {
 		        appendEvent(listDataEvent);
 		      }
 
@@ -131,7 +132,7 @@ public class CourseFrame{
 	        }
 	        System.out.println(", Index0: " + listDataEvent.getIndex0());
 	        System.out.println(", Index1: " + listDataEvent.getIndex1());
-	        DefaultListModel theModel = (DefaultListModel) listDataEvent.getSource();
+	        DefaultListModel<?> theModel = (DefaultListModel<?>) listDataEvent.getSource();
 	        System.out.println(theModel);
 	      }
 	    

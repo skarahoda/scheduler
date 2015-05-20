@@ -56,4 +56,10 @@ public class DatabaseConnector {
 		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
 		dao.createOrUpdate(item);
 	}
+
+	public static <T> void createIfNotExist(T item,
+			Class<T> dataClass) throws SQLException {
+		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
+		dao.createIfNotExists(item);
+	}
 }

@@ -1,5 +1,9 @@
 package io.scheduler.data;
 
+import java.sql.SQLException;
+
+import io.scheduler.data.handler.DatabaseConnector;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -21,19 +25,21 @@ public class Course {
 	private float credit;
 
 	/**
-	 * 
+	 * For ormlite
 	 */
-	public Course() {}
+	Course() {}
 
 	/**
 	 * @param code
 	 * @param name
 	 * @param credit
+	 * @throws SQLException 
 	 */
-	public Course(String code, String name, float credit) {
+	public Course(String code, String name, float credit) throws SQLException {
 		this.setCode(code);
 		this.setCredit(credit);
 		this.setName(name);
+		DatabaseConnector.createIfNotExist(this, Course.class);
 	}
 
 	/**

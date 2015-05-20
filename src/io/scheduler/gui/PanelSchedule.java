@@ -17,6 +17,7 @@ public class PanelSchedule extends CardPanel {
 	 */
 	private static final long serialVersionUID = 8525163294114489034L;
 
+	@Override
 	protected void initialize() {
 		//this.setBounds(12, 12, 424, 230);
 		

@@ -1,5 +1,8 @@
 package io.scheduler.data;
 
+import io.scheduler.data.handler.DatabaseConnector;
+
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -16,11 +19,15 @@ public class User {
 	@DatabaseField(columnName =  TERM_FIELD_NAME, canBeNull = false)
 	private String currentTerm;
 	
-	public User(){}
+	/**
+	 * For ormlite
+	 */
+	User(){}
 	
-	public User(String currentTerm) throws IllegalArgumentException{
+	public User(String currentTerm) throws IllegalArgumentException, SQLException{
 		validateTerm(currentTerm);
 	    this.currentTerm = currentTerm;
+	    DatabaseConnector.createIfNotExist(this, User.class);
 	}
 	
 	private void validateTerm(String term) throws IllegalArgumentException{
@@ -67,9 +74,10 @@ public class User {
 		return currentTerm;
 	}
 
-	public void setCurrentTerm(String currentTerm) throws IllegalArgumentException{
+	public void setCurrentTerm(String currentTerm) throws IllegalArgumentException, SQLException{
 		validateTerm(currentTerm);
 		this.currentTerm = currentTerm;
+		DatabaseConnector.createOrUpdate(this, User.class);
 	}
 
 }

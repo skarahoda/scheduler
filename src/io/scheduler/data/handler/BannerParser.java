@@ -3,18 +3,17 @@ package io.scheduler.data.handler;
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
+import io.scheduler.data.ScheduleSUClass;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
@@ -45,10 +44,8 @@ public class BannerParser {
 	 * @throws InterruptedException 
 	 */
 	public static void getSUClasses(String term) throws IOException, SQLException{
-		List<SUClass> suClasses = new ArrayList<SUClass>();
+		clearTables();
 		Collection<Course> courses = DatabaseConnector.get(Course.class);
-		Collection<Meeting> meetings = new ArrayList<Meeting>();
-		
 		//bannerweb connection
 		String bannerUrl = String.format(bannerUrlTemplate, term);
 		Document doc = Jsoup.connect(bannerUrl)
@@ -62,21 +59,18 @@ public class BannerParser {
 		while(i.hasNext()){
 			Element header = i.next();
 			Element details = i.next().child(0);
-			ParseForSUClass(header, details, suClasses, courses, meetings);
+			ParseForSUClass(header, details, courses);
 		}
-		BannerParser.saveToDb(suClasses, courses, meetings);
 
 	}
-	private static void saveToDb(List<SUClass> suClasses,
-			Collection<Course> courses, Collection<Meeting> meetings) throws SQLException {
+	private static void clearTables() throws SQLException {
+		DatabaseConnector.clearTable(ScheduleSUClass.class);
 		DatabaseConnector.clearTable(Meeting.class);
 		DatabaseConnector.clearTable(SUClass.class);
-		DatabaseConnector.createIfNotExist(courses, Course.class);
-		DatabaseConnector.create(suClasses, SUClass.class);
-		DatabaseConnector.create(meetings, Meeting.class);
 	}
+	
 	private static void ParseForSUClass(Element header, Element details,
-			Collection<SUClass> suClasses, Collection<Course> courses, Collection<Meeting> meetings) {
+			Collection<Course> courses) throws SQLException {
 		
 		String[] headerItems = header.text().split(" - ");
 		ListIterator<String> i = Arrays.asList(headerItems).listIterator(headerItems.length);
@@ -106,24 +100,22 @@ public class BannerParser {
 		courses.add(course);
 		tempSUClass = new SUClass(crn, instructor, section, course);
 		}
-		
-		suClasses.add(tempSUClass);
 
 		Elements meetingInfos = details.select("tr:has(td)");
 		for(Element meeting: meetingInfos){
-			Meeting tempMeeting = BannerParser.createMeeting(meeting, tempSUClass);
-			meetings.add(tempMeeting);
+			BannerParser.createMeeting(meeting, tempSUClass);
 		}
 		return;
 	}
 	
-	private static Meeting createMeeting(Element meeting, SUClass tempSUClass) {
+	private static void createMeeting(Element meeting, SUClass tempSUClass) throws SQLException {
 		Elements columns = meeting.children();
 		String[] times = columns.get(1).text().split(" - ");
 		String day = columns.get(2).text();
 		String place = columns.get(3).text();
 		if(times[0].equals("TBA")){
-			return new Meeting(null,null,"TBA",place,tempSUClass);
+			new Meeting(null,null,"TBA",place,tempSUClass);
+			return;
 		}
 		DateFormat format = new SimpleDateFormat("h:mm a");
 		Date start = null;
@@ -135,7 +127,7 @@ public class BannerParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Meeting(start,end,day,place,tempSUClass);
+		new Meeting(start,end,day,place,tempSUClass);
 	}
 	private static String getInstructor(Element element){
 		boolean canPrint = false;

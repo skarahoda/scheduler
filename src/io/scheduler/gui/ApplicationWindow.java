@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,6 +32,7 @@ public class ApplicationWindow {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {			
 					ApplicationWindow window = new ApplicationWindow();
@@ -96,6 +96,7 @@ public class ApplicationWindow {
 		
 		JMenuItem mntmSchedule = new JMenuItem("Schedule");
 		mntmSchedule.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelSchedule.setVisible();
 			}
@@ -107,6 +108,7 @@ public class ApplicationWindow {
 		
 		JMenuItem mntmGraduationSummary = new JMenuItem("Graduation Summary");
 		mntmGraduationSummary.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelGradSummary.setVisible();
 			}
@@ -118,6 +120,7 @@ public class ApplicationWindow {
 		
 		JMenuItem mntmHelp = new JMenuItem("Help");
 		mntmHelp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
@@ -125,6 +128,7 @@ public class ApplicationWindow {
 		
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
@@ -132,6 +136,7 @@ public class ApplicationWindow {
 		
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		mntmPreferences.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelConfig.setVisible();
 			}

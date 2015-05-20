@@ -3,6 +3,7 @@ package io.scheduler.gui;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class TablePanel extends JPanel{
@@ -43,7 +44,7 @@ public class TablePanel extends JPanel{
 	table1 = new JTable(mod_table);
 	JScrollPane scrollPane = new JScrollPane(table1);
 	scrollPane.setColumnHeaderView(table1.getTableHeader());
-	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 	 
 	add(scrollPane);
 	

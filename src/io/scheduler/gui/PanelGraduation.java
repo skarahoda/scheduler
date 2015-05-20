@@ -15,6 +15,7 @@ public class PanelGraduation extends CardPanel {
 	 */
 	private static final long serialVersionUID = -7469090239906011796L;
 	
+	@Override
 	protected void initialize(){
 		this.setBounds(12, 12, 424, 230);
 		JLabel lblGradSummary = new JLabel("Grad Summary");

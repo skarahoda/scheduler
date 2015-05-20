@@ -8,11 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
-import javax.jws.Oneway;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -63,7 +61,7 @@ public class FormPanel extends JPanel {
 				
 				
 				try {
-					CourseFrame crsFrame = new CourseFrame(DatabaseConnector.get(SUClass.class));
+					new CourseFrame(DatabaseConnector.get(SUClass.class));
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

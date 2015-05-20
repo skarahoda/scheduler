@@ -1,4 +1,7 @@
 package io.scheduler.data;
+import io.scheduler.data.handler.DatabaseConnector;
+
+import java.sql.SQLException;
 import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -38,17 +41,18 @@ public class Meeting {
 	private SUClass suClass;
 
 	/**
-	 * 
+	 * For ormlite
 	 */
-	public Meeting() {}
+	Meeting() {}
 	
-	public Meeting(Date s, Date e, String d, String p, SUClass suClass){
+	public Meeting(Date s, Date e, String d, String p, SUClass suClass) throws SQLException{
 		DayofWeek day = stringToDay(d);
 		this.setDay(day);
 		this.setStart(s);
 		this.setEnd(e);
 		this.setSuClass(suClass);
 		this.setPlace(p);
+		DatabaseConnector.createIfNotExist(this, Meeting.class);
 	}
 	
 	private DayofWeek stringToDay(String d){

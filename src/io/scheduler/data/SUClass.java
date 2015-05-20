@@ -3,6 +3,10 @@
  */
 package io.scheduler.data;
 
+import java.sql.SQLException;
+
+import io.scheduler.data.handler.DatabaseConnector;
+
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -37,9 +41,9 @@ public class SUClass {
 	private ForeignCollection<Meeting> meetings;
 
 	/**
-	 * 
+	 * For ormlite
 	 */
-	public SUClass() {}
+	SUClass() {}
 
 	/**
 	 * 
@@ -48,12 +52,14 @@ public class SUClass {
 	 * @param instructor
 	 * @param section
 	 * @param course
+	 * @throws SQLException 
 	 */
-	public SUClass(String crn, String instructor, String section, Course course) {
+	public SUClass(String crn, String instructor, String section, Course course) throws SQLException {
 		this.setCrn(crn);
 		this.setInstructorName(instructor);
 		this.setSection(section);
 		this.setCourse(course);
+		DatabaseConnector.createIfNotExist(this, SUClass.class);
 	}
 
 	public String getCrn() {
