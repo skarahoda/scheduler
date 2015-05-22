@@ -67,7 +67,6 @@ public class BannerParser {
 			Element details = i.next().child(0);
 			ParseForSUClass(header, details, courses);
 		}
-
 	}
 
 	private static void clearTables() throws SQLException {

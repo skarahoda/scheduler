@@ -55,7 +55,7 @@ public class User {
 		} catch (Exception e) {
 			return false;
 		}
-		if (year > currentYear + 1) {
+		if (year > currentYear + 1 || year < 2006) {
 			return false;
 		}
 

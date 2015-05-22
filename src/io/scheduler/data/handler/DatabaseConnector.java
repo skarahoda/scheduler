@@ -1,6 +1,7 @@
 package io.scheduler.data.handler;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,21 +15,38 @@ public class DatabaseConnector {
 
 	private final static String DATABASE_URL = "jdbc:h2:file:./scheduler;mv_store=false";
 	private static ConnectionSource source = null;
+	private static List<Class<?>> dataList;
 
 	private static <T> Dao<T, Integer> setDB(Class<T> dataClass)
 			throws SQLException {
-
-		if (DatabaseConnector.source == null)
-			DatabaseConnector.source = new JdbcConnectionSource(DATABASE_URL);
+		setSource();
 		Dao<T, Integer> returnVal = DaoManager.createDao(source, dataClass);
-		TableUtils.createTableIfNotExists(source, dataClass);
+		createTableIfNotExists(dataClass);
 		return returnVal;
 	}
 
+	private static void setSource() throws SQLException {
+		if (DatabaseConnector.source == null)
+			DatabaseConnector.source = new JdbcConnectionSource(DATABASE_URL);
+	}
+
 	public static <T> int clearTable(Class<T> dataClass) throws SQLException {
-		ConnectionSource source = new JdbcConnectionSource(DATABASE_URL);
-		TableUtils.createTableIfNotExists(source, dataClass);
-		return TableUtils.clearTable(source, dataClass);
+		setSource();
+		createTableIfNotExists(dataClass);
+		return TableUtils.clearTable(DatabaseConnector.source, dataClass);
+	}
+
+	private static <T> void createTableIfNotExists(Class<T> dataClass)
+			throws SQLException {
+		setSource();
+		if (dataList == null) {
+			dataList = new ArrayList<Class<?>>();
+		}
+		if (!dataList.contains(dataClass)) {
+			TableUtils.createTableIfNotExists(DatabaseConnector.source,
+					dataClass);
+			dataList.add(dataClass);
+		}
 	}
 
 	public static <T> Collection<T> get(Class<T> dataClass) throws SQLException {
