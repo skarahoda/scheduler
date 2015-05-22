@@ -1,7 +1,6 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.User;
-import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -9,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,14 +18,11 @@ import javax.swing.JPanel;
 
 public class ApplicationWindow {
 
-
 	private JFrame frameMain;
 	private JMenuBar menuBar;
 	private PanelSchedule panelSchedule;
 	private PanelGraduation panelGradSummary;
 	private PanelConfig panelConfig;
-	private User mainUser;
-	
 
 	/**
 	 * Launch the application.
@@ -34,7 +31,7 @@ public class ApplicationWindow {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				try {			
+				try {
 					ApplicationWindow window = new ApplicationWindow();
 					window.frameMain.setVisible(true);
 				} catch (Exception e) {
@@ -50,17 +47,17 @@ public class ApplicationWindow {
 	public ApplicationWindow() {
 		initialize();
 		try {
-			this.mainUser = DatabaseConnector.getFirst(User.class);
-			if(this.mainUser == null){
+			if (User.getCurrentTerm() == null) {
 				panelConfig.setVisible();
-			}else{
+			} else {
 				panelSchedule.setVisible();
 			}
 		} catch (SQLException e) {
 			// TODO add logger
 			JPanel panel = new JPanel(new GridLayout(0, 1));
-			JOptionPane.showMessageDialog(panel,
-				    "Database is already in use, please close the database connection.");
+			JOptionPane
+					.showMessageDialog(panel,
+							"Database is already in use, please close the database connection.");
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -70,13 +67,15 @@ public class ApplicationWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		initializeMainFrame();
 		initializeMenu();
-		
-		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),"graduation");
-		panelSchedule = new PanelSchedule(frameMain.getContentPane(),"schedule");
-		panelConfig = new PanelConfig(frameMain.getContentPane(),"config");
+
+		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),
+				"graduation");
+		panelSchedule = new PanelSchedule(frameMain.getContentPane(),
+				"schedule");
+		panelConfig = new PanelConfig(frameMain.getContentPane(), "config");
 	}
 
 	private void initializeMainFrame() {
@@ -90,10 +89,10 @@ public class ApplicationWindow {
 	private void initializeMenu() {
 		menuBar = new JMenuBar();
 		frameMain.setJMenuBar(menuBar);
-		
+
 		JMenu mnScheduler = new JMenu("Scheduler");
 		menuBar.add(mnScheduler);
-		
+
 		JMenuItem mntmSchedule = new JMenuItem("Schedule");
 		mntmSchedule.addActionListener(new ActionListener() {
 			@Override
@@ -102,10 +101,10 @@ public class ApplicationWindow {
 			}
 		});
 		mnScheduler.add(mntmSchedule);
-		
+
 		JMenu mnGraduation = new JMenu("Graduation Summary");
 		menuBar.add(mnGraduation);
-		
+
 		JMenuItem mntmGraduationSummary = new JMenuItem("Graduation Summary");
 		mntmGraduationSummary.addActionListener(new ActionListener() {
 			@Override
@@ -114,10 +113,10 @@ public class ApplicationWindow {
 			}
 		});
 		mnGraduation.add(mntmGraduationSummary);
-		
+
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
-		
+
 		JMenuItem mntmHelp = new JMenuItem("Help");
 		mntmHelp.addActionListener(new ActionListener() {
 			@Override
@@ -125,7 +124,7 @@ public class ApplicationWindow {
 			}
 		});
 		mnHelp.add(mntmHelp);
-		
+
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
 			@Override
@@ -133,7 +132,7 @@ public class ApplicationWindow {
 			}
 		});
 		mnHelp.add(mntmAbout);
-		
+
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		mntmPreferences.addActionListener(new ActionListener() {
 			@Override
@@ -142,7 +141,7 @@ public class ApplicationWindow {
 			}
 		});
 		mnHelp.add(mntmPreferences);
-		
+
 	}
-	
+
 }

@@ -19,19 +19,19 @@ public class PanelSchedule extends CardPanel {
 
 	@Override
 	protected void initialize() {
-		//this.setBounds(12, 12, 424, 230);
-		
+		// this.setBounds(12, 12, 424, 230);
+
 		this.setLayout(new BorderLayout());
-		
+
 		FormPanel frm = new FormPanel();
-		
-		this.add(frm,BorderLayout.LINE_END);
-		
+
+		this.add(frm, BorderLayout.LINE_END);
+
 		JTabbedPane tabbedPane = new JTabbedPane();
 		TablePanel scheduleTable = new TablePanel();
 		tabbedPane.addTab("Schedule", scheduleTable);
-		this.add(tabbedPane,BorderLayout.WEST);
-		
+		this.add(tabbedPane, BorderLayout.WEST);
+
 		JList<?> list = new JList<Object>();
 		this.add(list);
 	}

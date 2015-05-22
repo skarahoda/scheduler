@@ -14,13 +14,12 @@ public class PanelGraduation extends CardPanel {
 	 * auto generated serial version UID
 	 */
 	private static final long serialVersionUID = -7469090239906011796L;
-	
+
 	@Override
-	protected void initialize(){
+	protected void initialize() {
 		this.setBounds(12, 12, 424, 230);
 		JLabel lblGradSummary = new JLabel("Grad Summary");
 		this.add(lblGradSummary);
 	}
-	
 
 }
