@@ -1,8 +1,8 @@
 package io.scheduler.data;
 
-import java.sql.SQLException;
-
 import io.scheduler.data.handler.DatabaseConnector;
+
+import java.sql.SQLException;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -13,27 +13,27 @@ public class Course {
 	public static final String CODE_FIELD_NAME = "code";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String CREDIT_FIELD_NAME = "credit";
-	
-	
-	@DatabaseField(columnName =  CODE_FIELD_NAME, canBeNull = false, id = true)
+
+	@DatabaseField(columnName = CODE_FIELD_NAME, canBeNull = false, id = true)
 	private String code;
-	
-	@DatabaseField(columnName =  NAME_FIELD_NAME, canBeNull = false)
+
+	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
-	
-	@DatabaseField(columnName =  CREDIT_FIELD_NAME, canBeNull = false)
+
+	@DatabaseField(columnName = CREDIT_FIELD_NAME, canBeNull = false)
 	private float credit;
 
 	/**
 	 * For ormlite
 	 */
-	Course() {}
+	Course() {
+	}
 
 	/**
 	 * @param code
 	 * @param name
 	 * @param credit
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public Course(String code, String name, float credit) throws SQLException {
 		this.setCode(code);
@@ -50,9 +50,10 @@ public class Course {
 	}
 
 	/**
-	 * @param code the code to set
+	 * @param code
+	 *            the code to set
 	 */
-	public void setCode(String code) {
+	private void setCode(String code) {
 		this.code = code;
 	}
 
@@ -64,9 +65,10 @@ public class Course {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 
@@ -78,25 +80,27 @@ public class Course {
 	}
 
 	/**
-	 * @param credit the credit to set
+	 * @param credit
+	 *            the credit to set
 	 */
-	public void setCredit(float credit) {
+	private void setCredit(float credit) {
 		this.credit = credit;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-	    if (obj == null) {
-	        return false;
-	    }
-	    if (getClass() != obj.getClass()) {
-	        return false;
-	    }
-	    final Course other = (Course) obj;
-	    if ((this.code == null) ? (other.code != null) : !this.code.equals(other.code)) {
-	        return false;
-	    }
-	   
-	    return true;
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Course other = (Course) obj;
+		if ((this.code == null) ? (other.code != null) : !this.code
+				.equals(other.code)) {
+			return false;
+		}
+
+		return true;
 	}
 }

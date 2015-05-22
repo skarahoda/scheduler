@@ -1,4 +1,5 @@
 package io.scheduler.data;
+
 import io.scheduler.data.handler.DatabaseConnector;
 
 import java.sql.SQLException;
@@ -14,58 +15,68 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "meetings")
 public class Meeting {
-	private enum DayofWeek { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, TBA}
+	private enum DayofWeek {
+		MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, TBA
+	}
 
 	public static final String DAY_FIELD_NAME = "day";
 	public static final String START_FIELD_NAME = "start";
 	public static final String END_FIELD_NAME = "end";
 	public static final String SUCLASS_CODE_FIELD_NAME = "crn";
 	public static final String PLACE_FIELD_NAME = "place";
-	
+
 	@DatabaseField(generatedId = true)
 	private int id;
-	
-	@DatabaseField(columnName =  DAY_FIELD_NAME)
+
+	@DatabaseField(columnName = DAY_FIELD_NAME)
 	private DayofWeek day;
-	
-	@DatabaseField(columnName =  START_FIELD_NAME)
+
+	@DatabaseField(columnName = START_FIELD_NAME)
 	private Date start;
-	
-	@DatabaseField(columnName =  END_FIELD_NAME)
+
+	@DatabaseField(columnName = END_FIELD_NAME)
 	private Date end;
-	
-	@DatabaseField(columnName =  PLACE_FIELD_NAME)
+
+	@DatabaseField(columnName = PLACE_FIELD_NAME)
 	private String place;
-	
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = SUCLASS_CODE_FIELD_NAME, canBeNull=false)
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = SUCLASS_CODE_FIELD_NAME, canBeNull = false)
 	private SUClass suClass;
 
 	/**
 	 * For ormlite
 	 */
-	Meeting() {}
-	
-	public Meeting(Date s, Date e, String d, String p, SUClass suClass) throws SQLException{
-		DayofWeek day = stringToDay(d);
-		this.setDay(day);
+	Meeting() {
+	}
+
+	public Meeting(Date s, Date e, String d, String p, SUClass suClass)
+			throws SQLException {
+		this.setDay(d);
 		this.setStart(s);
 		this.setEnd(e);
 		this.setSuClass(suClass);
 		this.setPlace(p);
 		DatabaseConnector.createIfNotExist(this, Meeting.class);
 	}
-	
-	private DayofWeek stringToDay(String d){
-		if(d == null || d.equals("TBA"))
+
+	private DayofWeek stringToDay(String d) {
+		if (d == null || d.equals("TBA"))
 			return DayofWeek.TBA;
-		switch(d.charAt(0)){
-		case 'M': return DayofWeek.MONDAY;
-		case 'T': return DayofWeek.TUESDAY;
-		case 'W': return DayofWeek.WEDNESDAY;
-		case 'R': return DayofWeek.THURSDAY;
-		case 'F': return DayofWeek.FRIDAY;
-		case 'S': return DayofWeek.SATURDAY;
-		default: throw  new IllegalArgumentException(d);
+		switch (d.charAt(0)) {
+		case 'M':
+			return DayofWeek.MONDAY;
+		case 'T':
+			return DayofWeek.TUESDAY;
+		case 'W':
+			return DayofWeek.WEDNESDAY;
+		case 'R':
+			return DayofWeek.THURSDAY;
+		case 'F':
+			return DayofWeek.FRIDAY;
+		case 'S':
+			return DayofWeek.SATURDAY;
+		default:
+			throw new IllegalArgumentException(d);
 		}
 	}
 
@@ -77,9 +88,10 @@ public class Meeting {
 	}
 
 	/**
-	 * @param end the end to set
+	 * @param end
+	 *            the end to set
 	 */
-	public void setEnd(Date end) {
+	private void setEnd(Date end) {
 		this.end = end;
 	}
 
@@ -91,10 +103,11 @@ public class Meeting {
 	}
 
 	/**
-	 * @param day the day to set
+	 * @param d
+	 *            the day to set
 	 */
-	public void setDay(DayofWeek day) {
-		this.day = day;
+	private void setDay(String d) {
+		this.day = stringToDay(d);
 	}
 
 	/**
@@ -105,9 +118,10 @@ public class Meeting {
 	}
 
 	/**
-	 * @param start the start to set
+	 * @param start
+	 *            the start to set
 	 */
-	public void setStart(Date start) {
+	private void setStart(Date start) {
 		this.start = start;
 	}
 
@@ -119,9 +133,10 @@ public class Meeting {
 	}
 
 	/**
-	 * @param suClass the suClass to set
+	 * @param suClass
+	 *            the suClass to set
 	 */
-	public void setSuClass(SUClass suClass) {
+	private void setSuClass(SUClass suClass) {
 		this.suClass = suClass;
 	}
 
@@ -133,11 +148,11 @@ public class Meeting {
 	}
 
 	/**
-	 * @param place the place to set
+	 * @param place
+	 *            the place to set
 	 */
-	public void setPlace(String place) {
+	private void setPlace(String place) {
 		this.place = place;
 	}
-	
-	
+
 }

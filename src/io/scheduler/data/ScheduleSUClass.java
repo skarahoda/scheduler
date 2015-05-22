@@ -1,8 +1,8 @@
 package io.scheduler.data;
 
-import java.sql.SQLException;
-
 import io.scheduler.data.handler.DatabaseConnector;
+
+import java.sql.SQLException;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -18,29 +18,46 @@ public class ScheduleSUClass {
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = CRN_FIELD_NAME, canBeNull = false)
 	private SUClass suClass;
-	
+
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = SCHEDULE_FIELD_NAME, canBeNull = false)
 	private Schedule schedule;
 
-	ScheduleSUClass() {}
+	ScheduleSUClass() {
+	}
 
 	ScheduleSUClass(SUClass suClass, Schedule schedule) throws SQLException {
-		this.suClass = suClass;
-		this.schedule = schedule;
+		this.setSuClass(suClass);
+		this.setSchedule(schedule);
 		DatabaseConnector.createIfNotExist(this, ScheduleSUClass.class);
 	}
 
 	/**
 	 * @return the suClass
 	 */
-	SUClass getSuClass() {
+	public SUClass getSuClass() {
 		return suClass;
 	}
 
 	/**
-	 * @param suClass the suClass to set
+	 * @param suClass
+	 *            the suClass to set
 	 */
-	void setSuClass(SUClass suClass) {
+	private void setSuClass(SUClass suClass) {
 		this.suClass = suClass;
+	}
+
+	/**
+	 * @return the schedule
+	 */
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	/**
+	 * @param schedule
+	 *            the schedule to set
+	 */
+	private void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
 	}
 }

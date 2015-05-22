@@ -3,9 +3,9 @@
  */
 package io.scheduler.data;
 
-import java.sql.SQLException;
-
 import io.scheduler.data.handler.DatabaseConnector;
+
+import java.sql.SQLException;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -24,16 +24,16 @@ public class SUClass {
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";
 	public static final String SECTION_FIELD_NAME = "section";
 	public static final String COURSE_CODE_FIELD_NAME = "courseCode";
-	
-	@DatabaseField(columnName =  CRN_FIELD_NAME, canBeNull = false, id = true)
+
+	@DatabaseField(columnName = CRN_FIELD_NAME, canBeNull = false, id = true)
 	private String crn;
-	
-	@DatabaseField(columnName =  INSTRUCTOR_FIELD_NAME, canBeNull = false, dataType=DataType.LONG_STRING)
+
+	@DatabaseField(columnName = INSTRUCTOR_FIELD_NAME, canBeNull = false, dataType = DataType.LONG_STRING)
 	private String instructorName;
-	
-	@DatabaseField(columnName =  SECTION_FIELD_NAME, canBeNull = false)
+
+	@DatabaseField(columnName = SECTION_FIELD_NAME, canBeNull = false)
 	private String section;
-	
+
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME)
 	private Course course;
 
@@ -43,7 +43,8 @@ public class SUClass {
 	/**
 	 * For ormlite
 	 */
-	SUClass() {}
+	SUClass() {
+	}
 
 	/**
 	 * 
@@ -52,9 +53,10 @@ public class SUClass {
 	 * @param instructor
 	 * @param section
 	 * @param course
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	public SUClass(String crn, String instructor, String section, Course course) throws SQLException {
+	public SUClass(String crn, String instructor, String section, Course course)
+			throws SQLException {
 		this.setCrn(crn);
 		this.setInstructorName(instructor);
 		this.setSection(section);
@@ -66,7 +68,7 @@ public class SUClass {
 		return crn;
 	}
 
-	public void setCrn(String crn) {
+	private void setCrn(String crn) {
 		this.crn = crn;
 	}
 
@@ -74,11 +76,10 @@ public class SUClass {
 		return instructorName;
 	}
 
-	public void setInstructorName(String instructorName) {
+	private void setInstructorName(String instructorName) {
 		this.instructorName = instructorName;
 	}
-	
-	
+
 	/**
 	 * @return the section
 	 */
@@ -87,9 +88,10 @@ public class SUClass {
 	}
 
 	/**
-	 * @param section the section to set
+	 * @param section
+	 *            the section to set
 	 */
-	public void setSection(String section) {
+	private void setSection(String section) {
 		this.section = section;
 	}
 
@@ -101,9 +103,10 @@ public class SUClass {
 	}
 
 	/**
-	 * @param course the course to set
+	 * @param course
+	 *            the course to set
 	 */
-	public void setCourse(Course course) {
+	private void setCourse(Course course) {
 		this.course = course;
 	}
 
