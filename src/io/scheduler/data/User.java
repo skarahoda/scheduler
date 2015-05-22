@@ -10,74 +10,83 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "users")
 public class User {
-	
+
 	public static final String TERM_FIELD_NAME = "currentTerm";
-	
+
 	@DatabaseField(generatedId = true)
 	private int id;
-	
-	@DatabaseField(columnName =  TERM_FIELD_NAME, canBeNull = false)
+
+	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false)
 	private String currentTerm;
-	
+
+	private static User singleton = null;
+
 	/**
 	 * For ormlite
 	 */
-	User(){}
-	
-	public User(String currentTerm) throws IllegalArgumentException, SQLException{
-		validateTerm(currentTerm);
-	    this.currentTerm = currentTerm;
-	    DatabaseConnector.createIfNotExist(this, User.class);
+	User() {
 	}
-	
-	private void validateTerm(String term) throws IllegalArgumentException{
-		if(!isTermValid(term)){
-			throw new IllegalArgumentException("term:("+ term +") is invalid.");
+
+	private User(String currentTerm) throws IllegalArgumentException,
+			SQLException {
+		DatabaseConnector.clearTable(User.class);
+		this.currentTerm = currentTerm;
+		DatabaseConnector.createIfNotExist(this, User.class);
+	}
+
+	private static void validateTerm(String term)
+			throws IllegalArgumentException {
+		if (!isTermValid(term)) {
+			throw new IllegalArgumentException("term:(" + term
+					+ ") is invalid.");
 		}
 	}
-	
-	private boolean isTermValid(String term_and_year){
-		
+
+	private static boolean isTermValid(String term_and_year) {
+
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		
-		if(term_and_year.length() != 6){
+
+		if (term_and_year.length() != 6) {
 			return false;
 		}
 		int year;
 		try {
 			year = Integer.parseInt(term_and_year.substring(0, 4));
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return false;
 		}
-		if( year > currentYear+1    ){
+		if (year > currentYear + 1) {
 			return false;
 		}
-		
-		
-		
+
 		int term;
-		try{
-		term = Integer.parseInt(term_and_year.substring(4));
-		}
-		catch(Exception e){
+		try {
+			term = Integer.parseInt(term_and_year.substring(4));
+		} catch (Exception e) {
 			return false;
 		}
-		if(term < 1 && term >4){
+		if (term < 1 && term > 4) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	public String getCurrentTerm() {
-		return currentTerm;
+
+	public static String getCurrentTerm() throws SQLException {
+		singleton = DatabaseConnector.getFirst(User.class);
+		return singleton == null ? null : singleton.currentTerm;
 	}
 
-	public void setCurrentTerm(String currentTerm) throws IllegalArgumentException, SQLException{
+	public static void setCurrentTerm(String currentTerm)
+			throws IllegalArgumentException, SQLException {
 		validateTerm(currentTerm);
-		this.currentTerm = currentTerm;
-		DatabaseConnector.createOrUpdate(this, User.class);
+		singleton = DatabaseConnector.getFirst(User.class);
+		if (singleton == null) {
+			singleton = new User(currentTerm);
+		} else {
+			singleton.currentTerm = currentTerm;
+		}
+		DatabaseConnector.createOrUpdate(singleton, User.class);
 	}
 
 }
