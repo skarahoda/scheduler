@@ -1,6 +1,5 @@
 package io.scheduler.gui;
 
-import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
 
 import java.awt.Container;
@@ -8,15 +7,18 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.text.MaskFormatter;
 
 /**
  * @author skarahoda
@@ -49,8 +51,13 @@ public class PanelConfig extends CardPanel {
 
 		JLabel lblTerm = new JLabel("Term:");
 		add(lblTerm);
-
-		textField = new JTextField();
+		try {
+			MaskFormatter formatter = new MaskFormatter("####");
+			textField = new JFormattedTextField(formatter);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		springLayout.putConstraint(SpringLayout.NORTH, textField, 41,
 				SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, textField, 59,
@@ -62,7 +69,7 @@ public class PanelConfig extends CardPanel {
 		add(textField);
 		textField.setColumns(10);
 
-		String[] petStrings = { "Fall", "Spring", "Summer" };
+		String[] petStrings = { "Fall", "Spring" };
 		final JComboBox<String> comboTerm = new JComboBox<String>(petStrings);
 		springLayout.putConstraint(SpringLayout.NORTH, comboTerm, 0,
 				SpringLayout.NORTH, lblTerm);
@@ -89,10 +96,8 @@ public class PanelConfig extends CardPanel {
 					int year = Integer.parseInt(textField.getText());
 					int term = comboTerm.getSelectedIndex();
 
-					String currentTerm = Integer.toString(year) + "0"
-							+ Integer.toString(term + 1);
-					User.setCurrentTerm(currentTerm);
-					BannerParser.getSUClasses(User.getCurrentTerm());
+					int currentTerm = (year * 100) + term + 1;
+					BannerParser.parse(currentTerm);
 				} catch (IllegalArgumentException e1) {
 					// TODO add logger
 					JPanel panel = new JPanel(new GridLayout(0, 1));

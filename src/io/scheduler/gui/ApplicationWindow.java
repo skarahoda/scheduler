@@ -47,7 +47,7 @@ public class ApplicationWindow {
 	public ApplicationWindow() {
 		initialize();
 		try {
-			if (User.getCurrentTerm() == null) {
+			if (User.getCurrentTerm() == -1) {
 				panelConfig.setVisible();
 			} else {
 				panelSchedule.setVisible();

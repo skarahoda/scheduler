@@ -17,7 +17,7 @@ public class User {
 	private int id;
 
 	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false)
-	private String currentTerm;
+	private int currentTerm;
 
 	private static User singleton = null;
 
@@ -27,58 +27,46 @@ public class User {
 	User() {
 	}
 
-	private User(String currentTerm) throws IllegalArgumentException,
-			SQLException {
+	private User(int currentTerm) throws IllegalArgumentException, SQLException {
 		DatabaseConnector.clearTable(User.class);
 		this.currentTerm = currentTerm;
 		DatabaseConnector.createIfNotExist(this, User.class);
 	}
 
-	private static void validateTerm(String term)
-			throws IllegalArgumentException {
+	private static void validateTerm(int term) throws IllegalArgumentException {
 		if (!isTermValid(term)) {
 			throw new IllegalArgumentException("term:(" + term
 					+ ") is invalid.");
 		}
 	}
 
-	private static boolean isTermValid(String term_and_year) {
+	private static boolean isTermValid(int term_and_year) {
 
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
-		if (term_and_year.length() != 6) {
+		if ((currentYear + 2) * 100 < term_and_year) {
 			return false;
 		}
-		int year;
-		try {
-			year = Integer.parseInt(term_and_year.substring(0, 4));
-		} catch (Exception e) {
+		if (200602 > term_and_year) {
 			return false;
 		}
-		if (year > currentYear + 1 || year < 2006) {
+		if (2 < (term_and_year % 100)) {
 			return false;
 		}
-
-		int term;
-		try {
-			term = Integer.parseInt(term_and_year.substring(4));
-		} catch (Exception e) {
-			return false;
-		}
-		if (term < 1 && term > 4) {
-			return false;
-		}
-
 		return true;
 	}
 
-	public static String getCurrentTerm() throws SQLException {
+	public static int getCurrentTerm() throws SQLException {
 		singleton = DatabaseConnector.getFirst(User.class);
-		return singleton == null ? null : singleton.currentTerm;
+		return singleton == null ? -1 : singleton.currentTerm;
 	}
 
-	public static void setCurrentTerm(String currentTerm)
+	public static void setCurrentTerm(int currentTerm)
 			throws IllegalArgumentException, SQLException {
+		if (currentTerm == -1) {
+			DatabaseConnector.clearTable(User.class);
+			return;
+		}
 		validateTerm(currentTerm);
 		singleton = DatabaseConnector.getFirst(User.class);
 		if (singleton == null) {

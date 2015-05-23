@@ -60,8 +60,6 @@ public class Meeting {
 	}
 
 	private DayofWeek stringToDay(String d) {
-		if (d == null || d.equals("TBA"))
-			return DayofWeek.TBA;
 		switch (d.charAt(0)) {
 		case 'M':
 			return DayofWeek.MONDAY;

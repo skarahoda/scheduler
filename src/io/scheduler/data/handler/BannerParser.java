@@ -4,6 +4,7 @@ import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.ScheduleSUClass;
+import io.scheduler.data.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class BannerParser {
 	/**
 	 * constant URL for web site of course list.
 	 */
-	private static final String bannerUrlTemplate = "http://hweb.sabanciuniv.edu/schedule%s.html";
+	private static final String bannerUrlTemplate = "http://hweb.sabanciuniv.edu/schedule%d.html";
 
 	/**
 	 * @param term
@@ -49,23 +50,30 @@ public class BannerParser {
 	 *             may be already using.
 	 * @throws InterruptedException
 	 */
-	public static void getSUClasses(String term) throws IOException,
-			SQLException {
-		clearTables();
-		Collection<Course> courses = DatabaseConnector.get(Course.class);
-		// bannerweb connection
-		String bannerUrl = String.format(bannerUrlTemplate, term);
-		Document doc = Jsoup.connect(bannerUrl).maxBodySize(0).get();
+	public static void parse(int term) throws IOException, SQLException,
+			IllegalArgumentException {
+		try {
+			User.setCurrentTerm(term);
+			clearTables();
+			Collection<Course> courses = DatabaseConnector.get(Course.class);
+			// bannerweb connection
+			String bannerUrl = String.format(bannerUrlTemplate, term);
+			Document doc = Jsoup.connect(bannerUrl).maxBodySize(0).get();
 
-		Elements rows = doc
-				.select("[summary=\"This layout table is used to present the sections found\"]")
-				.first().children().get(1).children();
-		Iterator<Element> i = rows.iterator();
+			Elements rows = doc
+					.select("[summary=\"This layout table is used to present the sections found\"]")
+					.first().children().get(1).children();
+			Iterator<Element> i = rows.iterator();
 
-		while (i.hasNext()) {
-			Element header = i.next();
-			Element details = i.next().child(0);
-			ParseForSUClass(header, details, courses);
+			while (i.hasNext()) {
+				Element header = i.next();
+				Element details = i.next().child(0);
+				ParseForSUClass(header, details, courses);
+			}
+		} catch (Exception e) {
+			clearTables();
+			User.setCurrentTerm(-1);
+			throw e;
 		}
 	}
 
@@ -123,7 +131,6 @@ public class BannerParser {
 		String day = columns.get(2).text();
 		String place = columns.get(3).text();
 		if (times[0].equals("TBA")) {
-			new Meeting(null, null, "TBA", place, tempSUClass);
 			return;
 		}
 		DateFormat format = new SimpleDateFormat("h:mm a");
@@ -136,7 +143,8 @@ public class BannerParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Meeting(start, end, day, place, tempSUClass);
+		if(start != null && end != null)
+			new Meeting(start, end, day, place, tempSUClass);
 	}
 
 	private static String getInstructor(Element element) {
