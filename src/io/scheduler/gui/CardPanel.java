@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Container;
 
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 /**
  * @author skarahoda
@@ -45,10 +44,5 @@ public abstract class CardPanel extends JPanel {
 	}
 
 	protected abstract void initialize();
-
-	public void ButtonTabComponent(JTabbedPane pane) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -86,7 +86,7 @@ public class PanelTimeTable extends JPanel {
 
 	private void clearTable() {
 		for (int i = 0; i < modelTimeTable.getRowCount(); i++) {
-			for (int j = 0; j < modelTimeTable.getColumnCount(); j++) {
+			for (int j = 1; j < modelTimeTable.getColumnCount(); j++) {
 				modelTimeTable.setValueAt("", i, j);
 			}
 
