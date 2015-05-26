@@ -3,8 +3,6 @@
  */
 package io.scheduler.data;
 
-import io.scheduler.data.handler.DatabaseConnector;
-
 import java.sql.SQLException;
 import java.util.Calendar;
 
@@ -18,15 +16,15 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "program")
 public class Program {
 
-	public static final String ENTER_YEAR_FIELD_NAME = "enterence_year";
+	public static final String ENTER_TERM_FIELD_NAME = "enterence_term";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String IS_UG_FIELD_NAME = "is_ug";
 
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(columnName = ENTER_YEAR_FIELD_NAME, canBeNull = false)
-	private int enterYear;
+	@DatabaseField(columnName = ENTER_TERM_FIELD_NAME, canBeNull = false)
+	private int enterTerm;
 
 	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
@@ -41,44 +39,48 @@ public class Program {
 	}
 
 	/**
-	 * @param enterYear
+	 * @param enterTerm
 	 * @param name
 	 * @param level
 	 * @throws SQLException
 	 */
-	Program(int enterYear, String name, boolean isUG)
+	public Program(int enterTerm, String name, boolean isUG)
 			throws IllegalArgumentException, SQLException {
-		this.setEnterYear(enterYear);
+		this.setEnterTerm(enterTerm);
 		this.setName(name);
 		this.setIsUG(isUG);
 		DatabaseConnector.createIfNotExist(this, Program.class);
 	}
 
 	/**
-	 * @return the enterYear
+	 * @return the enterTerm
 	 */
-	public int getEnterYear() {
-		return enterYear;
+	public int getEnterTerm() {
+		return enterTerm;
 	}
 
 	/**
-	 * @param enterYear
-	 *            the enterYear to set
+	 * @param enterTerm
+	 *            the enterTerm to set
 	 */
-	private void setEnterYear(int enterYear) throws IllegalArgumentException {
-		validateYear(enterYear);
-		this.enterYear = enterYear;
+	private void setEnterTerm(int enterTerm) throws IllegalArgumentException {
+		validateTerm(enterTerm);
+		this.enterTerm = enterTerm;
 	}
 
-	private void validateYear(int enterYear) throws IllegalArgumentException {
-		if (enterYear < 1999) {
-			throw new IllegalArgumentException("enterYear:(" + enterYear
+	private void validateTerm(int enterTerm) throws IllegalArgumentException {
+		if (enterTerm < 199901) {
+			throw new IllegalArgumentException("enterTerm:(" + enterTerm
 					+ ") is less than 1999.");
 		}
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		if (currentYear + 1 < enterYear) {
-			throw new IllegalArgumentException("enterYear:(" + enterYear
+		if ((currentYear + 2) * 100 < enterTerm) {
+			throw new IllegalArgumentException("enterTerm:(" + enterTerm
 					+ ") is higher than next year.");
+		}
+		if (2 < (enterTerm % 100)) {
+			throw new IllegalArgumentException("enterTerm:(" + enterTerm
+					+ ") last two digit is not valid.");
 		}
 	}
 
