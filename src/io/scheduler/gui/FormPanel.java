@@ -1,7 +1,7 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.SUClass;
-import io.scheduler.data.handler.DatabaseConnector;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

@@ -3,8 +3,6 @@
  */
 package io.scheduler.data;
 
-import io.scheduler.data.handler.DatabaseConnector;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;

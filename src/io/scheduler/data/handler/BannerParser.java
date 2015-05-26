@@ -1,6 +1,7 @@
 package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.ScheduleSUClass;
@@ -100,26 +101,12 @@ public class BannerParser {
 		if (instructor.equals(""))
 			instructor = "TBA";
 
-		boolean courseFound = false;
-		SUClass tempSUClass = null;
-		for (Course course : courses) {
-			if (course.getCode().equals(courseCode)) {
-				tempSUClass = new SUClass(crn, instructor, section, course);
-				courseFound = true;
-				break;
-			}
-		}
+		Course course = Course.get(courseCode, courseName, getCredit(details));
 
-		if (!courseFound) {
-			Course course = new Course(courseCode, courseName,
-					getCredit(details));
-			courses.add(course);
-			tempSUClass = new SUClass(crn, instructor, section, course);
-		}
-
+		SUClass suClass = new SUClass(crn, instructor, section, course);
 		Elements meetingInfos = details.select("tr:has(td)");
 		for (Element meeting : meetingInfos) {
-			BannerParser.createMeeting(meeting, tempSUClass);
+			BannerParser.createMeeting(meeting, suClass);
 		}
 		return;
 	}
@@ -143,7 +130,7 @@ public class BannerParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(start != null && end != null)
+		if (start != null && end != null)
 			new Meeting(start, end, day, place, tempSUClass);
 	}
 

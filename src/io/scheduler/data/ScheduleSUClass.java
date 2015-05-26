@@ -1,7 +1,5 @@
 package io.scheduler.data;
 
-import io.scheduler.data.handler.DatabaseConnector;
-
 import java.sql.SQLException;
 
 import com.j256.ormlite.field.DatabaseField;

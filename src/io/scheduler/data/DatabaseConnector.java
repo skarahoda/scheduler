@@ -1,8 +1,7 @@
-package io.scheduler.data.handler;
+package io.scheduler.data;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
@@ -49,9 +48,8 @@ public class DatabaseConnector {
 		}
 	}
 
-	public static <T> Collection<T> get(Class<T> dataClass) throws SQLException {
-		Collection<T> returnVal = DatabaseConnector.setDB(dataClass)
-				.queryForAll();
+	public static <T> List<T> get(Class<T> dataClass) throws SQLException {
+		List<T> returnVal = DatabaseConnector.setDB(dataClass).queryForAll();
 		return returnVal;
 	}
 
@@ -60,29 +58,13 @@ public class DatabaseConnector {
 		return (list.size() == 0) ? null : list.get(0);
 	}
 
-	public static <T> void createIfNotExist(Collection<T> list,
-			Class<T> dataClass) throws SQLException {
-		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
-		for (T item : list) {
-			dao.createIfNotExists(item);
-		}
-	}
-
-	public static <T> void create(Collection<T> list, Class<T> dataClass)
-			throws SQLException {
-		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
-		for (T item : list) {
-			dao.create(item);
-		}
-	}
-
-	public static <T> void createOrUpdate(T item, Class<T> dataClass)
+	static <T> void createOrUpdate(T item, Class<T> dataClass)
 			throws SQLException {
 		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
 		dao.createOrUpdate(item);
 	}
 
-	public static <T> void createIfNotExist(T item, Class<T> dataClass)
+	static <T> void createIfNotExist(T item, Class<T> dataClass)
 			throws SQLException {
 		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
 		dao.createIfNotExists(item);

@@ -1,8 +1,8 @@
 package io.scheduler.data;
 
-import io.scheduler.data.handler.DatabaseConnector;
-
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -23,6 +23,8 @@ public class Course {
 	@DatabaseField(columnName = CREDIT_FIELD_NAME, canBeNull = false)
 	private float credit;
 
+	private static HashMap<String, Course> courseMap = null;
+
 	/**
 	 * For ormlite
 	 */
@@ -35,11 +37,31 @@ public class Course {
 	 * @param credit
 	 * @throws SQLException
 	 */
-	public Course(String code, String name, float credit) throws SQLException {
+	private Course(String code, String name, float credit) {
 		this.setCode(code);
 		this.setCredit(credit);
 		this.setName(name);
-		DatabaseConnector.createIfNotExist(this, Course.class);
+	}
+
+	public static Course get(String code, String name, float credit)
+			throws SQLException {
+		if (courseMap == null)
+			createHash();
+		Course c = courseMap.get(name);
+		if (c == null) {
+			c = new Course(code, name, credit);
+			courseMap.put(code, c);
+			DatabaseConnector.createIfNotExist(c, Course.class);
+		}
+		return c;
+	}
+
+	private static void createHash() throws SQLException {
+		courseMap = new HashMap<String, Course>();
+		List<Course> courses = DatabaseConnector.get(Course.class);
+		for (Course course : courses) {
+			courseMap.put(course.getCode(), course);
+		}
 	}
 
 	/**
