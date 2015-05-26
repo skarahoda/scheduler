@@ -16,6 +16,7 @@ public abstract class CardPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -7303738305156470194L;
 	private Container parent;
+	private CardLayout layout;
 	private String key;
 	private boolean isInitialized;
 
@@ -29,6 +30,7 @@ public abstract class CardPanel extends JPanel {
 		super();
 		this.isInitialized = false;
 		this.parent = parent;
+		this.layout = (CardLayout) parent.getLayout();
 		this.key = key;
 	}
 
@@ -38,7 +40,6 @@ public abstract class CardPanel extends JPanel {
 			this.parent.add(this, this.key);
 			this.isInitialized = true;
 		}
-		CardLayout layout = (CardLayout) this.parent.getLayout();
 		layout.show(this.parent, this.key);
 	}
 

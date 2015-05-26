@@ -54,8 +54,12 @@ public class User {
 		return true;
 	}
 
-	public static int getCurrentTerm() throws SQLException {
-		singleton = DatabaseConnector.getFirst(User.class);
+	public static int getCurrentTerm() {
+		try {
+			singleton = DatabaseConnector.getFirst(User.class);
+		} catch (SQLException e) {
+			singleton = null;
+		}
 		return singleton == null ? -1 : singleton.currentTerm;
 	}
 

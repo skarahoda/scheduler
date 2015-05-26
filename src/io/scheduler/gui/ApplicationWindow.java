@@ -1,12 +1,13 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.User;
+import io.scheduler.data.handler.BannerParser;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -14,7 +15,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class ApplicationWindow {
 
@@ -22,7 +22,6 @@ public class ApplicationWindow {
 	private JMenuBar menuBar;
 	private PanelSchedule panelSchedule;
 	private PanelGraduation panelGradSummary;
-	private PanelConfig panelConfig;
 
 	/**
 	 * Launch the application.
@@ -31,12 +30,8 @@ public class ApplicationWindow {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					ApplicationWindow window = new ApplicationWindow();
-					window.frameMain.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				ApplicationWindow window = new ApplicationWindow();
+				window.frameMain.setVisible(true);
 			}
 		});
 	}
@@ -46,36 +41,38 @@ public class ApplicationWindow {
 	 */
 	public ApplicationWindow() {
 		initialize();
-		try {
-			if (User.getCurrentTerm() == -1) {
-				panelConfig.setVisible();
-			} else {
-				panelSchedule.setVisible();
-			}
-		} catch (SQLException e) {
-			// TODO add logger
-			JPanel panel = new JPanel(new GridLayout(0, 1));
-			JOptionPane
-					.showMessageDialog(panel,
-							"Database is already in use, please close the database connection.");
-			e.printStackTrace();
-			System.exit(1);
-		}
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		initializeConfig();
 		initializeMainFrame();
 		initializeMenu();
+		initializePanels();
+	}
 
+	private void initializeConfig() {
+		if (User.getCurrentTerm() == -1) {
+			while (!ApplicationWindow.config()) {
+				int option = JOptionPane
+						.showConfirmDialog(null, "Do you want to exit?",
+								"Configurations", JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE);
+				if (option == JOptionPane.OK_OPTION) {
+					System.exit(1);
+				}
+			}
+		}
+	}
+
+	private void initializePanels() {
 		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),
 				"graduation");
 		panelSchedule = new PanelSchedule(frameMain.getContentPane(),
 				"schedule");
-		panelConfig = new PanelConfig(frameMain.getContentPane(), "config");
+		panelSchedule.setVisible();
 	}
 
 	private void initializeMainFrame() {
@@ -137,11 +134,43 @@ public class ApplicationWindow {
 		mntmPreferences.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelConfig.setVisible();
+				ApplicationWindow.config();
 			}
 		});
 		mnHelp.add(mntmPreferences);
 
+	}
+
+	public static boolean config() {
+		int term = new ConfigOption().getTerm();
+		if (term != 0) {
+			try {
+				BannerParser.parse(term);
+			} catch (IllegalArgumentException e1) {
+				JOptionPane.showMessageDialog(null, "Term is invalid.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+				return false;
+			} catch (IOException e1) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"We cannot get information from the website please try again.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+				return false;
+			} catch (SQLException e1) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Database is already in use, please close the database connection.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 }
