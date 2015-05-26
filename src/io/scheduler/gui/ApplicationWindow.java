@@ -20,7 +20,7 @@ public class ApplicationWindow {
 
 	private JFrame frameMain;
 	private JMenuBar menuBar;
-	private PanelSchedule panelSchedule;
+	private PanelScheduler panelSchedule;
 	private PanelGraduation panelGradSummary;
 
 	/**
@@ -70,7 +70,7 @@ public class ApplicationWindow {
 	private void initializePanels() {
 		panelGradSummary = new PanelGraduation(frameMain.getContentPane(),
 				"graduation");
-		panelSchedule = new PanelSchedule(frameMain.getContentPane(),
+		panelSchedule = new PanelScheduler(frameMain.getContentPane(),
 				"schedule");
 		panelSchedule.setVisible();
 	}
@@ -78,7 +78,7 @@ public class ApplicationWindow {
 	private void initializeMainFrame() {
 		frameMain = new JFrame();
 		frameMain.setTitle("Scheduler");
-		frameMain.setBounds(100, 100, 450, 300);
+		frameMain.setBounds(100, 100, 600, 600);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameMain.getContentPane().setLayout(new CardLayout(0, 0));
 	}
@@ -142,7 +142,7 @@ public class ApplicationWindow {
 	}
 
 	public static boolean config() {
-		int term = new ConfigOption().getTerm();
+		int term = new OptionConfig().getTerm();
 		if (term != 0) {
 			try {
 				BannerParser.parse(term);

@@ -13,7 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "meetings")
 public class Meeting {
-	private enum DayofWeek {
+	public enum DayofWeek {
 		MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, TBA
 	}
 

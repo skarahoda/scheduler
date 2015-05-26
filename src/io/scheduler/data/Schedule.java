@@ -6,6 +6,7 @@ package io.scheduler.data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class Schedule {
 	@ForeignCollectionField
 	private ForeignCollection<ScheduleSUClass> classes;
 
+	private static HashMap<String, Schedule> scheduleMap = null;
+
 	/**
 	 * For ormlite
 	 */
@@ -43,7 +46,7 @@ public class Schedule {
 	 * @param name
 	 * @throws SQLException
 	 */
-	public Schedule(String name) throws SQLException {
+	Schedule(String name) throws SQLException {
 		this.setName(name);
 		DatabaseConnector.createIfNotExist(this, Schedule.class);
 	}
@@ -64,15 +67,55 @@ public class Schedule {
 	}
 
 	public Collection<SUClass> getSUClasses() {
+		if (classes == null) {
+			System.out.println("There is no class");
+			return null;
+		}
+
 		List<SUClass> returnVal = new ArrayList<SUClass>();
 		Iterator<ScheduleSUClass> i = classes.iterator();
 		while (i.hasNext()) {
-			returnVal.add(i.next().getSuClass());
+			SUClass suClass = i.next().getSuClass();
+			System.out.println(suClass);
+			returnVal.add(suClass);
 		}
 		return returnVal;
 	}
 
 	public void addSUClass(SUClass suClass) throws SQLException {
+		if (suClass == null)
+			return;
 		new ScheduleSUClass(suClass, this);
+	}
+
+	public void deleteSUClass(SUClass suClass) throws SQLException {
+		if (suClass == null)
+			return;
+		for (ScheduleSUClass scheduleSUClass : classes) {
+			if (scheduleSUClass.getSuClass().equals(suClass)) {
+				DatabaseConnector
+						.delete(scheduleSUClass, ScheduleSUClass.class);
+			}
+		}
+	}
+
+	public static Schedule get(String name) throws SQLException {
+		if (scheduleMap == null)
+			createHash();
+		Schedule s = scheduleMap.get(name);
+		if (s == null) {
+			s = new Schedule(name);
+			scheduleMap.put(name, s);
+			DatabaseConnector.createIfNotExist(s, Schedule.class);
+		}
+		return s;
+	}
+
+	private static void createHash() throws SQLException {
+		scheduleMap = new HashMap<String, Schedule>();
+		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
+		for (Schedule course : schedules) {
+			scheduleMap.put(course.getName(), course);
+		}
 	}
 }

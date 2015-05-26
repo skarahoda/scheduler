@@ -69,4 +69,8 @@ public class DatabaseConnector {
 		Dao<T, Integer> dao = DatabaseConnector.setDB(dataClass);
 		dao.createIfNotExists(item);
 	}
+
+	static <T> void delete(T item, Class<T> dataClass) throws SQLException {
+		DatabaseConnector.setDB(dataClass).delete(item);
+	}
 }

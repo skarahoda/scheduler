@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-public class ConfigOption {
+public class OptionConfig {
 
 	private int option;
 	private JTextField textFieldYear;
@@ -17,7 +17,7 @@ public class ConfigOption {
 	/**
 	 * 
 	 */
-	public ConfigOption() {
+	public OptionConfig() {
 
 		MaskFormatter formatter;
 		try {
