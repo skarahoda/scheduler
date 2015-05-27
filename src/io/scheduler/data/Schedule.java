@@ -6,7 +6,6 @@ package io.scheduler.data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,8 +31,6 @@ public class Schedule {
 
 	@ForeignCollectionField
 	private ForeignCollection<ScheduleSUClass> classes;
-
-	private static HashMap<String, Schedule> scheduleMap = null;
 
 	/**
 	 * For ormlite
@@ -68,7 +65,6 @@ public class Schedule {
 
 	public Collection<SUClass> getSUClasses() {
 		if (classes == null) {
-			System.out.println("There is no class");
 			return null;
 		}
 
@@ -76,7 +72,6 @@ public class Schedule {
 		Iterator<ScheduleSUClass> i = classes.iterator();
 		while (i.hasNext()) {
 			SUClass suClass = i.next().getSuClass();
-			System.out.println(suClass);
 			returnVal.add(suClass);
 		}
 		return returnVal;
@@ -108,11 +103,17 @@ public class Schedule {
 		return new Schedule(name);
 	}
 
-	private static void createHash() throws SQLException {
-		scheduleMap = new HashMap<String, Schedule>();
+	public static boolean exists(String name) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
-		for (Schedule course : schedules) {
-			scheduleMap.put(course.getName(), course);
+		for (Schedule schedule : schedules) {
+			if (schedule.getName().equals(name))
+				return true;
 		}
+		return false;
 	}
+
+	public static List<Schedule> get() throws SQLException {
+		return DatabaseConnector.get(Schedule.class);
+	}
+
 }

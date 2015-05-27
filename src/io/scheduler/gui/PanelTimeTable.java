@@ -6,6 +6,7 @@ import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
 
 import java.awt.Component;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -30,8 +31,10 @@ public class PanelTimeTable extends JPanel {
 	private static final long serialVersionUID = 8723788672175458756L;
 	private DefaultListModel<String> TBAClasses;
 	private MyTableModel modelTimeTable;
+	private Schedule schedule;
 
-	public PanelTimeTable() {
+	public PanelTimeTable(Schedule schedule) {
+		this.schedule = schedule;
 		String[][] data = { { "8:40-9:30" }, { "9:40-10:30" },
 				{ "10:40-11:30" }, { "11:40-12:30" }, { "12:40-13:30" },
 				{ "13:40-14:30" }, { "14:40-15:30" }, { "15:40-16:30" },
@@ -58,9 +61,29 @@ public class PanelTimeTable extends JPanel {
 		add(scrollPane_1);
 	}
 
-	public void fillTable(Schedule s) {
+	public void deleteClass(SUClass suClass) {
+		try {
+			schedule.deleteSUClass(suClass);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fillTable();
+	}
+
+	public void addClass(SUClass suClass) {
+		try {
+			schedule.addSUClass(suClass);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fillTable();
+	}
+
+	private void fillTable() {
 		clearTable();
-		Collection<SUClass> classes = s.getSUClasses();
+		Collection<SUClass> classes = schedule.getSUClasses();
 		if (classes == null)
 			return;
 		for (SUClass suClass : classes) {
@@ -85,6 +108,7 @@ public class PanelTimeTable extends JPanel {
 	}
 
 	private void clearTable() {
+		TBAClasses.clear();
 		for (int i = 0; i < modelTimeTable.getRowCount(); i++) {
 			for (int j = 1; j < modelTimeTable.getColumnCount(); j++) {
 				modelTimeTable.setValueAt("", i, j);
@@ -121,6 +145,10 @@ public class PanelTimeTable extends JPanel {
 			firstHour = new Date();
 		}
 		return (int) (date.getTime() - firstHour.getTime()) / (60 * 60 * 1000);
+	}
+
+	public Collection<SUClass> getSUClasses() {
+		return schedule.getSUClasses();
 	}
 }
 

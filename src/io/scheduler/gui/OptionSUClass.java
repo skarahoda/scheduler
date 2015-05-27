@@ -4,6 +4,7 @@ import io.scheduler.data.Course;
 import io.scheduler.data.SUClass;
 
 import java.awt.ScrollPane;
+import java.security.InvalidParameterException;
 import java.util.Collection;
 
 import javax.swing.DefaultListModel;
@@ -22,8 +23,8 @@ public class OptionSUClass {
 	private Collection<SUClass> suClasses;
 
 	public OptionSUClass(Collection<SUClass> suClasses, boolean isSimple) {
-		if (suClasses == null)
-			throw new NullPointerException();
+		if (suClasses == null || suClasses.isEmpty())
+			throw new InvalidParameterException();
 		this.suClasses = suClasses;
 		ScrollPane scrollSUClass = createScrollSUClass();
 		if (!isSimple) {
@@ -41,6 +42,7 @@ public class OptionSUClass {
 			option = JOptionPane.showConfirmDialog(null, message, "Classes",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		}
+
 	}
 
 	private void addEventListeners() {

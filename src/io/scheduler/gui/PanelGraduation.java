@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class PanelGraduation extends CardPanel {
-	
+
 	@SuppressWarnings("unused")
 	private DegreeReq degree;
 
@@ -28,11 +28,10 @@ public class PanelGraduation extends CardPanel {
 
 	@Override
 	protected void initialize() {
-		
-	
+
 		degree = null;
 		degree = DegreeReq.get("trial");
-		
+
 		this.setBounds(12, 12, 424, 230);
 		JLabel lblGradSummary = new JLabel("Grad Summary");
 		this.add(lblGradSummary);
@@ -40,7 +39,6 @@ public class PanelGraduation extends CardPanel {
 	}
 
 	public void TabbedPane() {
-		
 
 		setName("Tabbed Pane");
 		setSize(300, 300);
