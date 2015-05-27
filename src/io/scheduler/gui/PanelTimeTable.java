@@ -59,29 +59,35 @@ public class PanelTimeTable extends JPanel {
 		JScrollPane scrollPane_1 = new JScrollPane(list);
 		scrollPane_1.setAlignmentY(Component.TOP_ALIGNMENT);
 		add(scrollPane_1);
+		try {
+			fillTable();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void deleteClass(SUClass suClass) {
 		try {
 			schedule.deleteSUClass(suClass);
+			fillTable();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		fillTable();
 	}
 
 	public void addClass(SUClass suClass) {
 		try {
 			schedule.addSUClass(suClass);
+			fillTable();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		fillTable();
 	}
 
-	private void fillTable() {
+	private void fillTable() throws SQLException {
 		clearTable();
 		Collection<SUClass> classes = schedule.getSUClasses();
 		if (classes == null)
@@ -97,6 +103,7 @@ public class PanelTimeTable extends JPanel {
 				int column = getIndex(day);
 				int startRow = getIndex(meeting.getStart());
 				int endRow = getIndex(meeting.getEnd());
+				endRow = Math.min(endRow, modelTimeTable.getRowCount());
 				for (int i = startRow; i <= endRow; i++) {
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
@@ -147,7 +154,7 @@ public class PanelTimeTable extends JPanel {
 		return (int) (date.getTime() - firstHour.getTime()) / (60 * 60 * 1000);
 	}
 
-	public Collection<SUClass> getSUClasses() {
+	public Collection<SUClass> getSUClasses() throws SQLException {
 		return schedule.getSUClasses();
 	}
 }

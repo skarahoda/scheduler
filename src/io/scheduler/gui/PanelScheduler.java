@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -67,6 +66,9 @@ public class PanelScheduler extends CardPanel {
 							"You don't have any class.");
 					e1.printStackTrace();
 
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -124,10 +126,9 @@ public class PanelScheduler extends CardPanel {
 				if (tabbedPaneSchedule.getSelectedIndex() == lastTab) {
 					String name = JOptionPane
 							.showInputDialog("Please enter schedule name");
-					List<String> tabNames = getTabNames();
-					if (name != null && !name.equals("")
-							&& !tabNames.contains(name)) {
-						try {
+					try {
+						if (name != null && !name.equals("")
+								&& !Schedule.exists(name)) {
 							Schedule schedule = Schedule.get(name);
 							tabbedPaneSchedule.remove(lastTab);
 							tabbedPaneSchedule.addTab(schedule.getName(),
@@ -135,22 +136,14 @@ public class PanelScheduler extends CardPanel {
 							tabbedPaneSchedule.addTab("+", null, null,
 									"Add new schedule");
 							tabbedPaneSchedule.setSelectedIndex(lastTab);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
 						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}
 		});
-	}
-
-	protected List<String> getTabNames() {
-		List<String> returnVal = new ArrayList<String>();
-		for (int i = 0; i < tabbedPaneSchedule.getTabCount(); i++) {
-			returnVal.add(tabbedPaneSchedule.getTitleAt(i));
-		}
-		return returnVal;
 	}
 
 }

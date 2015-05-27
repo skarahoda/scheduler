@@ -73,4 +73,10 @@ public class DatabaseConnector {
 	static <T> void delete(T item, Class<T> dataClass) throws SQLException {
 		DatabaseConnector.setDB(dataClass).delete(item);
 	}
+
+	static <T> void assignEmptyForeignCollection(T item, Class<T> dataClass,
+			String fieldName) throws SQLException {
+		DatabaseConnector.setDB(dataClass).assignEmptyForeignCollection(item,
+				fieldName);
+	}
 }

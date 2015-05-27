@@ -22,6 +22,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Schedule {
 
 	public static final String NAME_FIELD_NAME = "name";
+	public static final String CLASSES_FIELD_NAME = "classes";
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -29,7 +30,7 @@ public class Schedule {
 	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
 
-	@ForeignCollectionField
+	@ForeignCollectionField(columnName = CLASSES_FIELD_NAME)
 	private ForeignCollection<ScheduleSUClass> classes;
 
 	/**
@@ -63,11 +64,10 @@ public class Schedule {
 		this.name = name;
 	}
 
-	public Collection<SUClass> getSUClasses() {
+	public Collection<SUClass> getSUClasses() throws SQLException {
 		if (classes == null) {
-			return null;
+			this.setClasses();
 		}
-
 		List<SUClass> returnVal = new ArrayList<SUClass>();
 		Iterator<ScheduleSUClass> i = classes.iterator();
 		while (i.hasNext()) {
@@ -114,6 +114,11 @@ public class Schedule {
 
 	public static List<Schedule> get() throws SQLException {
 		return DatabaseConnector.get(Schedule.class);
+	}
+
+	private void setClasses() throws SQLException {
+		DatabaseConnector.assignEmptyForeignCollection(this, Schedule.class,
+				CLASSES_FIELD_NAME);
 	}
 
 }
