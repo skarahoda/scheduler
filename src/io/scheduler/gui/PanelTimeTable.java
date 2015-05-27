@@ -105,10 +105,14 @@ public class PanelTimeTable extends JPanel {
 				int endRow = getIndex(meeting.getEnd());
 				endRow = Math.min(endRow, modelTimeTable.getRowCount() - 1);
 				for (int i = startRow; i <= endRow; i++) {
-					System.out.println("i" + i + ",column" + column);
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
-					value = value + suClass.getCourse().getCode() + ", ";
+					if(value != ""){
+						value = value + ", " + suClass.getCourse().getCode();
+					}
+					else{
+						value = suClass.getCourse().getCode();
+					}
 					modelTimeTable.setValueAt(value, i, column);
 				}
 			}
