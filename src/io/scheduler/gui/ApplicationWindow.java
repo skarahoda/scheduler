@@ -134,7 +134,9 @@ public class ApplicationWindow {
 		mntmPreferences.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ApplicationWindow.config();
+				if (ApplicationWindow.config()) {
+					panelSchedule.updateWithTerm();
+				}
 			}
 		});
 		mnHelp.add(mntmPreferences);

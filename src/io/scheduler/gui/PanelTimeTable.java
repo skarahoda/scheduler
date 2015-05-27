@@ -108,7 +108,7 @@ public class PanelTimeTable extends JPanel {
 					System.out.println("i" + i + ",column" + column);
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
-					value = value + suClass.getCourse().getCode() + "\n";
+					value = value + suClass.getCourse().getCode() + ", ";
 					modelTimeTable.setValueAt(value, i, column);
 				}
 			}

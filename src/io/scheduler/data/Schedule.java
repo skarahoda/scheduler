@@ -23,12 +23,16 @@ public class Schedule {
 
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String CLASSES_FIELD_NAME = "classes";
+	public static final String TERM_FIELD_NAME = "term";
 
 	@DatabaseField(generatedId = true)
 	private int id;
 
 	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
+
+	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false)
+	private int term;
 
 	@ForeignCollectionField(columnName = CLASSES_FIELD_NAME)
 	private ForeignCollection<ScheduleSUClass> classes;
@@ -44,9 +48,25 @@ public class Schedule {
 	 * @param name
 	 * @throws SQLException
 	 */
-	Schedule(String name) throws SQLException {
+	Schedule(String name, int term) throws SQLException {
 		this.setName(name);
+		this.setTerm(term);
 		DatabaseConnector.createIfNotExist(this, Schedule.class);
+	}
+
+	/**
+	 * @return the term
+	 */
+	public int getTerm() {
+		return term;
+	}
+
+	/**
+	 * @param term
+	 *            the term to set
+	 */
+	private void setTerm(int term) {
+		this.term = term;
 	}
 
 	/**
@@ -80,6 +100,11 @@ public class Schedule {
 	public void addSUClass(SUClass suClass) throws SQLException {
 		if (suClass == null)
 			return;
+		for (ScheduleSUClass scheduleSUClass : classes) {
+			if (scheduleSUClass.getSuClass().equals(suClass)) {
+				return;
+			}
+		}
 		new ScheduleSUClass(suClass, this);
 	}
 
@@ -94,26 +119,27 @@ public class Schedule {
 		}
 	}
 
-	public static Schedule get(String name) throws SQLException {
+	public static Schedule get(String name, int term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
 			if (schedule.getName().equals(name))
 				return schedule;
 		}
-		return new Schedule(name);
+		return new Schedule(name, term);
 	}
 
-	public static boolean exists(String name) throws SQLException {
+	public static boolean exists(String name, int term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
-			if (schedule.getName().equals(name))
+			if (schedule.getName().equals(name) && schedule.getTerm() == term)
 				return true;
 		}
 		return false;
 	}
 
-	public static List<Schedule> get() throws SQLException {
-		return DatabaseConnector.get(Schedule.class);
+	public static List<Schedule> get(int term) throws SQLException {
+		return DatabaseConnector.get(Schedule.class, Schedule.TERM_FIELD_NAME,
+				term);
 	}
 
 	private void setClasses() throws SQLException {

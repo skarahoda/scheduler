@@ -2,6 +2,7 @@ package io.scheduler.gui;
 
 import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
+import io.scheduler.data.User;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -97,6 +98,22 @@ public class PanelScheduler extends CardPanel {
 		panelButtons.add(btnAddClass);
 	}
 
+	private void fillTabbedPane() {
+		List<Schedule> schedules;
+		try {
+			schedules = Schedule.get(User.getCurrentTerm());
+		} catch (SQLException e2) {
+			schedules = null;
+		}
+		// if(schedules != null){
+		for (Schedule schedule : schedules) {
+			tabbedPaneSchedule.addTab(schedule.getName(), new PanelTimeTable(
+					schedule));
+		}
+		// }
+		tabbedPaneSchedule.addTab("+", null, null, "Add new schedule");
+	}
+
 	protected PanelTimeTable getTimeTable() {
 		return (PanelTimeTable) tabbedPaneSchedule.getSelectedComponent();
 	}
@@ -105,18 +122,7 @@ public class PanelScheduler extends CardPanel {
 		tabbedPaneSchedule = new JTabbedPane(SwingConstants.TOP);
 		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(tabbedPaneSchedule);
-
-		List<Schedule> schedules;
-		try {
-			schedules = Schedule.get();
-		} catch (SQLException e2) {
-			schedules = null;
-		}
-		for (Schedule schedule : schedules) {
-			tabbedPaneSchedule.addTab(schedule.getName(), new PanelTimeTable(
-					schedule));
-		}
-		tabbedPaneSchedule.addTab("+", null, null, "Add new schedule");
+		fillTabbedPane();
 
 		tabbedPaneSchedule.addMouseListener(new MouseAdapter() {
 			@Override
@@ -127,9 +133,11 @@ public class PanelScheduler extends CardPanel {
 					String name = JOptionPane
 							.showInputDialog("Please enter schedule name");
 					try {
-						if (name != null && !name.equals("")
-								&& !Schedule.exists(name)) {
-							Schedule schedule = Schedule.get(name);
+						if (name != null
+								&& !name.equals("")
+								&& !Schedule.exists(name, User.getCurrentTerm())) {
+							Schedule schedule = Schedule.get(name,
+									User.getCurrentTerm());
 							tabbedPaneSchedule.remove(lastTab);
 							tabbedPaneSchedule.addTab(schedule.getName(),
 									new PanelTimeTable(schedule));
@@ -153,6 +161,11 @@ public class PanelScheduler extends CardPanel {
 
 			}
 		});
+	}
+
+	public void updateWithTerm() {
+		tabbedPaneSchedule.removeAll();
+		fillTabbedPane();
 	}
 
 }

@@ -49,8 +49,12 @@ public class DatabaseConnector {
 	}
 
 	public static <T> List<T> get(Class<T> dataClass) throws SQLException {
-		List<T> returnVal = DatabaseConnector.setDB(dataClass).queryForAll();
-		return returnVal;
+		return DatabaseConnector.setDB(dataClass).queryForAll();
+	}
+
+	public static <T> List<T> get(Class<T> dataClass, String key, Object value)
+			throws SQLException {
+		return DatabaseConnector.setDB(dataClass).queryForEq(key, value);
 	}
 
 	public static <T> T getFirst(Class<T> dataClass) throws SQLException {
