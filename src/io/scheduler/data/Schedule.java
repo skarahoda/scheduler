@@ -100,15 +100,12 @@ public class Schedule {
 	}
 
 	public static Schedule get(String name) throws SQLException {
-		if (scheduleMap == null)
-			createHash();
-		Schedule s = scheduleMap.get(name);
-		if (s == null) {
-			s = new Schedule(name);
-			scheduleMap.put(name, s);
-			DatabaseConnector.createIfNotExist(s, Schedule.class);
+		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
+		for (Schedule schedule : schedules) {
+			if (schedule.getName().equals(name))
+				return schedule;
 		}
-		return s;
+		return new Schedule(name);
 	}
 
 	private static void createHash() throws SQLException {
