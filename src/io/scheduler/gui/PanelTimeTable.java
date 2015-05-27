@@ -59,6 +59,12 @@ public class PanelTimeTable extends JPanel {
 		JScrollPane scrollPane_1 = new JScrollPane(list);
 		scrollPane_1.setAlignmentY(Component.TOP_ALIGNMENT);
 		add(scrollPane_1);
+		try {
+			fillTable();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void deleteClass(SUClass suClass) {
@@ -151,6 +157,14 @@ public class PanelTimeTable extends JPanel {
 
 	public Collection<SUClass> getSUClasses() throws SQLException {
 		return schedule.getSUClasses();
+	}
+
+	public void removeFromDb() {
+		try {
+			schedule.removeFromDb();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

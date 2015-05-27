@@ -79,4 +79,5 @@ public class DatabaseConnector {
 		DatabaseConnector.setDB(dataClass).assignEmptyForeignCollection(item,
 				fieldName);
 	}
+
 }

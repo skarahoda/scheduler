@@ -121,4 +121,8 @@ public class Schedule {
 				CLASSES_FIELD_NAME);
 	}
 
+	public void removeFromDb() throws SQLException {
+		DatabaseConnector.delete(this, Schedule.class);
+	}
+
 }

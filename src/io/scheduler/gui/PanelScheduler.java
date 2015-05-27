@@ -141,7 +141,16 @@ public class PanelScheduler extends CardPanel {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				} else {
+
+					if (e.getButton() == 2) {
+						((PanelTimeTable) tabbedPaneSchedule
+								.getSelectedComponent()).removeFromDb();
+						tabbedPaneSchedule.remove(tabbedPaneSchedule
+								.getSelectedIndex());
+					}
 				}
+
 			}
 		});
 	}
