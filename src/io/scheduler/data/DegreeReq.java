@@ -137,4 +137,9 @@ public class DegreeReq {
 		this.href = href;
 	}
 
+	public static DegreeReq get(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
