@@ -59,12 +59,6 @@ public class PanelTimeTable extends JPanel {
 		JScrollPane scrollPane_1 = new JScrollPane(list);
 		scrollPane_1.setAlignmentY(Component.TOP_ALIGNMENT);
 		add(scrollPane_1);
-		try {
-			fillTable();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void deleteClass(SUClass suClass) {
@@ -103,8 +97,9 @@ public class PanelTimeTable extends JPanel {
 				int column = getIndex(day);
 				int startRow = getIndex(meeting.getStart());
 				int endRow = getIndex(meeting.getEnd());
-				endRow = Math.min(endRow, modelTimeTable.getRowCount());
+				endRow = Math.min(endRow, modelTimeTable.getRowCount() - 1);
 				for (int i = startRow; i <= endRow; i++) {
+					System.out.println("i" + i + ",column" + column);
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
 					value = value + suClass.getCourse().getCode() + "\n";
