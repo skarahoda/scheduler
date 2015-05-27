@@ -1,5 +1,7 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.DegreeReq;
+
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class PanelGraduation extends CardPanel {
+	
+	@SuppressWarnings("unused")
+	private DegreeReq degree;
 
 	public PanelGraduation(Container parent, String key) {
 		super(parent, key);
@@ -23,6 +28,11 @@ public class PanelGraduation extends CardPanel {
 
 	@Override
 	protected void initialize() {
+		
+	
+		degree = null;
+		degree = DegreeReq.get("trial");
+		
 		this.setBounds(12, 12, 424, 230);
 		JLabel lblGradSummary = new JLabel("Grad Summary");
 		this.add(lblGradSummary);
@@ -30,11 +40,11 @@ public class PanelGraduation extends CardPanel {
 	}
 
 	public void TabbedPane() {
+		
 
 		setName("Tabbed Pane");
 		setSize(300, 300);
 		JTabbedPane jtp = new JTabbedPane();
-
 		getRootPane().add(jtp);
 
 		JPanel jp1 = new JPanel();
@@ -53,7 +63,7 @@ public class PanelGraduation extends CardPanel {
 
 		ButtonHandler phandler = new ButtonHandler();
 		test.addActionListener(phandler);
-		setVisible(true); // otherwise you won't "see" it
+		setVisible(true);
 	}
 
 	class ButtonHandler implements ActionListener {
