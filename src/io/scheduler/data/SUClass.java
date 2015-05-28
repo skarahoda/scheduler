@@ -17,7 +17,7 @@ import com.j256.ormlite.table.DatabaseTable;
  *
  */
 
-@DatabaseTable(tableName = "suClasses")
+@DatabaseTable(tableName = "su_classes")
 public class SUClass {
 	public static final String CRN_FIELD_NAME = "crn";
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";

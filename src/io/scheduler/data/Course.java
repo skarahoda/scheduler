@@ -135,4 +135,8 @@ public class Course {
 	public String toString() {
 		return code + " - " + name;
 	}
+
+	public static List<Course> getAll() throws SQLException {
+		return DatabaseConnector.get(Course.class);
+	}
 }

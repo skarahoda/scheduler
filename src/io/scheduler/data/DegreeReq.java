@@ -136,10 +136,4 @@ public class DegreeReq {
 	private void setHref(String href) {
 		this.href = href;
 	}
-
-	public static DegreeReq get(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

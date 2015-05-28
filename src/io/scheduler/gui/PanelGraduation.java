@@ -1,21 +1,25 @@
 package io.scheduler.gui;
 
-import io.scheduler.data.DegreeReq;
+import io.scheduler.data.Course;
+import io.scheduler.data.TakenCourse;
 
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.InvalidParameterException;
+import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 public class PanelGraduation extends CardPanel {
-
-	@SuppressWarnings("unused")
-	private DegreeReq degree;
 
 	public PanelGraduation(Container parent, String key) {
 		super(parent, key);
@@ -28,53 +32,65 @@ public class PanelGraduation extends CardPanel {
 
 	@Override
 	protected void initialize() {
-
-		degree = null;
-		degree = DegreeReq.get("trial");
-
-		this.setBounds(12, 12, 424, 230);
-		JLabel lblGradSummary = new JLabel("Grad Summary");
-		this.add(lblGradSummary);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		initTabbedPane();
+		initButtons();
 
 	}
 
-	public void TabbedPane() {
+	private void initButtons() {
 
-		setName("Tabbed Pane");
-		setSize(300, 300);
-		JTabbedPane jtp = new JTabbedPane();
-		getRootPane().add(jtp);
+		JPanel panelButtons = new JPanel();
+		panelButtons.setAlignmentY(Component.TOP_ALIGNMENT);
+		add(panelButtons);
+		panelButtons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelButtons.setPreferredSize(new Dimension(600, 40));
+		panelButtons.setMaximumSize(panelButtons.getPreferredSize());
+		panelButtons.setMinimumSize(panelButtons.getPreferredSize());
+		JButton btnDeleteClass = new JButton("Delete Course");
+		btnDeleteClass.addActionListener(new ActionListener() {
 
-		JPanel jp1 = new JPanel();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					OptionCourse option = new OptionCourse(TakenCourse.getAll());
+					TakenCourse.deleteCourse(option.get());
+				} catch (InvalidParameterException e1) {
+					JOptionPane.showMessageDialog(null,
+							"You don't have any course to delete.");
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		panelButtons.add(btnDeleteClass);
 
-		JPanel jp2 = new JPanel();
+		JButton btnAddClass = new JButton("Add Course");
+		btnAddClass.addActionListener(new ActionListener() {
 
-		JLabel label1 = new JLabel();
-		label1.setText("Tab 1");
-		jp1.add(label1);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					OptionCourse option = new OptionCourse(Course.getAll());
+					TakenCourse.addCourse(option.get());
+				} catch (InvalidParameterException e1) {
+					JOptionPane.showMessageDialog(null,
+							"You don't have any course to add.");
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		panelButtons.add(btnAddClass);
 
-		jtp.addTab("Tab1", jp1);
-		jtp.addTab("Tab2", jp2);
-
-		JButton test = new JButton("Add");
-		jp2.add(test);
-
-		ButtonHandler phandler = new ButtonHandler();
-		test.addActionListener(phandler);
-		setVisible(true);
 	}
 
-	class ButtonHandler implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "tbt", "continued",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
+	private void initTabbedPane() {
+		JTabbedPane tabbedPaneSchedule = new JTabbedPane(SwingConstants.TOP);
+		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		add(tabbedPaneSchedule);
 
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		TabbedPane tab = new TabbedPane();
 	}
-
 }
