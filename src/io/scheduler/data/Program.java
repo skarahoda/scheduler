@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -204,7 +205,7 @@ public class Program {
 	 */
 	@Override
 	public String toString() {
-		return name;
+		return name + " - " + enterTerm;
 	}
 
 	public DegreeReq getDegreeReq(Course course) throws SQLException {
@@ -217,4 +218,5 @@ public class Program {
 		}
 		return null;
 	}
+
 }

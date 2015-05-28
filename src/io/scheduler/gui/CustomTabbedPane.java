@@ -36,7 +36,7 @@ public class CustomTabbedPane extends JTabbedPane {
 						remove(lastTab);
 						Component component = factory.generateComponent(object);
 						addTab(object.toString(), component);
-						addTab("+", null, null, "Add new schedule");
+						addTab("+", null, null, "Add new tab");
 						setSelectedIndex(lastTab);
 					}
 				} else {
@@ -56,6 +56,7 @@ public class CustomTabbedPane extends JTabbedPane {
 
 	public void fill() {
 		List<?> objects = factory.get();
+		System.out.println("CustomTabbedPane: " + objects);
 		for (Object object : objects) {
 			addTab(object.toString(), factory.generateComponent(object));
 		}

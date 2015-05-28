@@ -15,6 +15,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class ApplicationWindow {
 
@@ -88,59 +90,70 @@ public class ApplicationWindow {
 		frameMain.setJMenuBar(menuBar);
 
 		JMenu mnScheduler = new JMenu("Scheduler");
-		menuBar.add(mnScheduler);
-
-		JMenuItem mntmSchedule = new JMenuItem("Schedule");
-		mntmSchedule.addActionListener(new ActionListener() {
+		mnScheduler.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelSchedule.setVisible();
 			}
 		});
-		mnScheduler.add(mntmSchedule);
-
-		JMenu mnGraduation = new JMenu("Graduation Summary");
-		menuBar.add(mnGraduation);
-
-		JMenuItem mntmGraduationSummary = new JMenuItem("Graduation Summary");
-		mntmGraduationSummary.addActionListener(new ActionListener() {
+		menuBar.add(mnScheduler);
+		mnScheduler.addMenuListener(new MenuListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				panelGradSummary.setVisible();
-			}
-		});
-		mnGraduation.add(mntmGraduationSummary);
-
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
-
-		JMenuItem mntmHelp = new JMenuItem("Help");
-		mntmHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		mnHelp.add(mntmHelp);
-
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		mnHelp.add(mntmAbout);
-
-		JMenuItem mntmPreferences = new JMenuItem("Preferences");
-		mntmPreferences.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void menuSelected(MenuEvent e) {
 				if (ApplicationWindow.config()) {
 					panelSchedule.updateWithTerm();
 				}
 			}
-		});
-		mnHelp.add(mntmPreferences);
 
+			@Override
+			public void menuCanceled(MenuEvent e) {
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+		});
+
+		JMenu mnGraduation = new JMenu("Graduation Summary");
+		menuBar.add(mnGraduation);
+		mnGraduation.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				if (ApplicationWindow.config()) {
+					panelSchedule.updateWithTerm();
+				}
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+		});
+
+		JMenu mnPreferences = new JMenu("Preferences");
+		menuBar.add(mnPreferences);
+		mnPreferences.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				if (ApplicationWindow.config()) {
+					panelSchedule.updateWithTerm();
+				}
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+		});
 	}
 
 	public static boolean config() {
