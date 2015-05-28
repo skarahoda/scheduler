@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.table.DefaultTableModel;
 
 import com.j256.ormlite.dao.ForeignCollection;
 
@@ -30,7 +29,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 	 */
 	private static final long serialVersionUID = 8723788672175458756L;
 	private DefaultListModel<String> TBAClasses;
-	private MyTableModel modelTimeTable;
+	private ImmutableTableModel modelTimeTable;
 	private Schedule schedule;
 
 	public PanelTimeTable(Schedule schedule) {
@@ -44,7 +43,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		String[] columnNames = { "Time", "Monday", "Tuesday", "Wednesday",
 				"Thursday", "Friday", "Saturday", "Sunday" };
 
-		modelTimeTable = new MyTableModel(data, columnNames);
+		modelTimeTable = new ImmutableTableModel(data, columnNames);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		JTable timeTable = new JTable(modelTimeTable);
@@ -170,22 +169,4 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 	public Object getObject() {
 		return schedule;
 	}
-}
-
-class MyTableModel extends DefaultTableModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6813433055563304420L;
-
-	public MyTableModel(String rowData[][], Object columnNames[]) {
-		super(rowData, columnNames);
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
 }

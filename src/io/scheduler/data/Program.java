@@ -5,6 +5,7 @@ package io.scheduler.data;
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.List;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -50,7 +51,7 @@ public class Program {
 	 * @param level
 	 * @throws SQLException
 	 */
-	public Program(int enterTerm, String name, boolean isUG)
+	private Program(int enterTerm, String name, boolean isUG)
 			throws IllegalArgumentException, SQLException {
 		this.setEnterTerm(enterTerm);
 		this.setName(name);
@@ -119,11 +120,12 @@ public class Program {
 	private void setIsUG(boolean isUG) {
 		this.isUG = isUG;
 	}
-	public DegreeReq [] getRequirements(){
+
+	public Object[] getRequirements(){
 		try {
 			if(requirements == null)
 				setDegreeReqs();
-			return (DegreeReq[]) requirements.toArray();
+			return requirements.toArray();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -137,5 +139,33 @@ public class Program {
 				REQ_FIELD_NAME);
 	}
 	
+
+	
+	public static List<Program> getAll() throws SQLException{
+		return DatabaseConnector.get(Program.class);
+	}
+	
+	public static Program get(int term, String name, boolean isUG) throws SQLException{
+		for (Program program : getAll()) {
+			if(program.enterTerm == term && program.name.equals(name)){
+				return program;
+			}
+		}
+		return new Program(term, name, isUG);
+	}
+
+	public void removeFromDB() throws SQLException {
+		DatabaseConnector.delete(this, Program.class);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return  name;
+	}
+
 
 }

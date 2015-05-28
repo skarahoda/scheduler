@@ -28,9 +28,9 @@ public class DegreeParser {
 	private static final String degreeUrlTemplate = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_degree_detail?P_TERM=%d&P_PROGRAM=%s&P_SUBMIT=&P_LANG=EN&P_LEVEL=%s";
 	private static final String courseDegreeUrlTemplate = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=%s&P_PROGRAM=%s&P_LANG=EN&P_LEVEL=%s";
 
-	public static void parse(int term, boolean isUG, String pName)
+	public static Program parse(int term, boolean isUG, String pName)
 			throws IOException, IllegalArgumentException, SQLException {
-		Program p = new Program(term, pName, isUG);
+		Program p = Program.get(term, pName, isUG);
 
 		// Web site connection
 		String degreeUrl = String.format(degreeUrlTemplate, term, pName,
@@ -41,6 +41,7 @@ public class DegreeParser {
 		for (Element element : rows) {
 			parseRow(element, p);
 		}
+		return p;
 	}
 
 	private static void parseRow(Element element, Program p)
@@ -78,7 +79,6 @@ public class DegreeParser {
 	private static void parseCourse(DegreeReq degree) throws IOException,
 			SQLException {
 		String url = createUrl(degree);
-		System.out.println(url);
 		Document doc = Jsoup.connect(url).maxBodySize(0).get();
 		Elements rows = doc.select("table").first().children()
 				.select("tr:gt(2)");

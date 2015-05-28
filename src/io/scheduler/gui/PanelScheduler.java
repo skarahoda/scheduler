@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class PanelScheduler extends CardPanel {
-	private ScheduleFactory scheduleFactory;
 	private CustomTabbedPane tabbedPaneSchedule;
 	private JPanel panelButtons;
 
@@ -98,7 +97,7 @@ public class PanelScheduler extends CardPanel {
 	}
 
 	private void initTabbedPane() {
-		scheduleFactory = new ScheduleFactory();
+		ScheduleFactory scheduleFactory = new ScheduleFactory();
 		tabbedPaneSchedule = new CustomTabbedPane(SwingConstants.TOP,
 				scheduleFactory);
 		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);

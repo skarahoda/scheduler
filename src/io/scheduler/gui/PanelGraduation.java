@@ -16,10 +16,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 public class PanelGraduation extends CardPanel {
+
+	private CustomTabbedPane tabbedPaneDegree;
 
 	public PanelGraduation(Container parent, String key) {
 		super(parent, key);
@@ -88,9 +89,10 @@ public class PanelGraduation extends CardPanel {
 	}
 
 	private void initTabbedPane() {
-		JTabbedPane tabbedPaneSchedule = new JTabbedPane(SwingConstants.TOP);
-		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		add(tabbedPaneSchedule);
-
+		DegreeFactory degreeFactory = new DegreeFactory();
+		tabbedPaneDegree = new CustomTabbedPane(SwingConstants.TOP,
+				degreeFactory);
+		tabbedPaneDegree.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		add(tabbedPaneDegree);
 	}
 }
