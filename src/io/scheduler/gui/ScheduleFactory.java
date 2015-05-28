@@ -23,8 +23,11 @@ public class ScheduleFactory implements Factory {
 
 	@Override
 	public Object generateObject() {
-		String name = JOptionPane.showInputDialog("Please enter schedule name");
+		String name = JOptionPane.showInputDialog(null,
+				"Please enter a schedule name", "Schedule Name",
+				JOptionPane.PLAIN_MESSAGE);
 		try {
+
 			if (name != null && !name.equals("")
 					&& !Schedule.exists(name, User.getCurrentTerm())) {
 				Schedule schedule = Schedule.get(name, User.getCurrentTerm());

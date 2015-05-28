@@ -2,6 +2,7 @@ package io.scheduler.gui;
 
 import io.scheduler.data.Course;
 
+import java.awt.Dimension;
 import java.awt.ScrollPane;
 import java.util.Collection;
 
@@ -18,12 +19,13 @@ public class OptionCourse {
 	public OptionCourse(Collection<Course> courses) {
 		ScrollPane scrollCourse = createScrollCourse(courses);
 		Object[] message = { "Course:", scrollCourse };
-		option = JOptionPane.showConfirmDialog(null, message, "Classes",
+		option = JOptionPane.showConfirmDialog(null, message, "Courses",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	private ScrollPane createScrollCourse(Collection<Course> courses) {
 		ScrollPane returnVal = new ScrollPane();
+		returnVal.setPreferredSize(new Dimension(300, 500));
 		listModelCourse = new DefaultListModel<Course>();
 		for (Course course : courses) {
 			listModelCourse.addElement(course);

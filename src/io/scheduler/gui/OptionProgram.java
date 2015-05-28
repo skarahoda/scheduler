@@ -37,8 +37,9 @@ public class OptionProgram {
 		textFieldProgram = new JTextField();
 		Object[] message = { "Year:", textFieldYear, "Term:", comboBoxTerm,
 				checkBoxIsUG, "Program name:", textFieldProgram };
-		option = JOptionPane.showConfirmDialog(null, message, "Configurations",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		option = JOptionPane.showConfirmDialog(null, message,
+				"Choose Degree Program", JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	public Program get() {

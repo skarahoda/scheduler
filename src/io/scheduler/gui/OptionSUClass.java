@@ -16,7 +16,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -74,8 +73,6 @@ public class OptionSUClass {
 			suClassPanel.add(classesLabel);
 			suClassPanel.add(scrollSUClass);
 
-			
-			
 			coursePanel.setPreferredSize(new Dimension(200, 100));
 			suClassPanel.setPreferredSize(new Dimension(200, 100));
 			datePanel.setPreferredSize(new Dimension(200, 100));
