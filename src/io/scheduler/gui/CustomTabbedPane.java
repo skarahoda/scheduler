@@ -32,17 +32,19 @@ public class CustomTabbedPane extends JTabbedPane {
 				int lastTab = getTabCount() - 1;
 				if (getSelectedIndex() == lastTab) {
 					Object object = factory.generateObject();
-					remove(lastTab);
-					Component component = factory.generateComponent(object);
-					addTab(object.toString(), component);
-					addTab("+", null, null, "Add new schedule");
-					setSelectedIndex(lastTab);
-
+					if (object != null) {
+						remove(lastTab);
+						Component component = factory.generateComponent(object);
+						addTab(object.toString(), component);
+						addTab("+", null, null, "Add new schedule");
+						setSelectedIndex(lastTab);
+					}
 				} else {
 
 					if (e.getButton() == 2) {
-						((PanelTimeTable) getSelectedComponent())
-								.removeFromDb();
+						Object o = ((CustomComponent) getSelectedComponent())
+								.getObject();
+						factory.removeFromDB(o);
 						remove(getSelectedIndex());
 					}
 				}

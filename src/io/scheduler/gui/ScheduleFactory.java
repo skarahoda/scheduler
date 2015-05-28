@@ -43,7 +43,11 @@ public class ScheduleFactory implements Factory {
 
 	@Override
 	public void removeFromDB(Object o) {
-		// TODO Auto-generated method stub
+		try {
+			((Schedule) o).removeFromDb();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 

@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.j256.ormlite.dao.ForeignCollection;
 
-public class PanelTimeTable extends JPanel {
+public class PanelTimeTable extends JPanel implements CustomComponent {
 
 	/**
 	 * 
@@ -163,12 +163,9 @@ public class PanelTimeTable extends JPanel {
 		return schedule.getSUClasses();
 	}
 
-	public void removeFromDb() {
-		try {
-			schedule.removeFromDb();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	@Override
+	public Object getObject() {
+		return schedule;
 	}
 }
 
