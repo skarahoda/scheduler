@@ -12,7 +12,8 @@ public class DegreeFactory implements Factory {
 	@Override
 	public List<?> get() {
 		try {
-			Program.getAll();
+			return Program.getAll();
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

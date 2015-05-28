@@ -56,6 +56,7 @@ public class CustomTabbedPane extends JTabbedPane {
 
 	public void fill() {
 		List<?> objects = factory.get();
+		System.out.println("CustomTabbedPane: " + objects);
 		for (Object object : objects) {
 			addTab(object.toString(), factory.generateComponent(object));
 		}
