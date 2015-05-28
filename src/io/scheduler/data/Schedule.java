@@ -150,8 +150,9 @@ public class Schedule {
 	public void removeFromDb() throws SQLException {
 		DatabaseConnector.delete(this, Schedule.class);
 	}
-	
-	public String toString(){
+
+	@Override
+	public String toString() {
 		return name;
 	}
 

@@ -1,8 +1,6 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.SUClass;
-import io.scheduler.data.Schedule;
-import io.scheduler.data.User;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -10,18 +8,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 public class PanelScheduler extends CardPanel {
@@ -99,14 +93,14 @@ public class PanelScheduler extends CardPanel {
 		panelButtons.add(btnAddClass);
 	}
 
-
 	protected PanelTimeTable getTimeTable() {
 		return (PanelTimeTable) tabbedPaneSchedule.getSelectedComponent();
 	}
 
 	private void initTabbedPane() {
 		scheduleFactory = new ScheduleFactory();
-		tabbedPaneSchedule = new CustomTabbedPane(SwingConstants.TOP, scheduleFactory);
+		tabbedPaneSchedule = new CustomTabbedPane(SwingConstants.TOP,
+				scheduleFactory);
 		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(tabbedPaneSchedule);
 	}

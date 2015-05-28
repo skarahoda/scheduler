@@ -38,7 +38,8 @@ public class PanelTimeTable extends JPanel {
 		String[][] data = { { "8:40-9:30" }, { "9:40-10:30" },
 				{ "10:40-11:30" }, { "11:40-12:30" }, { "12:40-13:30" },
 				{ "13:40-14:30" }, { "14:40-15:30" }, { "15:40-16:30" },
-				{ "16:40-17:30" }, { "17:40-18:30" }, { "18:40-19:30" }, { "19:40-20:30" } };
+				{ "16:40-17:30" }, { "17:40-18:30" }, { "18:40-19:30" },
+				{ "19:40-20:30" } };
 
 		String[] columnNames = { "Time", "Monday", "Tuesday", "Wednesday",
 				"Thursday", "Friday", "Saturday", "Sunday" };
@@ -107,10 +108,9 @@ public class PanelTimeTable extends JPanel {
 				for (int i = startRow; i <= endRow; i++) {
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
-					if(value != ""){
+					if (value != "") {
 						value = value + ", " + suClass.getCourse().getCode();
-					}
-					else{
+					} else {
 						value = suClass.getCourse().getCode();
 					}
 					modelTimeTable.setValueAt(value, i, column);
