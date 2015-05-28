@@ -22,8 +22,7 @@ public class OptionProgram {
 	private JCheckBox checkBoxIsUG;
 	private JTextField textFieldProgram;
 
-	public OptionProgram(){
-
+	public OptionProgram() {
 
 		MaskFormatter formatter;
 		try {
@@ -36,14 +35,15 @@ public class OptionProgram {
 		comboBoxTerm = new JComboBox<String>(terms);
 		checkBoxIsUG = new JCheckBox("I am undergraduate student");
 		textFieldProgram = new JTextField();
-		Object[] message = { "Year:", textFieldYear, "Term:", comboBoxTerm, checkBoxIsUG,"Program name:",textFieldProgram };
+		Object[] message = { "Year:", textFieldYear, "Term:", comboBoxTerm,
+				checkBoxIsUG, "Program name:", textFieldProgram };
 		option = JOptionPane.showConfirmDialog(null, message, "Configurations",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	public Program get(){
+
+	public Program get() {
 		if (option != JOptionPane.OK_OPTION) {
-		   return null;
+			return null;
 		}
 		int year;
 		try {
@@ -53,11 +53,11 @@ public class OptionProgram {
 		}
 		int term = (year * 100) + (comboBoxTerm.getSelectedIndex() + 1);
 		try {
-			return DegreeParser.parse(term, checkBoxIsUG.isSelected(), textFieldProgram.getText());
+			return DegreeParser.parse(term, checkBoxIsUG.isSelected(),
+					textFieldProgram.getText());
 		} catch (IllegalArgumentException | IOException | SQLException e) {
 			return null;
 		}
 	}
-	
 
 }

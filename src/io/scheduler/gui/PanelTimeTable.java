@@ -94,7 +94,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 			return;
 		for (SUClass suClass : classes) {
 			ForeignCollection<Meeting> meetings = suClass.getMeetings();
-			if(meetings.isEmpty()){
+			if (meetings.isEmpty()) {
 				TBAClasses.addElement(suClass.getCourse().getCode());
 			}
 			for (Meeting meeting : meetings) {

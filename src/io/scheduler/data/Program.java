@@ -36,7 +36,7 @@ public class Program {
 	@DatabaseField(columnName = IS_UG_FIELD_NAME, canBeNull = false)
 	private boolean isUG;
 
-	@ForeignCollectionField(columnName=REQ_FIELD_NAME)
+	@ForeignCollectionField(columnName = REQ_FIELD_NAME)
 	private ForeignCollection<DegreeReq> requirements;
 
 	/**
@@ -121,9 +121,9 @@ public class Program {
 		this.isUG = isUG;
 	}
 
-	public Object[] getRequirements(){
+	public Object[] getRequirements() {
 		try {
-			if(requirements == null)
+			if (requirements == null)
 				setDegreeReqs();
 			return requirements.toArray();
 		} catch (SQLException e) {
@@ -131,23 +131,61 @@ public class Program {
 		}
 		return null;
 	}
-	
-
 
 	private void setDegreeReqs() throws SQLException {
 		DatabaseConnector.assignEmptyForeignCollection(this, Program.class,
 				REQ_FIELD_NAME);
 	}
-	
 
-	
-	public static List<Program> getAll() throws SQLException{
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + enterTerm;
+		result = prime * result + (isUG ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Program other = (Program) obj;
+		if (enterTerm != other.enterTerm)
+			return false;
+		if (isUG != other.isUG)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	public static List<Program> getAll() throws SQLException {
 		return DatabaseConnector.get(Program.class);
 	}
-	
-	public static Program get(int term, String name, boolean isUG) throws SQLException{
+
+	public static Program get(int term, String name, boolean isUG)
+			throws SQLException {
 		for (Program program : getAll()) {
-			if(program.enterTerm == term && program.name.equals(name)){
+			if (program.enterTerm == term && program.name.equals(name)) {
 				return program;
 			}
 		}
@@ -156,16 +194,17 @@ public class Program {
 
 	public void removeFromDB() throws SQLException {
 		DatabaseConnector.delete(this, Program.class);
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return  name;
+		return name;
 	}
-
 
 }

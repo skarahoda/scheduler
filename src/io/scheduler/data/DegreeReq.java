@@ -42,7 +42,7 @@ public class DegreeReq {
 	DegreeReq() {
 	}
 
-	public DegreeReq(int courseNum, int credit, String name, String href,
+	private DegreeReq(int courseNum, int credit, String name, String href,
 			Program program) throws SQLException {
 		this.setProgram(program);
 		this.setCredit(credit);
@@ -52,7 +52,7 @@ public class DegreeReq {
 		DatabaseConnector.createIfNotExist(this, DegreeReq.class);
 	}
 
-	public DegreeReq(int courseNum, int credit, String name, Program program)
+	private DegreeReq(int courseNum, int credit, String name, Program program)
 			throws SQLException {
 		this.setProgram(program);
 		this.setCredit(credit);
@@ -137,11 +137,35 @@ public class DegreeReq {
 		this.href = href;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public static DegreeReq get(int courseNum, int credit, String name,
+			Program program) throws SQLException {
+		for (DegreeReq degreeReq : DatabaseConnector.get(DegreeReq.class)) {
+			if (degreeReq.program.equals(program)
+					&& degreeReq.name.equals(name)) {
+				return degreeReq;
+			}
+		}
+		return new DegreeReq(courseNum, credit, name, program);
+	}
+
+	public static DegreeReq get(int courseNum, int credit, String name,
+			String href, Program program) throws SQLException {
+		for (DegreeReq degreeReq : DatabaseConnector.get(DegreeReq.class)) {
+			if (degreeReq.program.equals(program)
+					&& degreeReq.name.equals(name)) {
+				return degreeReq;
+			}
+		}
+		return new DegreeReq(courseNum, credit, name, href, program);
 	}
 }

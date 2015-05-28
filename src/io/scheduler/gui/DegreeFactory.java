@@ -27,7 +27,7 @@ public class DegreeFactory implements Factory {
 
 	@Override
 	public Component generateComponent(Object o) {
-		return new PanelGraduationTable((Program)o);
+		return new PanelGraduationTable((Program) o);
 	}
 
 	@Override

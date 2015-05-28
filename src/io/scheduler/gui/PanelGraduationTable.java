@@ -1,10 +1,8 @@
 package io.scheduler.gui;
 
-import java.awt.Component;
-import java.awt.List;
-
-import io.scheduler.data.DegreeReq;
 import io.scheduler.data.Program;
+
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,7 +12,7 @@ import javax.swing.ScrollPaneConstants;
 public class PanelGraduationTable extends JPanel implements CustomComponent {
 	private Program program;
 	private ImmutableTableModel degreeReqModel;
-	
+
 	public PanelGraduationTable(Program program) {
 		this.program = program;
 		Object[] columnNames = program.getRequirements();
@@ -27,8 +25,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
 	}
-	
-	
+
 	@Override
 	public Object getObject() {
 		// TODO Auto-generated method stub

@@ -47,7 +47,7 @@ public class DegreeParser {
 	private static void parseRow(Element element, Program p)
 			throws SQLException, IOException {
 
-		String req_name = element.child(0).text().substring(1);
+		String req_name = element.child(0).text();
 		int credit;
 		try {
 			credit = Integer.parseInt(element.child(2).text());
@@ -65,20 +65,21 @@ public class DegreeParser {
 			String url = linkElement.attr("href");
 			if (!url.equals("")) {
 				url = url.substring(1);
-				DegreeReq degree = new DegreeReq(course_num, credit, req_name,
+				DegreeReq degree = DegreeReq.get(course_num, credit, req_name,
 						url, p);
 				parseCourse(degree);
 			} else {
-				new DegreeReq(course_num, credit, req_name, p);
+				DegreeReq.get(course_num, credit, req_name, p);
 			}
 		} else {
-			new DegreeReq(course_num, credit, req_name, p);
+			DegreeReq.get(course_num, credit, req_name, p);
 		}
 	}
 
 	private static void parseCourse(DegreeReq degree) throws IOException,
 			SQLException {
 		String url = createUrl(degree);
+		System.out.println(url);
 		Document doc = Jsoup.connect(url).maxBodySize(0).get();
 		Elements rows = doc.select("table").first().children()
 				.select("tr:gt(2)");
