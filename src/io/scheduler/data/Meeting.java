@@ -1,6 +1,8 @@
 package io.scheduler.data;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -151,4 +153,14 @@ public class Meeting {
 		this.place = place;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		DateFormat df = new SimpleDateFormat("HH:mm");
+		return day + ", " + df.format(start) + " - " + df.format(end);
+	}
 }

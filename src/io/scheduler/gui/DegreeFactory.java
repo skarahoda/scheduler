@@ -13,7 +13,7 @@ public class DegreeFactory implements Factory {
 	public List<?> get() {
 		try {
 			return Program.getAll();
-		
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
