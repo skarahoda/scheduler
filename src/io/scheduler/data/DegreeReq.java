@@ -136,4 +136,12 @@ public class DegreeReq {
 	private void setHref(String href) {
 		this.href = href;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return name;
+	}
 }

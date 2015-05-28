@@ -6,7 +6,9 @@ package io.scheduler.data;
 import java.sql.SQLException;
 import java.util.Calendar;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -19,6 +21,7 @@ public class Program {
 	public static final String ENTER_TERM_FIELD_NAME = "enterence_term";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String IS_UG_FIELD_NAME = "is_ug";
+	public static final String REQ_FIELD_NAME = "requirements";
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -31,6 +34,9 @@ public class Program {
 
 	@DatabaseField(columnName = IS_UG_FIELD_NAME, canBeNull = false)
 	private boolean isUG;
+
+	@ForeignCollectionField(columnName=REQ_FIELD_NAME)
+	private ForeignCollection<DegreeReq> requirements;
 
 	/**
 	 * for ormlite
@@ -113,5 +119,23 @@ public class Program {
 	private void setIsUG(boolean isUG) {
 		this.isUG = isUG;
 	}
+	public DegreeReq [] getRequirements(){
+		try {
+			if(requirements == null)
+				setDegreeReqs();
+			return (DegreeReq[]) requirements.toArray();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+
+
+	private void setDegreeReqs() throws SQLException {
+		DatabaseConnector.assignEmptyForeignCollection(this, Program.class,
+				REQ_FIELD_NAME);
+	}
+	
 
 }
