@@ -25,7 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 public class PanelScheduler extends CardPanel {
-	private JTabbedPane tabbedPaneSchedule;
+	private ScheduleFactory scheduleFactory;
+	private CustomTabbedPane tabbedPaneSchedule;
 	private JPanel panelButtons;
 
 	public PanelScheduler(Container parent, String key) {
@@ -98,74 +99,21 @@ public class PanelScheduler extends CardPanel {
 		panelButtons.add(btnAddClass);
 	}
 
-	private void fillTabbedPane() {
-		List<Schedule> schedules;
-		try {
-			schedules = Schedule.get(User.getCurrentTerm());
-		} catch (SQLException e2) {
-			schedules = null;
-		}
-		// if(schedules != null){
-		for (Schedule schedule : schedules) {
-			tabbedPaneSchedule.addTab(schedule.getName(), new PanelTimeTable(
-					schedule));
-		}
-		// }
-		tabbedPaneSchedule.addTab("+", null, null, "Add new schedule");
-	}
 
 	protected PanelTimeTable getTimeTable() {
 		return (PanelTimeTable) tabbedPaneSchedule.getSelectedComponent();
 	}
 
 	private void initTabbedPane() {
-		tabbedPaneSchedule = new JTabbedPane(SwingConstants.TOP);
+		scheduleFactory = new ScheduleFactory();
+		tabbedPaneSchedule = new CustomTabbedPane(SwingConstants.TOP, scheduleFactory);
 		tabbedPaneSchedule.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		add(tabbedPaneSchedule);
-		fillTabbedPane();
-
-		tabbedPaneSchedule.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				int lastTab = tabbedPaneSchedule.getTabCount() - 1;
-				if (tabbedPaneSchedule.getSelectedIndex() == lastTab) {
-					String name = JOptionPane
-							.showInputDialog("Please enter schedule name");
-					try {
-						if (name != null
-								&& !name.equals("")
-								&& !Schedule.exists(name, User.getCurrentTerm())) {
-							Schedule schedule = Schedule.get(name,
-									User.getCurrentTerm());
-							tabbedPaneSchedule.remove(lastTab);
-							tabbedPaneSchedule.addTab(schedule.getName(),
-									new PanelTimeTable(schedule));
-							tabbedPaneSchedule.addTab("+", null, null,
-									"Add new schedule");
-							tabbedPaneSchedule.setSelectedIndex(lastTab);
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-
-					if (e.getButton() == 2) {
-						((PanelTimeTable) tabbedPaneSchedule
-								.getSelectedComponent()).removeFromDb();
-						tabbedPaneSchedule.remove(tabbedPaneSchedule
-								.getSelectedIndex());
-					}
-				}
-
-			}
-		});
 	}
 
 	public void updateWithTerm() {
 		tabbedPaneSchedule.removeAll();
-		fillTabbedPane();
+		tabbedPaneSchedule.fill();
 	}
 
 }
