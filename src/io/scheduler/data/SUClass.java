@@ -164,5 +164,9 @@ public class SUClass {
 			return false;
 		return true;
 	}
+	
+	public String getCode(){
+		return getCourse().getCode();
+	}
 
 }

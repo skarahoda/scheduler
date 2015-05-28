@@ -95,10 +95,13 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 			return;
 		for (SUClass suClass : classes) {
 			ForeignCollection<Meeting> meetings = suClass.getMeetings();
+			if(meetings.isEmpty()){
+				TBAClasses.addElement(suClass.getCourse().getCode());
+			}
 			for (Meeting meeting : meetings) {
 				DayofWeek day = meeting.getDay();
 				if (day == DayofWeek.TBA) {
-					TBAClasses.addElement(suClass.getCourse().getCode());
+					TBAClasses.addElement(suClass.getCode());
 					break;
 				}
 				int column = getIndex(day);
@@ -109,9 +112,9 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 					String value = (String) modelTimeTable
 							.getValueAt(i, column);
 					if (value != "") {
-						value = value + ", " + suClass.getCourse().getCode();
+						value = value + ", " + suClass.getCode();
 					} else {
-						value = suClass.getCourse().getCode();
+						value = suClass.getCode();
 					}
 					modelTimeTable.setValueAt(value, i, column);
 				}
