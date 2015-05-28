@@ -207,4 +207,14 @@ public class Program {
 		return name;
 	}
 
+	public DegreeReq getDegreeReq(Course course) throws SQLException {
+		for (DegreeReq degreeReq : requirements) {
+			for (Course degreeCourse : degreeReq.getCourses()) {
+				if (degreeCourse.equals(course)) {
+					return degreeReq;
+				}
+			}
+		}
+		return null;
+	}
 }

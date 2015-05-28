@@ -4,8 +4,13 @@
 package io.scheduler.data;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -20,6 +25,7 @@ public class DegreeReq {
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String PROGRAM_NAME_FIELD_NAME = "program_id";
 	public static final String HREF_FIELD_NAME = "href";
+	public static final String COURSE_FIELD_NAME = "courses";
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -38,6 +44,9 @@ public class DegreeReq {
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = PROGRAM_NAME_FIELD_NAME, canBeNull = false)
 	private Program program;
+
+	@ForeignCollectionField(columnName = COURSE_FIELD_NAME)
+	private ForeignCollection<DegreeCourse> courses;
 
 	DegreeReq() {
 	}
@@ -167,5 +176,21 @@ public class DegreeReq {
 			}
 		}
 		return new DegreeReq(courseNum, credit, name, href, program);
+	}
+
+	public Collection<Course> getCourses() throws SQLException {
+		if (courses == null) {
+			this.setCourses();
+		}
+		List<Course> returnVal = new ArrayList<Course>();
+		for (DegreeCourse course : courses) {
+			returnVal.add(course.getCourse());
+		}
+		return returnVal;
+	}
+
+	private void setCourses() throws SQLException {
+		DatabaseConnector.assignEmptyForeignCollection(this, DegreeReq.class,
+				COURSE_FIELD_NAME);
 	}
 }

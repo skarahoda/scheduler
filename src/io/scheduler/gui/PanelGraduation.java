@@ -56,6 +56,7 @@ public class PanelGraduation extends CardPanel {
 				try {
 					OptionCourse option = new OptionCourse(TakenCourse.getAll());
 					TakenCourse.deleteCourse(option.get());
+					updateTable();
 				} catch (InvalidParameterException e1) {
 					JOptionPane.showMessageDialog(null,
 							"You don't have any course to delete.");
@@ -75,6 +76,7 @@ public class PanelGraduation extends CardPanel {
 				try {
 					OptionCourse option = new OptionCourse(Course.getAll());
 					TakenCourse.addCourse(option.get());
+					updateTable();
 				} catch (InvalidParameterException e1) {
 					JOptionPane.showMessageDialog(null,
 							"You don't have any course to add.");
@@ -86,6 +88,12 @@ public class PanelGraduation extends CardPanel {
 		});
 		panelButtons.add(btnAddClass);
 
+	}
+
+	protected void updateTable() {
+		PanelGraduationTable table = (PanelGraduationTable) tabbedPaneDegree
+				.getSelectedComponent();
+		table.update();
 	}
 
 	private void initTabbedPane() {
