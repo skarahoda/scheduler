@@ -16,6 +16,10 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 
 public class PanelGraduationTable extends JPanel implements CustomComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -372125371390721629L;
 	private Program program;
 	private ImmutableTableModel degreeReqModel;
 	HashMap<String, Integer> columnCounts;

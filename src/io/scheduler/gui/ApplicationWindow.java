@@ -7,16 +7,15 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 public class ApplicationWindow {
 
@@ -96,66 +95,40 @@ public class ApplicationWindow {
 				panelSchedule.setVisible();
 			}
 		});
-		menuBar.add(mnScheduler);
-		mnScheduler.addMenuListener(new MenuListener() {
-			
-			@Override
-			public void menuSelected(MenuEvent e) {
-				if (ApplicationWindow.config()) {
-					panelSchedule.updateWithTerm();
+		
+		mnScheduler.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1){
+					panelSchedule.setVisible();
 				}
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-			}
+				
+			};
 		});
+		menuBar.add(mnScheduler);
 
 		JMenu mnGraduation = new JMenu("Graduation Summary");
 		menuBar.add(mnGraduation);
-		mnGraduation.addMenuListener(new MenuListener() {
-			
-			@Override
-			public void menuSelected(MenuEvent e) {
-				if (ApplicationWindow.config()) {
-					panelSchedule.updateWithTerm();
+		
+		mnGraduation.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1){
+					panelGradSummary.setVisible();
 				}
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-			}
+				
+			};
 		});
 
 		JMenu mnPreferences = new JMenu("Preferences");
 		menuBar.add(mnPreferences);
-		mnPreferences.addMenuListener(new MenuListener() {
-			
-			@Override
-			public void menuSelected(MenuEvent e) {
-				if (ApplicationWindow.config()) {
+		
+		mnPreferences.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1 && config()){
 					panelSchedule.updateWithTerm();
 				}
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-			}
+			};
 		});
 	}
-
 	public static boolean config() {
 		int term = new OptionConfig().getTerm();
 		if (term != 0) {
