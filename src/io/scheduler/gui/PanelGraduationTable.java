@@ -33,12 +33,14 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		List<String> columnNames = new ArrayList<String>();
 		columnNames.add("");
 
-		String[][] data = { { "Taken Credit:" }, { "Remaining Credit:" }, { "Total Credit:" },{ "Taken Courses:" }, { "Remaining Courses:" }, { "Total Courses:" },
-				{ "Courses:" } };
+		String[][] data = { { "Taken Credit:" }, { "Remaining Credit:" },
+				{ "Total Credit:" }, { "Taken Courses:" },
+				{ "Remaining Courses:" }, { "Total Courses:" }, { "Courses:" } };
 		degreeReqModel = new NonEditableTableModel(data, columnNames.toArray());
 		init();
 		JTable reqTable = new JTable(degreeReqModel);
-		GraduationTableRenderer renderer = new GraduationTableRenderer(degreeReqModel);
+		GraduationTableRenderer renderer = new GraduationTableRenderer(
+				degreeReqModel);
 		reqTable.setDefaultRenderer(Object.class, renderer);
 		JScrollPane scrollPane = new JScrollPane(reqTable);
 		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -53,7 +55,8 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		for (DegreeReq requirement : program.getRequirements()) {
 			double totalCredit = requirement.getCredit();
 			int courseNum = requirement.getCourseNum();
-			Object[] data = { 0, totalCredit, totalCredit,0, courseNum,courseNum, "" };
+			Object[] data = { 0, totalCredit, totalCredit, 0, courseNum,
+					courseNum, "" };
 			degreeReqModel.addColumn(requirement, data);
 		}
 	}
@@ -65,7 +68,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 
 	private void color() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void clear() {
@@ -112,9 +115,9 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 	}
 
 	private void increaseTakenCourse(int column, float credit) {
-		increaseCredit(column,credit);
+		increaseCredit(column, credit);
 		increaseCourse(column);
-		
+
 	}
 
 	private void increaseCourse(Integer column) {
@@ -127,14 +130,14 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 	}
 
 	private void increaseCredit(Integer column, float credit) {
-		double takenCredit = (double) degreeReqModel.getValueAt(0, column) + credit;
+		double takenCredit = (double) degreeReqModel.getValueAt(0, column)
+				+ credit;
 		double totalCredit = (double) degreeReqModel.getValueAt(2, column);
 		double remainingCredit = totalCredit - takenCredit;
 		remainingCredit = remainingCredit < 0 ? 0 : remainingCredit;
 		degreeReqModel.setValueAt(takenCredit, 0, column);
 		degreeReqModel.setValueAt(remainingCredit, 1, column);
-		
+
 	}
-	
 
 }

@@ -49,14 +49,12 @@ public class Meeting {
 	Meeting() {
 	}
 
-	public Meeting(Date s, Date e, String d, String p, SUClass suClass)
-			throws SQLException {
+	private Meeting(Date s, Date e, String d, String p, SUClass suClass) {
 		this.setDay(d);
 		this.setStart(s);
 		this.setEnd(e);
 		this.setSuClass(suClass);
 		this.setPlace(p);
-		DatabaseConnector.createIfNotExist(this, Meeting.class);
 	}
 
 	private DayofWeek stringToDay(String d) {
@@ -162,5 +160,18 @@ public class Meeting {
 	public String toString() {
 		DateFormat df = new SimpleDateFormat("HH:mm");
 		return day + ", " + df.format(start) + " - " + df.format(end);
+	}
+
+	public static Meeting createForDb(Date start, Date end, String day,
+			String place, SUClass tempSUClass) throws SQLException {
+		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
+		DatabaseConnector.createIfNotExist(returnVal, Meeting.class);
+		return returnVal;
+	}
+
+	public static Meeting create(Date start, Date end, String day,
+			String place, SUClass tempSUClass) throws SQLException {
+		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
+		return returnVal;
 	}
 }

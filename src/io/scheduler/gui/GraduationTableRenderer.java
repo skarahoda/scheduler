@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class GraduationTableRenderer extends DefaultTableCellRenderer {
-	
+
 	private NonEditableTableModel degreeReqModel;
 
 	/**
@@ -20,30 +20,33 @@ public class GraduationTableRenderer extends DefaultTableCellRenderer {
 	 */
 	public GraduationTableRenderer(NonEditableTableModel degreeReqModel) {
 		super();
-		System.out.println("created" );
+		System.out.println("created");
 		this.degreeReqModel = degreeReqModel;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent
+	 * (javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
 	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		// TODO Auto-generated method stub
-		Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
-				row, column);
-		if(mustChange(column)){
+		Component cell = super.getTableCellRendererComponent(table, value,
+				isSelected, hasFocus, row, column);
+		if (mustChange(column)) {
 			cell.setBackground(Color.GREEN);
-		}
-		else{
+		} else {
 			cell.setBackground(Color.WHITE);
 		}
 		return cell;
 	}
 
 	private boolean mustChange(int column) {
-		if(degreeReqModel == null || column == 0){
+		if (degreeReqModel == null || column == 0) {
 			return false;
 		}
 		double remainingCredit = (double) degreeReqModel.getValueAt(1, column);
@@ -51,7 +54,5 @@ public class GraduationTableRenderer extends DefaultTableCellRenderer {
 		boolean returnVal = remainingCredit == 0 && remainingCourse == 0;
 		return returnVal;
 	}
-	
-	
 
 }

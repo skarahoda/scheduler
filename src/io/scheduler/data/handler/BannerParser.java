@@ -131,7 +131,7 @@ public class BannerParser {
 			e.printStackTrace();
 		}
 		if (start != null && end != null)
-			new Meeting(start, end, day, place, tempSUClass);
+			Meeting.createForDb(start, end, day, place, tempSUClass);
 	}
 
 	private static String getInstructor(Element element) {
