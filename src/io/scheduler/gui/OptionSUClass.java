@@ -5,7 +5,6 @@ import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 
 import java.awt.Dimension;
-import java.awt.ScrollPane;
 import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,73 +31,53 @@ public class OptionSUClass {
 	private JList<SUClass> jListSUClass;
 	private JList<Meeting> jListMeeting;
 	private List<SUClass> suClasses;
-	private JLabel coursesLabel;
-	private JLabel classesLabel;
-	private JPanel optionPanel;
-	private JPanel suClassPanel;
-	private JPanel coursePanel;
 
 	public OptionSUClass(List<SUClass> suClasses, boolean isSimple) {
 		if (suClasses == null || suClasses.isEmpty())
 			throw new InvalidParameterException();
-		JPanel datePanel = new JPanel();
-		JLabel dateLabel = new JLabel("Meeting");
-
 		this.suClasses = suClasses;
-		this.optionPanel = new JPanel();
-		this.suClassPanel = new JPanel();
-		this.coursePanel = new JPanel();
 
-		optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.LINE_AXIS));
-		coursePanel.setLayout(new BoxLayout(coursePanel, BoxLayout.PAGE_AXIS));
-		suClassPanel
-				.setLayout(new BoxLayout(suClassPanel, BoxLayout.PAGE_AXIS));
-		datePanel.setLayout(new BoxLayout(datePanel, BoxLayout.PAGE_AXIS));
-
-		ScrollPane scrollSUClass = createScrollSUClass();
 		if (!isSimple) {
-			ScrollPane scrollCourse = createScrollCourse();
-			ScrollPane scrollMeeting = createScrollMeeting();
-
+			JPanel optionPanel = initOptionPanel();
 			addEventListeners();
-
-			coursesLabel = new JLabel("Course");
-			classesLabel = new JLabel("Class");
-			classesLabel.setAlignmentX(0);
-			/*
-			 * Object[] message = { "Course:", scrollCourse, "Class:",
-			 * scrollSUClass };
-			 */
-
-			datePanel.add(dateLabel);
-			datePanel.add(scrollMeeting);
-			coursePanel.add(coursesLabel);
-			coursePanel.add(scrollCourse);
-			suClassPanel.add(classesLabel);
-			suClassPanel.add(scrollSUClass);
-
-			coursePanel.setPreferredSize(new Dimension(200, 100));
-			suClassPanel.setPreferredSize(new Dimension(200, 100));
-			datePanel.setPreferredSize(new Dimension(200, 100));
-
-			optionPanel.add(coursePanel);
-			optionPanel.add(suClassPanel);
-			optionPanel.add(datePanel);
-
-			optionPanel.setPreferredSize(new Dimension(1000, 500));
 
 			option = JOptionPane.showConfirmDialog(null, optionPanel,
 					"Classes", JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.PLAIN_MESSAGE);
 		} else {
+			JScrollPane scrollSuClass = createScrollSUClass();
 			for (SUClass suClass : suClasses) {
 				listModelSUClass.addElement(suClass);
 			}
-			Object[] message = { "Class:", scrollSUClass };
+			Object[] message = { "Class:", scrollSuClass };
 			option = JOptionPane.showConfirmDialog(null, message, "Classes",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		}
 
+	}
+
+	private JPanel initOptionPanel() {
+		JPanel returnVal = new JPanel();
+		JPanel coursePanel = initCustomPanel(new JLabel("Course:"),
+				createScrollCourse());
+		JPanel suClassPanel = initCustomPanel(new JLabel("Class:"),
+				createScrollSUClass());
+		JPanel meetingPanel = initCustomPanel(new JLabel("Meeting:"),
+				createScrollMeeting());
+		returnVal.add(coursePanel);
+		returnVal.add(suClassPanel);
+		returnVal.add(meetingPanel);
+		returnVal.setLayout(new BoxLayout(returnVal, BoxLayout.LINE_AXIS));
+		returnVal.setPreferredSize(new Dimension(1200, 500));
+		return returnVal;
+	}
+
+	private JPanel initCustomPanel(JLabel label, JScrollPane scroll) {
+		JPanel returnVal = new JPanel();
+		returnVal.setLayout(new BoxLayout(returnVal, BoxLayout.PAGE_AXIS));
+		returnVal.add(label);
+		returnVal.add(scroll);
+		return returnVal;
 	}
 
 	private void addEventListeners() {
@@ -105,7 +85,6 @@ public class OptionSUClass {
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				// TODO: make visible the selected item
 				listModelSUClass.clear();
 				Course course = jListCourse.getSelectedValue();
 				for (SUClass suClass : suClasses) {
@@ -113,8 +92,7 @@ public class OptionSUClass {
 						listModelSUClass.addElement(suClass);
 					}
 				}
-				int index = jListCourse.getSelectedIndex();
-				jListCourse.ensureIndexIsVisible(index);
+				jListSUClass.setSelectedIndex(0);
 			}
 		});
 		jListSUClass.addListSelectionListener(new ListSelectionListener() {
@@ -134,27 +112,23 @@ public class OptionSUClass {
 		});
 	}
 
-	private ScrollPane createScrollSUClass() {
-		ScrollPane returnVal = new ScrollPane();
+	private JScrollPane createScrollSUClass() {
 		listModelSUClass = new DefaultListModel<SUClass>();
 		jListSUClass = new JList<SUClass>(listModelSUClass);
 		jListSUClass.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		returnVal.add(jListSUClass);
+		JScrollPane returnVal = new JScrollPane(jListSUClass);
 		return returnVal;
 	}
 
-	private ScrollPane createScrollMeeting() {
-		ScrollPane returnVal = new ScrollPane();
+	private JScrollPane createScrollMeeting() {
 		listModelMeeting = new DefaultListModel<Meeting>();
 		jListMeeting = new JList<Meeting>(listModelMeeting);
 		jListMeeting.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		returnVal.add(jListMeeting);
-
+		JScrollPane returnVal = new JScrollPane(jListMeeting);
 		return returnVal;
 	}
 
-	private ScrollPane createScrollCourse() {
-		ScrollPane returnVal = new ScrollPane();
+	private JScrollPane createScrollCourse() {
 		listModelCourse = new DefaultListModel<Course>();
 		Collections.sort(suClasses, Ordering.usingToString());
 		for (SUClass suClass : suClasses) {
@@ -165,7 +139,7 @@ public class OptionSUClass {
 		}
 		jListCourse = new JList<Course>(listModelCourse);
 		jListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		returnVal.add(jListCourse);
+		JScrollPane returnVal = new JScrollPane(jListCourse);
 		return returnVal;
 	}
 

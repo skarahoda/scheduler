@@ -55,7 +55,7 @@ public class PanelGraduation extends CardPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					OptionCourse option = new OptionCourse(TakenCourse.getAll());
-					TakenCourse.deleteCourse(option.get());
+					TakenCourse.deleteCourses(option.get());
 					updateTable();
 				} catch (InvalidParameterException e1) {
 					JOptionPane.showMessageDialog(null,
@@ -75,7 +75,7 @@ public class PanelGraduation extends CardPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					OptionCourse option = new OptionCourse(Course.getAll());
-					TakenCourse.addCourse(option.get());
+					TakenCourse.addCourses(option.get());
 					updateTable();
 				} catch (InvalidParameterException e1) {
 					JOptionPane.showMessageDialog(null,

@@ -81,8 +81,10 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 			degreeReqModel.setValueAt(0.0, 0, i);
 			double totalCredit = (double) degreeReqModel.getValueAt(2, i);
 			degreeReqModel.setValueAt(totalCredit, 1, i);
+			degreeReqModel.setValueAt(0, 3, i);
 			int totalCourses = (int) degreeReqModel.getValueAt(5, i);
 			degreeReqModel.setValueAt(totalCourses, 4, i);
+			degreeReqModel.setValueAt("", 6, i);
 			columnCounts.put(name, 6);
 		}
 	}

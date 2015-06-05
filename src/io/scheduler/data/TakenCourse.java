@@ -58,4 +58,16 @@ public class TakenCourse {
 		}
 	}
 
+	public static void deleteCourses(List<Course> list) throws SQLException {
+		for (Course course : list) {
+			deleteCourse(course);
+		}
+	}
+
+	public static void addCourses(List<Course> list) throws SQLException {
+		for (Course course : list) {
+			addCourse(course);
+		}
+	}
+
 }
