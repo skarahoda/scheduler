@@ -5,7 +5,9 @@
 package io.scheduler.data;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import com.j256.ormlite.dao.ForeignCollection;
@@ -122,11 +124,11 @@ public class Program {
 		this.isUG = isUG;
 	}
 
-	public Object[] getRequirements() {
+	public Collection<DegreeReq> getRequirements() {
 		try {
 			if (requirements == null)
 				setDegreeReqs();
-			return requirements.toArray();
+			return requirements;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -208,15 +210,25 @@ public class Program {
 		return name + " - " + enterTerm;
 	}
 
-	public DegreeReq getDegreeReq(Course course) throws SQLException {
+	public List<DegreeReq> getRequirements(Course course) {
+		List<DegreeReq> returnVal = new ArrayList<DegreeReq>();
+		if(course == null)
+			return returnVal;
 		for (DegreeReq degreeReq : requirements) {
-			for (Course degreeCourse : degreeReq.getCourses()) {
-				if (degreeCourse.equals(course)) {
-					return degreeReq;
+			if(degreeReq.getHref() == null || degreeReq.getHref().equals("")){
+				returnVal.add(degreeReq);
+			}
+			try {
+				for (Course degreeCourse : degreeReq.getCourses()) {
+					if (degreeCourse.equals(course)) {
+						 returnVal.add(degreeReq);
+					}
 				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
-		return null;
+		return returnVal;
 	}
 
 }

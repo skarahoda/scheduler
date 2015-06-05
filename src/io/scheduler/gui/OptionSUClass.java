@@ -7,7 +7,8 @@ import io.scheduler.data.SUClass;
 import java.awt.Dimension;
 import java.awt.ScrollPane;
 import java.security.InvalidParameterException;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -19,6 +20,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.google.common.collect.Ordering;
+
 public class OptionSUClass {
 	private int option;
 	private DefaultListModel<SUClass> listModelSUClass;
@@ -27,14 +30,14 @@ public class OptionSUClass {
 	private JList<Course> jListCourse;
 	private JList<SUClass> jListSUClass;
 	private JList<Meeting> jListMeeting;
-	private Collection<SUClass> suClasses;
+	private List<SUClass> suClasses;
 	private JLabel coursesLabel;
 	private JLabel classesLabel;
 	private JPanel optionPanel;
 	private JPanel suClassPanel;
 	private JPanel coursePanel;
 
-	public OptionSUClass(Collection<SUClass> suClasses, boolean isSimple) {
+	public OptionSUClass(List<SUClass> suClasses, boolean isSimple) {
 		if (suClasses == null || suClasses.isEmpty())
 			throw new InvalidParameterException();
 		JPanel datePanel = new JPanel();
@@ -102,6 +105,7 @@ public class OptionSUClass {
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
+				// TODO: make visible the selected item
 				listModelSUClass.clear();
 				Course course = jListCourse.getSelectedValue();
 				for (SUClass suClass : suClasses) {
@@ -109,6 +113,8 @@ public class OptionSUClass {
 						listModelSUClass.addElement(suClass);
 					}
 				}
+				int index = jListCourse.getSelectedIndex();
+				jListCourse.ensureIndexIsVisible(index);
 			}
 		});
 		jListSUClass.addListSelectionListener(new ListSelectionListener() {
@@ -150,6 +156,7 @@ public class OptionSUClass {
 	private ScrollPane createScrollCourse() {
 		ScrollPane returnVal = new ScrollPane();
 		listModelCourse = new DefaultListModel<Course>();
+		Collections.sort(suClasses, Ordering.usingToString());
 		for (SUClass suClass : suClasses) {
 			Course course = suClass.getCourse();
 			if (course != null && !listModelCourse.contains(course)) {

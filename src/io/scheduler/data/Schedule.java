@@ -5,7 +5,6 @@ package io.scheduler.data;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -84,7 +83,7 @@ public class Schedule {
 		this.name = name;
 	}
 
-	public Collection<SUClass> getSUClasses() throws SQLException {
+	public List<SUClass> getSUClasses() throws SQLException {
 		if (classes == null) {
 			this.setClasses();
 		}

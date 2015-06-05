@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -161,7 +162,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		return (int) (date.getTime() - firstHour.getTime()) / (60 * 60 * 1000);
 	}
 
-	public Collection<SUClass> getSUClasses() throws SQLException {
+	public List<SUClass> getSUClasses() throws SQLException {
 		return schedule.getSUClasses();
 	}
 

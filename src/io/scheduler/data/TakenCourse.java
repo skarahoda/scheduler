@@ -10,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "taken_courses")
 public class TakenCourse {
 	private static final String COURSE_CODE_FIELD_NAME = "code";
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME, canBeNull = false)
 	private Course course;
 
 	@DatabaseField(generatedId = true)
@@ -40,6 +40,8 @@ public class TakenCourse {
 	}
 
 	public static void addCourse(Course addedCourse) throws SQLException {
+		if(addedCourse == null)
+			return;
 		for (TakenCourse course : DatabaseConnector.get(TakenCourse.class)) {
 			if (course.course.equals(addedCourse)) {
 				return;
