@@ -32,10 +32,10 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		this.program = program;
 		List<String> columnNames = new ArrayList<String>();
 		columnNames.add("");
-		
-		String[][] data = { { "Taken:" }, { "Remaining:" },
-				{ "Total:" }, { "Courses:" }};
-		degreeReqModel = new ImmutableTableModel(data,columnNames.toArray());
+
+		String[][] data = { { "Taken:" }, { "Remaining:" }, { "Total:" },
+				{ "Courses:" } };
+		degreeReqModel = new ImmutableTableModel(data, columnNames.toArray());
 		init();
 		JTable reqTable = new JTable(degreeReqModel);
 		JScrollPane scrollPane = new JScrollPane(reqTable);
@@ -50,8 +50,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 	private void init() {
 		for (DegreeReq requirement : program.getRequirements()) {
 			double total = requirement.getCredit();
-			Object[] data = {0,total,
-				total, ""};
+			Object[] data = { 0, total, total, "" };
 			degreeReqModel.addColumn(requirement, data);
 		}
 	}
@@ -94,7 +93,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 					degreeReqModel.setValueAt(course, rowCount, column);
 					columnCounts.put(degree.toString(), rowCount + 1);
 					increaseTakenCourse(degree.toString(), credit);
-				}		
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

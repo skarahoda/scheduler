@@ -40,7 +40,7 @@ public class TakenCourse {
 	}
 
 	public static void addCourse(Course addedCourse) throws SQLException {
-		if(addedCourse == null)
+		if (addedCourse == null)
 			return;
 		for (TakenCourse course : DatabaseConnector.get(TakenCourse.class)) {
 			if (course.course.equals(addedCourse)) {

@@ -95,40 +95,44 @@ public class ApplicationWindow {
 				panelSchedule.setVisible();
 			}
 		});
-		
+
 		mnScheduler.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1){
+				if (e.getButton() == MouseEvent.BUTTON1) {
 					panelSchedule.setVisible();
 				}
-				
+
 			};
 		});
 		menuBar.add(mnScheduler);
 
 		JMenu mnGraduation = new JMenu("Graduation Summary");
 		menuBar.add(mnGraduation);
-		
+
 		mnGraduation.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1){
+				if (e.getButton() == MouseEvent.BUTTON1) {
 					panelGradSummary.setVisible();
 				}
-				
+
 			};
 		});
 
 		JMenu mnPreferences = new JMenu("Preferences");
 		menuBar.add(mnPreferences);
-		
+
 		mnPreferences.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1 && config()){
+				if (e.getButton() == MouseEvent.BUTTON1 && config()) {
 					panelSchedule.updateWithTerm();
 				}
 			};
 		});
 	}
+
 	public static boolean config() {
 		int term = new OptionConfig().getTerm();
 		if (term != 0) {

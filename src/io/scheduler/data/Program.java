@@ -1,4 +1,3 @@
-
 /**
  * 
  */
@@ -212,16 +211,16 @@ public class Program {
 
 	public List<DegreeReq> getRequirements(Course course) {
 		List<DegreeReq> returnVal = new ArrayList<DegreeReq>();
-		if(course == null)
+		if (course == null)
 			return returnVal;
 		for (DegreeReq degreeReq : requirements) {
-			if(degreeReq.getHref() == null || degreeReq.getHref().equals("")){
+			if (degreeReq.getHref() == null || degreeReq.getHref().equals("")) {
 				returnVal.add(degreeReq);
 			}
 			try {
 				for (Course degreeCourse : degreeReq.getCourses()) {
 					if (degreeCourse.equals(course)) {
-						 returnVal.add(degreeReq);
+						returnVal.add(degreeReq);
 					}
 				}
 			} catch (SQLException e) {

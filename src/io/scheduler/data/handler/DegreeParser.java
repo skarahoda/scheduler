@@ -92,7 +92,7 @@ public class DegreeParser {
 					.select("tr:gt(2)");
 			System.out.println(degree.getName());
 			for (Element element : rows) {
-				if(element.children().size() < 3)
+				if (element.children().size() < 3)
 					continue;
 				String code = element.child(1).text();
 				String name = element.child(2).text();
@@ -107,23 +107,24 @@ public class DegreeParser {
 	private static List<String> createUrl(DegreeReq degree) {
 		Program p = degree.getProgram();
 		ArrayList<String> returnVal = new ArrayList<String>();
-		if(p.getIsUG() && degree.getName().contains("Faculty")){
-			returnVal.add(String.format(fensCourses, p.getEnterTerm(), p.getName()));
-			returnVal.add(String.format(fassCourses, p.getEnterTerm(), p.getName()));
-			returnVal.add(String.format(somCourses, p.getEnterTerm(), p.getName()));
-		}
-		else{
+		if (p.getIsUG() && degree.getName().contains("Faculty")) {
+			returnVal.add(String.format(fensCourses, p.getEnterTerm(),
+					p.getName()));
+			returnVal.add(String.format(fassCourses, p.getEnterTerm(),
+					p.getName()));
+			returnVal.add(String.format(somCourses, p.getEnterTerm(),
+					p.getName()));
+		} else {
 			String isUG = p.getIsUG() ? "UG" : "G";
-			returnVal.add(String.format(courseDegreeUrlTemplate, p.getEnterTerm(),
-				degree.getHref(), p.getName(), isUG));
+			returnVal.add(String.format(courseDegreeUrlTemplate,
+					p.getEnterTerm(), degree.getHref(), p.getName(), isUG));
 		}
-		return returnVal; 
+		return returnVal;
 	}
-	
-	public static void main(String [] args)
-	{
+
+	public static void main(String[] args) {
 		try {
-			parse(201001,true,"BSCS");
+			parse(201001, true, "BSCS");
 		} catch (IllegalArgumentException | IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
