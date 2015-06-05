@@ -24,7 +24,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 	 */
 	private static final long serialVersionUID = -372125371390721629L;
 	private Program program;
-	private ImmutableTableModel degreeReqModel;
+	private NonEditableTableModel degreeReqModel;
 	HashMap<String, Integer> columnCounts;
 
 	public PanelGraduationTable(Program program) {
@@ -33,11 +33,13 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		List<String> columnNames = new ArrayList<String>();
 		columnNames.add("");
 
-		String[][] data = { { "Taken:" }, { "Remaining:" }, { "Total:" },
+		String[][] data = { { "Taken Credit:" }, { "Remaining Credit:" }, { "Total Credit:" },{ "Taken Courses:" }, { "Remaining Courses:" }, { "Total Courses:" },
 				{ "Courses:" } };
-		degreeReqModel = new ImmutableTableModel(data, columnNames.toArray());
+		degreeReqModel = new NonEditableTableModel(data, columnNames.toArray());
 		init();
 		JTable reqTable = new JTable(degreeReqModel);
+		GraduationTableRenderer renderer = new GraduationTableRenderer(degreeReqModel);
+		reqTable.setDefaultRenderer(Object.class, renderer);
 		JScrollPane scrollPane = new JScrollPane(reqTable);
 		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		scrollPane.setColumnHeaderView(reqTable.getTableHeader());
@@ -49,27 +51,36 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 
 	private void init() {
 		for (DegreeReq requirement : program.getRequirements()) {
-			double total = requirement.getCredit();
-			Object[] data = { 0, total, total, "" };
+			double totalCredit = requirement.getCredit();
+			int courseNum = requirement.getCourseNum();
+			Object[] data = { 0, totalCredit, totalCredit,0, courseNum,courseNum, "" };
 			degreeReqModel.addColumn(requirement, data);
 		}
 	}
 
 	public void update() {
 		fill();
+		color();
+	}
+
+	private void color() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void clear() {
-		while (degreeReqModel.getRowCount() > 4) {
-			degreeReqModel.removeRow(4);
+		while (degreeReqModel.getRowCount() > 7) {
+			degreeReqModel.removeRow(7);
 		}
 		columnCounts = new HashMap<String, Integer>();
 		for (int i = 1; i < degreeReqModel.getColumnCount(); i++) {
 			String name = degreeReqModel.getColumnName(i);
 			degreeReqModel.setValueAt(0.0, 0, i);
-			double total = (double) degreeReqModel.getValueAt(2, i);
-			degreeReqModel.setValueAt(total, 1, i);
-			columnCounts.put(name, 3);
+			double totalCredit = (double) degreeReqModel.getValueAt(2, i);
+			degreeReqModel.setValueAt(totalCredit, 1, i);
+			int totalCourses = (int) degreeReqModel.getValueAt(5, i);
+			degreeReqModel.setValueAt(totalCourses, 4, i);
+			columnCounts.put(name, 6);
 		}
 	}
 
@@ -92,7 +103,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 					}
 					degreeReqModel.setValueAt(course, rowCount, column);
 					columnCounts.put(degree.toString(), rowCount + 1);
-					increaseTakenCourse(degree.toString(), credit);
+					increaseTakenCourse(column, credit);
 				}
 			}
 		} catch (SQLException e) {
@@ -100,14 +111,30 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		}
 	}
 
-	private void increaseTakenCourse(String columnName, float credit) {
-		Integer column = degreeReqModel.findColumn(columnName);
-		double taken = (double) degreeReqModel.getValueAt(0, column) + credit;
-		double total = (double) degreeReqModel.getValueAt(2, column);
-		double remaining = total - taken;
-		remaining = remaining < 0 ? 0 : remaining;
-		degreeReqModel.setValueAt(taken, 0, column);
-		degreeReqModel.setValueAt(remaining, 1, column);
+	private void increaseTakenCourse(int column, float credit) {
+		increaseCredit(column,credit);
+		increaseCourse(column);
+		
 	}
+
+	private void increaseCourse(Integer column) {
+		int takenCourse = (int) degreeReqModel.getValueAt(3, column) + 1;
+		int totalCourse = (int) degreeReqModel.getValueAt(5, column);
+		int remainingCourse = totalCourse - takenCourse;
+		remainingCourse = remainingCourse < 0 ? 0 : remainingCourse;
+		degreeReqModel.setValueAt(takenCourse, 3, column);
+		degreeReqModel.setValueAt(remainingCourse, 4, column);
+	}
+
+	private void increaseCredit(Integer column, float credit) {
+		double takenCredit = (double) degreeReqModel.getValueAt(0, column) + credit;
+		double totalCredit = (double) degreeReqModel.getValueAt(2, column);
+		double remainingCredit = totalCredit - takenCredit;
+		remainingCredit = remainingCredit < 0 ? 0 : remainingCredit;
+		degreeReqModel.setValueAt(takenCredit, 0, column);
+		degreeReqModel.setValueAt(remainingCredit, 1, column);
+		
+	}
+	
 
 }

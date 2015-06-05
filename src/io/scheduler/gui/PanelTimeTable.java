@@ -30,7 +30,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 	 */
 	private static final long serialVersionUID = 8723788672175458756L;
 	private DefaultListModel<String> TBAClasses;
-	private ImmutableTableModel modelTimeTable;
+	private NonEditableTableModel modelTimeTable;
 	private Schedule schedule;
 
 	public PanelTimeTable(Schedule schedule) {
@@ -44,7 +44,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		String[] columnNames = { "Time", "Monday", "Tuesday", "Wednesday",
 				"Thursday", "Friday", "Saturday", "Sunday" };
 
-		modelTimeTable = new ImmutableTableModel(data, columnNames);
+		modelTimeTable = new NonEditableTableModel(data, columnNames);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		JTable timeTable = new JTable(modelTimeTable);
