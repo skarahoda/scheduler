@@ -1,6 +1,7 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.Schedule;
 import io.scheduler.data.TakenCourse;
 
 import java.awt.Component;
@@ -54,7 +55,8 @@ public class PanelGraduation extends CardPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					OptionCourse option = new OptionCourse(TakenCourse.getAll());
+					OptionList<Course> option = new OptionList<Course>(
+							TakenCourse.getAll());
 					TakenCourse.deleteCourses(option.get());
 					updateTable();
 				} catch (InvalidParameterException e1) {
@@ -74,7 +76,8 @@ public class PanelGraduation extends CardPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					OptionCourse option = new OptionCourse(Course.getAll());
+					OptionList<Course> option = new OptionList<Course>(Course
+							.getAll());
 					TakenCourse.addCourses(option.get());
 					updateTable();
 				} catch (InvalidParameterException e1) {
@@ -87,6 +90,30 @@ public class PanelGraduation extends CardPanel {
 			}
 		});
 		panelButtons.add(btnAddClass);
+
+		JButton btnImport = new JButton("Import From Schedule");
+		btnImport.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					OptionList<Schedule> option = new OptionList<Schedule>(
+							Schedule.get());
+
+					for (Schedule schedule : option.get()) {
+						TakenCourse.addCourses(schedule);
+					}
+					updateTable();
+				} catch (InvalidParameterException e1) {
+					JOptionPane.showMessageDialog(null,
+							"You don't have any schedule");
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		panelButtons.add(btnImport);
 
 	}
 

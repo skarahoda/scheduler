@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -53,9 +54,12 @@ public class PanelScheduler extends CardPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					PanelTimeTable timeTable = getTimeTable();
-					OptionSUClass option = new OptionSUClass(timeTable
-							.getSUClasses(), true);
-					timeTable.deleteClass(option.get());
+					OptionList<SUClass> option = new OptionList<SUClass>(
+							timeTable.getSUClasses());
+					List<SUClass> list = option.get();
+					for (SUClass suClass : list) {
+						timeTable.deleteClass(suClass);
+					}
 				} catch (InvalidParameterException e1) {
 					JOptionPane.showMessageDialog(new JFrame(),
 							"You don't have any class.");
@@ -76,8 +80,7 @@ public class PanelScheduler extends CardPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					PanelTimeTable timeTable = getTimeTable();
-					OptionSUClass option = new OptionSUClass(SUClass.get(),
-							false);
+					OptionSUClass option = new OptionSUClass(SUClass.get());
 					timeTable.addClass(option.get());
 				} catch (SQLException e1) {
 

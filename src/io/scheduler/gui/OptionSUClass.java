@@ -32,28 +32,15 @@ public class OptionSUClass {
 	private JList<Meeting> jListMeeting;
 	private List<SUClass> suClasses;
 
-	public OptionSUClass(List<SUClass> suClasses, boolean isSimple) {
+	public OptionSUClass(List<SUClass> suClasses)
+			throws InvalidParameterException {
 		if (suClasses == null || suClasses.isEmpty())
 			throw new InvalidParameterException();
 		this.suClasses = suClasses;
-
-		if (!isSimple) {
-			JPanel optionPanel = initOptionPanel();
-			addEventListeners();
-
-			option = JOptionPane.showConfirmDialog(null, optionPanel,
-					"Classes", JOptionPane.OK_CANCEL_OPTION,
-					JOptionPane.PLAIN_MESSAGE);
-		} else {
-			JScrollPane scrollSuClass = createScrollSUClass();
-			for (SUClass suClass : suClasses) {
-				listModelSUClass.addElement(suClass);
-			}
-			Object[] message = { "Class:", scrollSuClass };
-			option = JOptionPane.showConfirmDialog(null, message, "Classes",
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		}
-
+		JPanel optionPanel = initOptionPanel();
+		addEventListeners();
+		option = JOptionPane.showConfirmDialog(null, optionPanel, "Classes",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	private JPanel initOptionPanel() {

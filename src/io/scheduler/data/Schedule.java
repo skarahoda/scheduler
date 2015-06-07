@@ -141,6 +141,10 @@ public class Schedule {
 				term);
 	}
 
+	public static List<Schedule> get() throws SQLException {
+		return DatabaseConnector.get(Schedule.class);
+	}
+
 	private void setClasses() throws SQLException {
 		DatabaseConnector.assignEmptyForeignCollection(this, Schedule.class,
 				CLASSES_FIELD_NAME);
@@ -152,7 +156,7 @@ public class Schedule {
 
 	@Override
 	public String toString() {
-		return name;
+		return name + " - " + term;
 	}
 
 }

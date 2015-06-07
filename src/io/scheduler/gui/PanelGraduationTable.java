@@ -63,12 +63,6 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 
 	public void update() {
 		fill();
-		color();
-	}
-
-	private void color() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void clear() {
@@ -98,6 +92,7 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		clear();
 		try {
 			for (Course course : TakenCourse.getAll()) {
+				System.out.println(course);
 				List<DegreeReq> degreeList = program.getRequirements(course);
 				float credit = course.getCredit();
 				for (DegreeReq degree : degreeList) {

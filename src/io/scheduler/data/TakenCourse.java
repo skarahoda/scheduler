@@ -70,4 +70,10 @@ public class TakenCourse {
 		}
 	}
 
+	public static void addCourses(Schedule schedule) throws SQLException {
+		for (SUClass suClasses : schedule.getSUClasses()) {
+			addCourse(suClasses.getCourse());
+		}
+	}
+
 }
