@@ -30,8 +30,8 @@ public class Schedule {
 	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
 
-	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false)
-	private int term;
+	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false, persisterClass = TermPersister.class)
+	private Term term;
 
 	@ForeignCollectionField(columnName = CLASSES_FIELD_NAME)
 	private ForeignCollection<ScheduleSUClass> classes;
@@ -47,7 +47,7 @@ public class Schedule {
 	 * @param name
 	 * @throws SQLException
 	 */
-	Schedule(String name, int term) throws SQLException {
+	Schedule(String name, Term term) throws SQLException {
 		this.name = name;
 		this.term = term;
 		DatabaseConnector.createIfNotExist(this, Schedule.class);
@@ -56,7 +56,7 @@ public class Schedule {
 	/**
 	 * @return the term
 	 */
-	public int getTerm() {
+	public Term getTerm() {
 		return term;
 	}
 
@@ -102,7 +102,7 @@ public class Schedule {
 		}
 	}
 
-	public static Schedule get(String name, int term) throws SQLException {
+	public static Schedule get(String name, Term term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
 			if (schedule.getName().equals(name))
@@ -111,7 +111,7 @@ public class Schedule {
 		return new Schedule(name, term);
 	}
 
-	public static boolean exists(String name, int term) throws SQLException {
+	public static boolean exists(String name, Term term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
 			if (schedule.getName().equals(name) && schedule.getTerm() == term)
@@ -120,7 +120,7 @@ public class Schedule {
 		return false;
 	}
 
-	public static List<Schedule> get(int term) throws SQLException {
+	public static List<Schedule> get(Term term) throws SQLException {
 		return DatabaseConnector.get(Schedule.class, Schedule.TERM_FIELD_NAME,
 				term);
 	}

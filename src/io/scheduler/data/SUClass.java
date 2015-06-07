@@ -145,4 +145,13 @@ public class SUClass {
 		return getCourse().getCode();
 	}
 
+	public boolean intersect(Meeting other) {
+		for (Meeting meeting : meetings) {
+			if (meeting.intersect(other)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

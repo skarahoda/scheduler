@@ -5,7 +5,6 @@ package io.scheduler.data;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,8 +28,8 @@ public class Program {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(columnName = ENTER_TERM_FIELD_NAME, canBeNull = false)
-	private int enterTerm;
+	@DatabaseField(columnName = ENTER_TERM_FIELD_NAME, canBeNull = false, persisterClass = TermPersister.class)
+	private Term enterTerm;
 
 	@DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
 	private String name;
@@ -53,7 +52,7 @@ public class Program {
 	 * @param level
 	 * @throws SQLException
 	 */
-	private Program(int enterTerm, String name, boolean isUG)
+	private Program(Term enterTerm, String name, boolean isUG)
 			throws IllegalArgumentException, SQLException {
 		validateTerm(enterTerm);
 		this.enterTerm = enterTerm;
@@ -65,23 +64,14 @@ public class Program {
 	/**
 	 * @return the enterTerm
 	 */
-	public int getEnterTerm() {
+	public Term getEnterTerm() {
 		return enterTerm;
 	}
 
-	private void validateTerm(int enterTerm) throws IllegalArgumentException {
-		if (enterTerm < 199901) {
-			throw new IllegalArgumentException("enterTerm:(" + enterTerm
-					+ ") is less than 1999.");
-		}
-		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		if ((currentYear + 2) * 100 < enterTerm) {
-			throw new IllegalArgumentException("enterTerm:(" + enterTerm
-					+ ") is higher than next year.");
-		}
-		if (2 < (enterTerm % 100)) {
-			throw new IllegalArgumentException("enterTerm:(" + enterTerm
-					+ ") last two digit is not valid.");
+	private void validateTerm(Term enterTerm) throws IllegalArgumentException {
+		if (enterTerm.getYear() < 1999) {
+			throw new IllegalArgumentException("enterence year:("
+					+ enterTerm.getYear() + ") is less than 1999.");
 		}
 	}
 
@@ -124,7 +114,8 @@ public class Program {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + enterTerm;
+		result = prime * result
+				+ ((enterTerm == null) ? 0 : enterTerm.hashCode());
 		result = prime * result + (isUG ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -144,7 +135,10 @@ public class Program {
 		if (getClass() != obj.getClass())
 			return false;
 		Program other = (Program) obj;
-		if (enterTerm != other.enterTerm)
+		if (enterTerm == null) {
+			if (other.enterTerm != null)
+				return false;
+		} else if (!enterTerm.equals(other.enterTerm))
 			return false;
 		if (isUG != other.isUG)
 			return false;
@@ -160,7 +154,7 @@ public class Program {
 		return DatabaseConnector.get(Program.class);
 	}
 
-	public static Program get(int term, String name, boolean isUG)
+	public static Program get(Term term, String name, boolean isUG)
 			throws SQLException {
 		for (Program program : getAll()) {
 			if (program.enterTerm == term && program.name.equals(name)) {

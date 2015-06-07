@@ -1,7 +1,8 @@
 package io.scheduler.data;
 
+import io.scheduler.data.Term.TermOfYear;
+
 import java.sql.SQLException;
-import java.util.Calendar;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -14,8 +15,8 @@ public class User {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false)
-	private int currentTerm;
+	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false, persisterClass = TermPersister.class)
+	private Term currentTerm;
 
 	private static User singleton = null;
 
@@ -25,47 +26,32 @@ public class User {
 	User() {
 	}
 
-	private User(int currentTerm) throws IllegalArgumentException, SQLException {
+	private User(Term currentTerm) throws IllegalArgumentException,
+			SQLException {
 		DatabaseConnector.clearTable(User.class);
 		this.currentTerm = currentTerm;
 		DatabaseConnector.createIfNotExist(this, User.class);
 	}
 
-	private static void validateTerm(int term) throws IllegalArgumentException {
-		if (!isTermValid(term)) {
-			throw new IllegalArgumentException("term:(" + term
-					+ ") is invalid.");
-		}
+	private static void validateTerm(Term term) throws IllegalArgumentException {
+		if ((term.getTerm() == TermOfYear.FALL && term.getYear() == 2006)
+				|| term.getYear() < 2006)
+			throw new IllegalArgumentException("Term: " + term
+					+ " is too old to get schedule");
 	}
 
-	private static boolean isTermValid(int term_and_year) {
-
-		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-		if ((currentYear + 2) * 100 < term_and_year) {
-			return false;
-		}
-		if (200602 > term_and_year) {
-			return false;
-		}
-		if (2 < (term_and_year % 100)) {
-			return false;
-		}
-		return true;
-	}
-
-	public static int getCurrentTerm() {
+	public static Term getCurrentTerm() {
 		try {
 			singleton = DatabaseConnector.getFirst(User.class);
 		} catch (SQLException e) {
 			singleton = null;
 		}
-		return singleton == null ? -1 : singleton.currentTerm;
+		return singleton == null ? null : singleton.currentTerm;
 	}
 
-	public static void setCurrentTerm(int currentTerm)
+	public static void setCurrentTerm(Term currentTerm)
 			throws IllegalArgumentException, SQLException {
-		if (currentTerm == -1) {
+		if (currentTerm == null) {
 			DatabaseConnector.clearTable(User.class);
 			return;
 		}

@@ -1,5 +1,6 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.Term;
 import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
 
@@ -55,7 +56,7 @@ public class ApplicationWindow {
 	}
 
 	private void initializeConfig() {
-		if (User.getCurrentTerm() == -1) {
+		if (User.getCurrentTerm() == null) {
 			while (!ApplicationWindow.config()) {
 				int option = JOptionPane
 						.showConfirmDialog(null, "Do you want to exit?",
@@ -134,8 +135,8 @@ public class ApplicationWindow {
 	}
 
 	public static boolean config() {
-		int term = new OptionConfig().getTerm();
-		if (term != 0) {
+		Term term = new OptionConfig().getTerm();
+		if (term != null) {
 			try {
 				BannerParser.parse(term);
 			} catch (IllegalArgumentException e1) {

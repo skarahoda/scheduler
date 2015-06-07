@@ -92,7 +92,6 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 		clear();
 		try {
 			for (Course course : TakenCourse.getAll()) {
-				System.out.println(course);
 				List<DegreeReq> degreeList = program.getRequirements(course);
 				float credit = course.getCredit();
 				for (DegreeReq degree : degreeList) {

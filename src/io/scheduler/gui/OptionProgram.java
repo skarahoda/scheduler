@@ -1,6 +1,8 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.Program;
+import io.scheduler.data.Term;
+import io.scheduler.data.Term.TermOfYear;
 import io.scheduler.data.handler.DegreeParser;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import javax.swing.text.MaskFormatter;
 public class OptionProgram {
 
 	private JTextField textFieldYear;
-	private JComboBox<String> comboBoxTerm;
+	private JComboBox<TermOfYear> comboBoxTerm;
 	private int option;
 	private JCheckBox checkBoxIsUG;
 	private JTextField textFieldProgram;
@@ -31,8 +33,7 @@ public class OptionProgram {
 		} catch (ParseException e) {
 			textFieldYear = new JTextField();
 		}
-		String[] terms = { "Fall", "Spring" };
-		comboBoxTerm = new JComboBox<String>(terms);
+		comboBoxTerm = new JComboBox<TermOfYear>(TermOfYear.values());
 		checkBoxIsUG = new JCheckBox("I am undergraduate student");
 		textFieldProgram = new JTextField();
 		Object[] message = { "Year:", textFieldYear, "Term:", comboBoxTerm,
@@ -50,10 +51,10 @@ public class OptionProgram {
 		try {
 			year = Integer.parseInt(textFieldYear.getText());
 		} catch (NumberFormatException e) {
-			year = 0;
+			return null;
 		}
-		int term = (year * 100) + (comboBoxTerm.getSelectedIndex() + 1);
 		Program p = null;
+		Term term = new Term(year, (TermOfYear) comboBoxTerm.getSelectedItem());
 		try {
 			p = Program.get(term, textFieldProgram.getText(),
 					checkBoxIsUG.isSelected());

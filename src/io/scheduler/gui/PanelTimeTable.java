@@ -6,9 +6,13 @@ import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +39,26 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 
 	public PanelTimeTable(Schedule schedule) {
 		this.schedule = schedule;
+		initTable();
+		initList();
+		try {
+			fillTable();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void initList() {
+		TBAClasses = new DefaultListModel<String>();
+		JList<String> list = new JList<String>(TBAClasses);
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setAlignmentY(Component.TOP_ALIGNMENT);
+		add(scrollPane);
+
+	}
+
+	private void initTable() {
 		String[][] data = { { "8:40-9:30" }, { "9:40-10:30" },
 				{ "10:40-11:30" }, { "11:40-12:30" }, { "12:40-13:30" },
 				{ "13:40-14:30" }, { "14:40-15:30" }, { "15:40-16:30" },
@@ -48,24 +72,62 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		JTable timeTable = new JTable(modelTimeTable);
+		timeTable.addMouseListener(new MouseAdapter() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent
+			 * )
+			 */
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					Meeting meeting = createMeeting((JTable) e.getSource());
+					List<SUClass> suClasses = new ArrayList<SUClass>();
+					try {
+						for (SUClass suClass : SUClass.get()) {
+							if (suClass.intersect(meeting)) {
+								suClasses.add(suClass);
+							}
+						}
+						OptionSUClass option = new OptionSUClass(suClasses);
+						schedule.addSUClass(option.get());
+						fillTable();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane(timeTable);
 		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		scrollPane.setColumnHeaderView(timeTable.getTableHeader());
 		scrollPane
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
+	}
 
-		TBAClasses = new DefaultListModel<String>();
-		JList<String> list = new JList<String>(TBAClasses);
-		JScrollPane scrollPane_1 = new JScrollPane(list);
-		scrollPane_1.setAlignmentY(Component.TOP_ALIGNMENT);
-		add(scrollPane_1);
+	protected Meeting createMeeting(JTable source) {
+		int row = source.getSelectedRow();
+		int column = source.getSelectedColumn();
+		String timeInterval = (String) source.getValueAt(row, 0);
+		String day = source.getColumnName(column);
+		day = day.toUpperCase();
+		String[] times = timeInterval.split("-");
+		DateFormat format = new SimpleDateFormat("h:mm");
+		Date start = null;
+		Date end = null;
 		try {
-			fillTable();
-		} catch (SQLException e) {
+			start = format.parse(times[0]);
+			end = format.parse(times[1]);
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return Meeting.create(start, end, DayofWeek.valueOf(day), null, null);
 	}
 
 	public void deleteClass(SUClass suClass) {

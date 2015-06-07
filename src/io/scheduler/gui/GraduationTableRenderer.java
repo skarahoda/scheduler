@@ -20,7 +20,6 @@ public class GraduationTableRenderer extends DefaultTableCellRenderer {
 	 */
 	public GraduationTableRenderer(NonEditableTableModel degreeReqModel) {
 		super();
-		System.out.println("created");
 		this.degreeReqModel = degreeReqModel;
 	}
 
@@ -34,7 +33,6 @@ public class GraduationTableRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		// TODO Auto-generated method stub
 		Component cell = super.getTableCellRendererComponent(table, value,
 				isSelected, hasFocus, row, column);
 		if (mustChange(column)) {

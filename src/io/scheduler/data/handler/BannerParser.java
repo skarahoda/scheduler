@@ -5,6 +5,7 @@ import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.ScheduleSUClass;
+import io.scheduler.data.Term;
 import io.scheduler.data.User;
 
 import java.io.IOException;
@@ -51,14 +52,14 @@ public class BannerParser {
 	 *             may be already using.
 	 * @throws InterruptedException
 	 */
-	public static void parse(int term) throws IOException, SQLException,
+	public static void parse(Term term) throws IOException, SQLException,
 			IllegalArgumentException {
 		try {
 			User.setCurrentTerm(term);
 			clearTables();
 			Collection<Course> courses = DatabaseConnector.get(Course.class);
 			// bannerweb connection
-			String bannerUrl = String.format(bannerUrlTemplate, term);
+			String bannerUrl = String.format(bannerUrlTemplate, term.toInt());
 			Document doc = Jsoup.connect(bannerUrl).maxBodySize(0).get();
 
 			Elements rows = doc
@@ -73,7 +74,7 @@ public class BannerParser {
 			}
 		} catch (Exception e) {
 			clearTables();
-			User.setCurrentTerm(-1);
+			User.setCurrentTerm(null);
 			throw e;
 		}
 	}

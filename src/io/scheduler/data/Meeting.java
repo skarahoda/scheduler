@@ -130,8 +130,14 @@ public class Meeting {
 	}
 
 	public static Meeting create(Date start, Date end, DayofWeek day,
-			String place, SUClass tempSUClass) throws SQLException {
+			String place, SUClass tempSUClass) {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
 		return returnVal;
+	}
+
+	public boolean intersect(Meeting other) {
+		return this.day == other.day
+				&& !(other.end.before(this.start) || other.start
+						.after(this.end));
 	}
 }

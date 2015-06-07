@@ -1,5 +1,8 @@
 package io.scheduler.gui;
 
+import io.scheduler.data.Term;
+import io.scheduler.data.Term.TermOfYear;
+
 import java.text.ParseException;
 
 import javax.swing.JComboBox;
@@ -12,7 +15,7 @@ public class OptionConfig {
 
 	private int option;
 	private JTextField textFieldYear;
-	private JComboBox<String> comboBoxTerm;
+	private JComboBox<TermOfYear> comboBoxTerm;
 
 	/**
 	 * 
@@ -26,25 +29,23 @@ public class OptionConfig {
 		} catch (ParseException e) {
 			textFieldYear = new JTextField();
 		}
-		String[] terms = { "Fall", "Spring" };
-		comboBoxTerm = new JComboBox<String>(terms);
+		comboBoxTerm = new JComboBox<TermOfYear>(TermOfYear.values());
 		Object[] message = { "Year:", textFieldYear, "Term:", comboBoxTerm };
 		option = JOptionPane.showConfirmDialog(null, message, "Configurations",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
-	public int getTerm() {
+	public Term getTerm() {
 		if (option != JOptionPane.OK_OPTION) {
-			return 0;
+			return null;
 		}
 		int year;
 		try {
 			year = Integer.parseInt(textFieldYear.getText());
 		} catch (NumberFormatException e) {
-			year = 0;
+			return null;
 		}
-		int term = (year * 100) + (comboBoxTerm.getSelectedIndex() + 1);
-		return term;
+		return new Term(year, (TermOfYear) comboBoxTerm.getSelectedItem());
 	}
 
 }
