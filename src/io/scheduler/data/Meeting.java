@@ -49,15 +49,15 @@ public class Meeting {
 	Meeting() {
 	}
 
-	private Meeting(Date s, Date e, String d, String p, SUClass suClass) {
-		this.setDay(d);
-		this.setStart(s);
-		this.setEnd(e);
-		this.setSuClass(suClass);
-		this.setPlace(p);
+	private Meeting(Date s, Date e, DayofWeek d, String p, SUClass suClass) {
+		this.day = d;
+		this.start = s;
+		this.end = e;
+		this.suClass = suClass;
+		this.place = p;
 	}
 
-	private DayofWeek stringToDay(String d) {
+	public static DayofWeek stringToDay(String d) {
 		switch (d.charAt(0)) {
 		case 'M':
 			return DayofWeek.MONDAY;
@@ -84,26 +84,10 @@ public class Meeting {
 	}
 
 	/**
-	 * @param end
-	 *            the end to set
-	 */
-	private void setEnd(Date end) {
-		this.end = end;
-	}
-
-	/**
 	 * @return the day
 	 */
 	public DayofWeek getDay() {
 		return day;
-	}
-
-	/**
-	 * @param d
-	 *            the day to set
-	 */
-	private void setDay(String d) {
-		this.day = stringToDay(d);
 	}
 
 	/**
@@ -114,14 +98,6 @@ public class Meeting {
 	}
 
 	/**
-	 * @param start
-	 *            the start to set
-	 */
-	private void setStart(Date start) {
-		this.start = start;
-	}
-
-	/**
 	 * @return the suClass
 	 */
 	public SUClass getSuClass() {
@@ -129,26 +105,10 @@ public class Meeting {
 	}
 
 	/**
-	 * @param suClass
-	 *            the suClass to set
-	 */
-	private void setSuClass(SUClass suClass) {
-		this.suClass = suClass;
-	}
-
-	/**
 	 * @return the place
 	 */
 	public String getPlace() {
 		return place;
-	}
-
-	/**
-	 * @param place
-	 *            the place to set
-	 */
-	private void setPlace(String place) {
-		this.place = place;
 	}
 
 	/*
@@ -162,14 +122,14 @@ public class Meeting {
 		return day + ", " + df.format(start) + " - " + df.format(end);
 	}
 
-	public static Meeting createForDb(Date start, Date end, String day,
+	public static Meeting createForDb(Date start, Date end, DayofWeek day,
 			String place, SUClass tempSUClass) throws SQLException {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
 		DatabaseConnector.createIfNotExist(returnVal, Meeting.class);
 		return returnVal;
 	}
 
-	public static Meeting create(Date start, Date end, String day,
+	public static Meeting create(Date start, Date end, DayofWeek day,
 			String place, SUClass tempSUClass) throws SQLException {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
 		return returnVal;

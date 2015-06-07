@@ -48,8 +48,8 @@ public class Schedule {
 	 * @throws SQLException
 	 */
 	Schedule(String name, int term) throws SQLException {
-		this.setName(name);
-		this.setTerm(term);
+		this.name = name;
+		this.term = term;
 		DatabaseConnector.createIfNotExist(this, Schedule.class);
 	}
 
@@ -61,26 +61,10 @@ public class Schedule {
 	}
 
 	/**
-	 * @param term
-	 *            the term to set
-	 */
-	private void setTerm(int term) {
-		this.term = term;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	private void setName(String name) {
-		this.name = name;
 	}
 
 	public List<SUClass> getSUClasses() throws SQLException {

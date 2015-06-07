@@ -56,10 +56,10 @@ public class SUClass {
 	 */
 	public SUClass(String crn, String instructor, String section, Course course)
 			throws SQLException {
-		this.setCrn(crn);
-		this.setInstructorName(instructor);
-		this.setSection(section);
-		this.setCourse(course);
+		this.crn = crn;
+		this.instructorName = instructor;
+		this.section = section;
+		this.course = course;
 		DatabaseConnector.createIfNotExist(this, SUClass.class);
 	}
 
@@ -67,16 +67,8 @@ public class SUClass {
 		return crn;
 	}
 
-	private void setCrn(String crn) {
-		this.crn = crn;
-	}
-
 	public String getInstructorName() {
 		return instructorName;
-	}
-
-	private void setInstructorName(String instructorName) {
-		this.instructorName = instructorName;
 	}
 
 	/**
@@ -87,26 +79,10 @@ public class SUClass {
 	}
 
 	/**
-	 * @param section
-	 *            the section to set
-	 */
-	private void setSection(String section) {
-		this.section = section;
-	}
-
-	/**
 	 * @return the course
 	 */
 	public Course getCourse() {
 		return course;
-	}
-
-	/**
-	 * @param course
-	 *            the course to set
-	 */
-	private void setCourse(Course course) {
-		this.course = course;
 	}
 
 	/**

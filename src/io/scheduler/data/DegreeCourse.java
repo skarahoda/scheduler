@@ -32,8 +32,8 @@ public class DegreeCourse {
 	 * @throws SQLException
 	 */
 	public DegreeCourse(DegreeReq degree, Course course) throws SQLException {
-		this.setDegree(degree);
-		this.setCourse(course);
+		this.degree = degree;
+		this.course = course;
 		DatabaseConnector.createIfNotExist(this, DegreeCourse.class);
 	}
 
@@ -45,26 +45,9 @@ public class DegreeCourse {
 	}
 
 	/**
-	 * @param degree
-	 *            the degree to set
-	 */
-	private void setDegree(DegreeReq degree) {
-		this.degree = degree;
-	}
-
-	/**
 	 * @return the course
 	 */
 	public Course getCourse() {
 		return course;
 	}
-
-	/**
-	 * @param course
-	 *            the course to set
-	 */
-	private void setCourse(Course course) {
-		this.course = course;
-	}
-
 }

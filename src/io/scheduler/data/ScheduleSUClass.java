@@ -24,8 +24,8 @@ public class ScheduleSUClass {
 	}
 
 	ScheduleSUClass(SUClass suClass, Schedule schedule) throws SQLException {
-		this.setSuClass(suClass);
-		this.setSchedule(schedule);
+		this.suClass = suClass;
+		this.schedule = schedule;
 		DatabaseConnector.createIfNotExist(this, ScheduleSUClass.class);
 	}
 
@@ -37,25 +37,9 @@ public class ScheduleSUClass {
 	}
 
 	/**
-	 * @param suClass
-	 *            the suClass to set
-	 */
-	private void setSuClass(SUClass suClass) {
-		this.suClass = suClass;
-	}
-
-	/**
 	 * @return the schedule
 	 */
 	public Schedule getSchedule() {
 		return schedule;
-	}
-
-	/**
-	 * @param schedule
-	 *            the schedule to set
-	 */
-	private void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
 	}
 }

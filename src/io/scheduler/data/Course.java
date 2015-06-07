@@ -38,9 +38,9 @@ public class Course {
 	 * @throws SQLException
 	 */
 	private Course(String code, String name, float credit) {
-		this.setCode(code);
-		this.setCredit(credit);
-		this.setName(name);
+		this.code = code;
+		this.credit = credit;
+		this.name = name;
 	}
 
 	public static Course get(String code, String name, float credit)
@@ -72,14 +72,6 @@ public class Course {
 	}
 
 	/**
-	 * @param code
-	 *            the code to set
-	 */
-	private void setCode(String code) {
-		this.code = code;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -87,26 +79,10 @@ public class Course {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
-	 */
-	private void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the credit
 	 */
 	public float getCredit() {
 		return credit;
-	}
-
-	/**
-	 * @param credit
-	 *            the credit to set
-	 */
-	private void setCredit(float credit) {
-		this.credit = credit;
 	}
 
 	@Override

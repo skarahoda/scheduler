@@ -53,21 +53,20 @@ public class DegreeReq {
 
 	private DegreeReq(int courseNum, int credit, String name, String href,
 			Program program) throws SQLException {
-		this.setProgram(program);
-		this.setCredit(credit);
-		this.setCourseNum(courseNum);
-		this.setName(name);
-		this.setHref(href);
+		this.program = program;
+		this.credit = credit;
+		this.courseNum = courseNum;
+		this.name = name;
+		this.href = href;
 		DatabaseConnector.createIfNotExist(this, DegreeReq.class);
 	}
 
 	private DegreeReq(int courseNum, int credit, String name, Program program)
 			throws SQLException {
-		this.setProgram(program);
-		this.setCredit(credit);
-		this.setCourseNum(courseNum);
-		this.setName(name);
-		this.setHref(href);
+		this.program = program;
+		this.credit = credit;
+		this.courseNum = courseNum;
+		this.name = name;
 		DatabaseConnector.createIfNotExist(this, DegreeReq.class);
 	}
 
@@ -79,26 +78,10 @@ public class DegreeReq {
 	}
 
 	/**
-	 * @param credit
-	 *            the credit to set
-	 */
-	private void setCredit(int credit) {
-		this.credit = credit;
-	}
-
-	/**
 	 * @return the courseNum
 	 */
 	public int getCourseNum() {
 		return courseNum;
-	}
-
-	/**
-	 * @param courseNum
-	 *            the courseNum to set
-	 */
-	private void setCourseNum(int courseNum) {
-		this.courseNum = courseNum;
 	}
 
 	/**
@@ -109,14 +92,6 @@ public class DegreeReq {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
-	 */
-	private void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the program
 	 */
 	public Program getProgram() {
@@ -124,26 +99,10 @@ public class DegreeReq {
 	}
 
 	/**
-	 * @param program
-	 *            the program to set
-	 */
-	private void setProgram(Program program) {
-		this.program = program;
-	}
-
-	/**
 	 * @return the href
 	 */
 	public String getHref() {
 		return href;
-	}
-
-	/**
-	 * @param href
-	 *            the href to set
-	 */
-	private void setHref(String href) {
-		this.href = href;
 	}
 
 	/*

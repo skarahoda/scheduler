@@ -55,9 +55,10 @@ public class Program {
 	 */
 	private Program(int enterTerm, String name, boolean isUG)
 			throws IllegalArgumentException, SQLException {
-		this.setEnterTerm(enterTerm);
-		this.setName(name);
-		this.setIsUG(isUG);
+		validateTerm(enterTerm);
+		this.enterTerm = enterTerm;
+		this.name = name;
+		this.isUG = isUG;
 		DatabaseConnector.createIfNotExist(this, Program.class);
 	}
 
@@ -66,15 +67,6 @@ public class Program {
 	 */
 	public int getEnterTerm() {
 		return enterTerm;
-	}
-
-	/**
-	 * @param enterTerm
-	 *            the enterTerm to set
-	 */
-	private void setEnterTerm(int enterTerm) throws IllegalArgumentException {
-		validateTerm(enterTerm);
-		this.enterTerm = enterTerm;
 	}
 
 	private void validateTerm(int enterTerm) throws IllegalArgumentException {
@@ -101,26 +93,10 @@ public class Program {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
-	 */
-	private void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the level
 	 */
 	public boolean getIsUG() {
 		return isUG;
-	}
-
-	/**
-	 * @param level
-	 *            the level to set
-	 */
-	private void setIsUG(boolean isUG) {
-		this.isUG = isUG;
 	}
 
 	public Collection<DegreeReq> getRequirements() {
