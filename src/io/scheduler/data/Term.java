@@ -21,7 +21,7 @@ public class Term {
 				return "Fall";
 
 			case SPRING:
-				return "SPRING";
+				return "Spring";
 			default:
 				return "";
 			}

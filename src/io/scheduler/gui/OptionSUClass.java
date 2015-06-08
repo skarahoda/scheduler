@@ -3,8 +3,6 @@ package io.scheduler.gui;
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
-
-import java.awt.Dimension;
 import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.List;
@@ -55,7 +53,6 @@ public class OptionSUClass {
 		returnVal.add(suClassPanel);
 		returnVal.add(meetingPanel);
 		returnVal.setLayout(new BoxLayout(returnVal, BoxLayout.LINE_AXIS));
-		returnVal.setPreferredSize(new Dimension(1200, 500));
 		return returnVal;
 	}
 
