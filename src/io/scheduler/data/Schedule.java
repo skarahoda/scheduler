@@ -106,7 +106,8 @@ public class Schedule {
 	public static Schedule get(String name, Term term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
-			if (schedule.getName().equals(name))
+			if (schedule.getName().equals(name)
+					&& schedule.getTerm().equals(term))
 				return schedule;
 		}
 		return new Schedule(name, term);
@@ -115,7 +116,8 @@ public class Schedule {
 	public static boolean exists(String name, Term term) throws SQLException {
 		List<Schedule> schedules = DatabaseConnector.get(Schedule.class);
 		for (Schedule schedule : schedules) {
-			if (schedule.getName().equals(name) && schedule.getTerm() == term)
+			if (schedule.getName().equals(name)
+					&& schedule.getTerm().equals(term))
 				return true;
 		}
 		return false;
@@ -131,6 +133,7 @@ public class Schedule {
 	}
 
 	private void setClasses() throws SQLException {
+		DatabaseConnector.createTableIfNotExists(ScheduleSUClass.class);
 		DatabaseConnector.assignEmptyForeignCollection(this, Schedule.class,
 				CLASSES_FIELD_NAME);
 	}

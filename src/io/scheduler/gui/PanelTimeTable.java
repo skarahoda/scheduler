@@ -4,6 +4,7 @@ import io.scheduler.data.Meeting;
 import io.scheduler.data.Meeting.DayofWeek;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
+import io.scheduler.data.User;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -87,7 +88,8 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 					Meeting meeting = createMeeting((JTable) e.getSource());
 					List<SUClass> suClasses = new ArrayList<SUClass>();
 					try {
-						for (SUClass suClass : SUClass.get()) {
+						for (SUClass suClass : SUClass.get(User
+								.getCurrentTerm())) {
 							if (suClass.intersect(meeting)) {
 								suClasses.add(suClass);
 							}

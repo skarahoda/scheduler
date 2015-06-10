@@ -4,7 +4,9 @@
 package io.scheduler.data;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -22,9 +24,13 @@ public class SUClass {
 	public static final String CRN_FIELD_NAME = "crn";
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";
 	public static final String SECTION_FIELD_NAME = "section";
-	public static final String COURSE_CODE_FIELD_NAME = "courseCode";
+	public static final String COURSE_CODE_FIELD_NAME = "course_code";
+	private static final String TERM_FIELD_NAME = "term";
 
-	@DatabaseField(columnName = CRN_FIELD_NAME, canBeNull = false, id = true)
+	@DatabaseField(generatedId = true)
+	private int id;
+
+	@DatabaseField(columnName = CRN_FIELD_NAME, canBeNull = false)
 	private String crn;
 
 	@DatabaseField(columnName = INSTRUCTOR_FIELD_NAME, canBeNull = false, dataType = DataType.LONG_STRING)
@@ -35,6 +41,9 @@ public class SUClass {
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COURSE_CODE_FIELD_NAME)
 	private Course course;
+
+	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false, persisterClass = TermPersister.class)
+	private Term term;
 
 	@ForeignCollectionField
 	private ForeignCollection<Meeting> meetings;
@@ -54,13 +63,13 @@ public class SUClass {
 	 * @param course
 	 * @throws SQLException
 	 */
-	public SUClass(String crn, String instructor, String section, Course course)
-			throws SQLException {
+	private SUClass(String crn, String instructor, String section,
+			Course course, Term term) {
 		this.crn = crn;
 		this.instructorName = instructor;
 		this.section = section;
 		this.course = course;
-		DatabaseConnector.createIfNotExist(this, SUClass.class);
+		this.term = term;
 	}
 
 	public String getCrn() {
@@ -92,8 +101,9 @@ public class SUClass {
 		return meetings;
 	}
 
-	public static List<SUClass> get() throws SQLException {
-		return DatabaseConnector.get(SUClass.class);
+	public static List<SUClass> get(Term term) throws SQLException {
+		return DatabaseConnector.get(SUClass.class, SUClass.TERM_FIELD_NAME,
+				term);
 	}
 
 	/*
@@ -152,6 +162,24 @@ public class SUClass {
 			}
 		}
 		return false;
+	}
+
+	public static SUClass create(String crn, String instructor, String section,
+			Course course, Term term) throws SQLException {
+		SUClass returnVal;
+		Map<String, Object> fields = new HashMap<String, Object>();
+		fields.put(TERM_FIELD_NAME, term);
+		fields.put(CRN_FIELD_NAME, crn);
+		List<SUClass> results = DatabaseConnector.get(SUClass.class, fields);
+		if (results != null && !results.isEmpty()) {
+			returnVal = results.get(0);
+			DatabaseConnector.delete(Meeting.class,
+					Meeting.SUCLASS_CODE_FIELD_NAME, returnVal);
+			return returnVal;
+		}
+		returnVal = new SUClass(crn, instructor, section, course, term);
+		DatabaseConnector.createIfNotExist(returnVal, SUClass.class);
+		return returnVal;
 	}
 
 }

@@ -1,8 +1,6 @@
 package io.scheduler.gui;
 
-import io.scheduler.data.Term;
 import io.scheduler.data.User;
-import io.scheduler.data.handler.BannerParser;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -10,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -57,7 +53,7 @@ public class ApplicationWindow {
 
 	private void initializeConfig() {
 		if (User.getCurrentTerm() == null) {
-			while (!ApplicationWindow.config()) {
+			while (!new OptionConfig().isApplied()) {
 				int option = JOptionPane
 						.showConfirmDialog(null, "Do you want to exit?",
 								"Configurations", JOptionPane.OK_CANCEL_OPTION,
@@ -127,43 +123,11 @@ public class ApplicationWindow {
 		mnPreferences.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1 && config()) {
+				if (e.getButton() == MouseEvent.BUTTON1
+						&& new OptionConfig().isApplied()) {
 					panelSchedule.updateWithTerm();
 				}
 			};
 		});
 	}
-
-	public static boolean config() {
-		Term term = new OptionConfig().getTerm();
-		if (term != null) {
-			try {
-				BannerParser.parse(term);
-			} catch (IllegalArgumentException e1) {
-				JOptionPane.showMessageDialog(null, "Term is invalid.",
-						"Error", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-				return false;
-			} catch (IOException e1) {
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"We cannot get information from the website please try again.",
-								"Error", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-				return false;
-			} catch (SQLException e1) {
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"Database is already in use, please close the database connection.",
-								"Error", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
 }

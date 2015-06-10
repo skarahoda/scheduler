@@ -50,7 +50,7 @@ public class Requisite {
 	public Requisite(String courseCode) throws SQLException {
 		this.courseCode = courseCode;
 		this.operation = Operation.UNARY;
-		DatabaseConnector.createIfNotExist(this, Requisite.class);
+		DatabaseConnector.createOrUpdate(this, Requisite.class);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class Requisite {
 		if (left == null || right == null)
 			throw new IllegalArgumentException();
 		this.operation = isAnd ? Operation.AND : Operation.OR;
-		DatabaseConnector.createIfNotExist(this, Requisite.class);
+		DatabaseConnector.createOrUpdate(this, Requisite.class);
 	}
 
 	private Requisite getWithId(int id) throws SQLException {

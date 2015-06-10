@@ -1,6 +1,7 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.SUClass;
+import io.scheduler.data.User;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -80,7 +81,8 @@ public class PanelScheduler extends CardPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					PanelTimeTable timeTable = getTimeTable();
-					OptionSUClass option = new OptionSUClass(SUClass.get());
+					OptionSUClass option = new OptionSUClass(SUClass.get(User
+							.getCurrentTerm()));
 					timeTable.addClass(option.get());
 				} catch (SQLException e1) {
 

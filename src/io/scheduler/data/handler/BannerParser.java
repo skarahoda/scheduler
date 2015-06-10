@@ -5,7 +5,6 @@ import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.Requisite;
 import io.scheduler.data.SUClass;
-import io.scheduler.data.ScheduleSUClass;
 import io.scheduler.data.Term;
 import io.scheduler.data.User;
 
@@ -57,9 +56,9 @@ public class BannerParser {
 	 */
 	public static void parse(Term term) throws IOException, SQLException,
 			IllegalArgumentException {
+		Term oldTerm = User.getCurrentTerm();
 		try {
 			User.setCurrentTerm(term);
-			clearTables();
 			Collection<Course> courses = DatabaseConnector.get(Course.class);
 			// bannerweb connection
 			String bannerUrl = String.format(bannerUrlTemplate, term.toInt());
@@ -76,16 +75,9 @@ public class BannerParser {
 				ParseForSUClass(header, details, courses, term);
 			}
 		} catch (Exception e) {
-			clearTables();
-			User.setCurrentTerm(null);
+			User.setCurrentTerm(oldTerm);
 			throw e;
 		}
-	}
-
-	private static void clearTables() throws SQLException {
-		DatabaseConnector.clearTable(ScheduleSUClass.class);
-		DatabaseConnector.clearTable(Meeting.class);
-		DatabaseConnector.clearTable(SUClass.class);
 	}
 
 	private static void ParseForSUClass(Element header, Element details,
@@ -112,7 +104,8 @@ public class BannerParser {
 		if (!course.isCheckedForReq()) {
 			getRequisites(course, term, crn);
 		}
-		SUClass suClass = new SUClass(crn, instructor, section, course);
+		SUClass suClass = SUClass
+				.create(crn, instructor, section, course, term);
 		Elements meetingInfos = details.select("tr:has(td)");
 		for (Element meeting : meetingInfos) {
 			BannerParser.createMeeting(meeting, suClass);

@@ -125,7 +125,7 @@ public class Meeting {
 	public static Meeting createForDb(Date start, Date end, DayofWeek day,
 			String place, SUClass tempSUClass) throws SQLException {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
-		DatabaseConnector.createIfNotExist(returnVal, Meeting.class);
+		DatabaseConnector.createOrUpdate(returnVal, Meeting.class);
 		return returnVal;
 	}
 

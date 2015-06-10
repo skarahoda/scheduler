@@ -2,7 +2,10 @@ package io.scheduler.gui;
 
 import io.scheduler.data.Term;
 import io.scheduler.data.Term.TermOfYear;
+import io.scheduler.data.handler.BannerParser;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.swing.JComboBox;
@@ -35,17 +38,40 @@ public class OptionConfig {
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
-	public Term getTerm() {
+	public boolean isApplied() {
 		if (option != JOptionPane.OK_OPTION) {
-			return null;
+			return false;
 		}
 		int year;
 		try {
 			year = Integer.parseInt(textFieldYear.getText());
 		} catch (NumberFormatException e) {
-			return null;
+			return false;
 		}
-		return new Term(year, (TermOfYear) comboBoxTerm.getSelectedItem());
+		try {
+			Term term = new Term(year,
+					(TermOfYear) comboBoxTerm.getSelectedItem());
+			BannerParser.parse(term);
+			return true;
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "Term is invalid.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} catch (IOException e) {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"We cannot get information from the website please try again.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} catch (SQLException e) {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Database is already in use, please close the database connection.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 	}
 
 }

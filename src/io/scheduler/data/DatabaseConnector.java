@@ -3,10 +3,12 @@ package io.scheduler.data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -35,7 +37,7 @@ public class DatabaseConnector {
 		return TableUtils.clearTable(DatabaseConnector.source, dataClass);
 	}
 
-	private static <T> void createTableIfNotExists(Class<T> dataClass)
+	static <T> void createTableIfNotExists(Class<T> dataClass)
 			throws SQLException {
 		setSource();
 		if (dataList == null) {
@@ -55,6 +57,12 @@ public class DatabaseConnector {
 	public static <T> List<T> get(Class<T> dataClass, String key, Object value)
 			throws SQLException {
 		return DatabaseConnector.setDB(dataClass).queryForEq(key, value);
+	}
+
+	public static <T> List<T> get(Class<T> dataClass,
+			Map<String, Object> fieldValues) throws SQLException {
+		return DatabaseConnector.setDB(dataClass).queryForFieldValues(
+				fieldValues);
 	}
 
 	public static <T> T getFirst(Class<T> dataClass) throws SQLException {
@@ -86,5 +94,13 @@ public class DatabaseConnector {
 
 	static <T> T queryForId(Integer id, Class<T> dataClass) throws SQLException {
 		return setDB(dataClass).queryForId(id);
+	}
+
+	static <T> void delete(Class<T> dataClass, String key, Object value)
+			throws SQLException {
+		DeleteBuilder<T, Integer> deleteBuilder = setDB(dataClass)
+				.deleteBuilder();
+		deleteBuilder.where().eq(key, value);
+		deleteBuilder.delete();
 	}
 }
