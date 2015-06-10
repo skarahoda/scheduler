@@ -13,6 +13,9 @@ public class Course {
 	public static final String CODE_FIELD_NAME = "code";
 	public static final String NAME_FIELD_NAME = "name";
 	public static final String CREDIT_FIELD_NAME = "credit";
+	public static final String CHECKED_FIELD_NAME = "checked_for_req";
+	public static final String PREREQ_FIELD_NAME = "prereq";
+	public static final String COREQ_FIELD_NAME = "coreq";
 
 	@DatabaseField(columnName = CODE_FIELD_NAME, canBeNull = false, id = true)
 	private String code;
@@ -22,6 +25,15 @@ public class Course {
 
 	@DatabaseField(columnName = CREDIT_FIELD_NAME, canBeNull = false)
 	private float credit;
+
+	@DatabaseField(columnName = CHECKED_FIELD_NAME)
+	private boolean isCheckedForReq;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = PREREQ_FIELD_NAME)
+	private Requisite preReq;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = COREQ_FIELD_NAME)
+	private Requisite coReq;
 
 	private static HashMap<String, Course> courseMap = null;
 
@@ -41,18 +53,26 @@ public class Course {
 		this.code = code;
 		this.credit = credit;
 		this.name = name;
+		this.isCheckedForReq = false;
 	}
 
-	public static Course get(String code, String name, float credit)
+	public static Course create(String code, String name, float credit)
 			throws SQLException {
 		if (courseMap == null)
 			createHash();
-		Course c = courseMap.get(name);
+		Course c = courseMap.get(code);
 		if (c == null) {
 			c = new Course(code, name, credit);
 			courseMap.put(code, c);
 			DatabaseConnector.createIfNotExist(c, Course.class);
 		}
+		return c;
+	}
+
+	public static Course get(String code) throws SQLException {
+		if (courseMap == null)
+			createHash();
+		Course c = courseMap.get(code);
 		return c;
 	}
 
@@ -114,5 +134,42 @@ public class Course {
 
 	public static List<Course> getAll() throws SQLException {
 		return DatabaseConnector.get(Course.class);
+	}
+
+	/**
+	 * @param preReq
+	 *            the preReq to set
+	 * @throws SQLException
+	 */
+	public void setReqs(Requisite preReq, Requisite coReq) throws SQLException {
+		this.preReq = preReq;
+		this.coReq = coReq;
+		this.isCheckedForReq = true;
+		DatabaseConnector.createOrUpdate(this, Course.class);
+	}
+
+	/**
+	 * @return the isCheckedForReq
+	 */
+	public boolean isCheckedForReq() {
+		return isCheckedForReq;
+	}
+
+	public boolean hasPreRequisiteRestriction() throws SQLException {
+		if (preReq != null) {
+			if (preReq.isValid(TakenCourse.getAll()) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean hasCoRequisiteRestriction(Schedule s) throws SQLException {
+		if (coReq != null) {
+			if (coReq.isValid(s.getCourses()) == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

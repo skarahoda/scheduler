@@ -17,7 +17,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author skarahoda
  *
  */
-@DatabaseTable(tableName = "program")
+@DatabaseTable(tableName = "programs")
 public class Program {
 
 	public static final String ENTER_TERM_FIELD_NAME = "enterence_term";

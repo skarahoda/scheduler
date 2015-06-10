@@ -98,7 +98,7 @@ public class DegreeParser {
 				String name = element.child(2).text();
 				float credit = 0;
 				credit = Float.parseFloat(element.child(4).text());
-				Course c = Course.get(code, name, credit);
+				Course c = Course.create(code, name, credit);
 				new DegreeCourse(degree, c);
 			}
 		}

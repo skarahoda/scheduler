@@ -17,7 +17,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author skarahoda
  *
  */
-@DatabaseTable(tableName = "degree_req")
+@DatabaseTable(tableName = "degree_reqs")
 public class DegreeReq {
 
 	public static final String CREDIT_FIELD_NAME = "credit";

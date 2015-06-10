@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "schedule_su_class")
+@DatabaseTable(tableName = "schedule_su_classes")
 public class ScheduleSUClass {
 
 	public final static String CRN_FIELD_NAME = "crn";
@@ -41,5 +41,9 @@ public class ScheduleSUClass {
 	 */
 	public Schedule getSchedule() {
 		return schedule;
+	}
+
+	public Course getCourse() {
+		return suClass.getCourse();
 	}
 }

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "degree_course")
+@DatabaseTable(tableName = "degree_courses")
 public class DegreeCourse {
 
 	public static final String DEGREE_FIELD_NAME = "degree";

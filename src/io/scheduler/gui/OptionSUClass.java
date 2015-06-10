@@ -3,6 +3,7 @@ package io.scheduler.gui;
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
+
 import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.List;

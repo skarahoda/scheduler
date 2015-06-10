@@ -83,4 +83,8 @@ public class DatabaseConnector {
 		DatabaseConnector.setDB(dataClass).assignEmptyForeignCollection(item,
 				fieldName);
 	}
+
+	static <T> T queryForId(Integer id, Class<T> dataClass) throws SQLException {
+		return setDB(dataClass).queryForId(id);
+	}
 }

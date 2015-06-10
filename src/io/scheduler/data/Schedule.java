@@ -5,7 +5,6 @@ package io.scheduler.data;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.j256.ormlite.dao.ForeignCollection;
@@ -17,7 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author skarahoda
  *
  */
-@DatabaseTable(tableName = "schedule")
+@DatabaseTable(tableName = "schedules")
 public class Schedule {
 
 	public static final String NAME_FIELD_NAME = "name";
@@ -72,10 +71,8 @@ public class Schedule {
 			this.setClasses();
 		}
 		List<SUClass> returnVal = new ArrayList<SUClass>();
-		Iterator<ScheduleSUClass> i = classes.iterator();
-		while (i.hasNext()) {
-			SUClass suClass = i.next().getSuClass();
-			returnVal.add(suClass);
+		for (ScheduleSUClass scheduleClass : classes) {
+			returnVal.add(scheduleClass.getSuClass());
 		}
 		return returnVal;
 	}
@@ -83,6 +80,10 @@ public class Schedule {
 	public void addSUClass(SUClass suClass) throws SQLException {
 		if (suClass == null)
 			return;
+		if (classes == null) {
+			new ScheduleSUClass(suClass, this);
+			return;
+		}
 		for (ScheduleSUClass scheduleSUClass : classes) {
 			if (scheduleSUClass.getSuClass().equals(suClass)) {
 				return;
@@ -141,6 +142,17 @@ public class Schedule {
 	@Override
 	public String toString() {
 		return name + " - " + term;
+	}
+
+	public List<Course> getCourses() throws SQLException {
+		if (classes == null) {
+			this.setClasses();
+		}
+		List<Course> returnVal = new ArrayList<Course>();
+		for (ScheduleSUClass scheduleSUClass : classes) {
+			returnVal.add(scheduleSUClass.getCourse());
+		}
+		return returnVal;
 	}
 
 }

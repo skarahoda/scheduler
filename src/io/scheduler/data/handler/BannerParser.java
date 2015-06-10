@@ -3,6 +3,7 @@ package io.scheduler.data.handler;
 import io.scheduler.data.Course;
 import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.Meeting;
+import io.scheduler.data.Requisite;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.ScheduleSUClass;
 import io.scheduler.data.Term;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Scanner;
+import java.util.Stack;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,6 +40,7 @@ public class BannerParser {
 	 * constant URL for web site of course list.
 	 */
 	private static final String bannerUrlTemplate = "http://hweb.sabanciuniv.edu/schedule%d.html";
+	private static final String suClassUrlTemplate = "http://suis.sabanciuniv.edu/prod/bwckschd.p_disp_detail_sched?term_in=%d&crn_in=%s";
 
 	/**
 	 * @param term
@@ -70,7 +73,7 @@ public class BannerParser {
 			while (i.hasNext()) {
 				Element header = i.next();
 				Element details = i.next().child(0);
-				ParseForSUClass(header, details, courses);
+				ParseForSUClass(header, details, courses, term);
 			}
 		} catch (Exception e) {
 			clearTables();
@@ -86,7 +89,8 @@ public class BannerParser {
 	}
 
 	private static void ParseForSUClass(Element header, Element details,
-			Collection<Course> courses) throws SQLException {
+			Collection<Course> courses, Term term) throws SQLException,
+			IOException {
 
 		String[] headerItems = header.text().split(" - ");
 		ListIterator<String> i = Arrays.asList(headerItems).listIterator(
@@ -101,15 +105,91 @@ public class BannerParser {
 		String instructor = BannerParser.getInstructor(details);
 		if (instructor.equals(""))
 			instructor = "TBA";
-
-		Course course = Course.get(courseCode, courseName, getCredit(details));
-
+		Course course = Course.get(courseCode);
+		if (course == null) {
+			course = Course.create(courseCode, courseName, getCredit(details));
+		}
+		if (!course.isCheckedForReq()) {
+			getRequisites(course, term, crn);
+		}
 		SUClass suClass = new SUClass(crn, instructor, section, course);
 		Elements meetingInfos = details.select("tr:has(td)");
 		for (Element meeting : meetingInfos) {
 			BannerParser.createMeeting(meeting, suClass);
 		}
-		return;
+	}
+
+	private static void getRequisites(Course c, Term term, String crn)
+			throws IOException, SQLException {
+		String url = String.format(suClassUrlTemplate, term.toInt(), crn);
+		Document doc = Jsoup.connect(url).timeout(0).maxBodySize(0).get();
+		Element prereqElement = doc.select("span:contains(Prerequisites:)")
+				.first();
+		String prereqText = "";
+		if (prereqElement != null) {
+			for (Node sibling : prereqElement.siblingNodes()) {
+				if (sibling.siblingIndex() > prereqElement.siblingIndex()) {
+					prereqText += sibling.toString();
+				}
+			}
+		}
+		Element coreqElemenet = doc.select("span:contains(Corequisites:)")
+				.first();
+		String coreqText = "";
+		if (coreqElemenet != null) {
+			for (Node sibling : coreqElemenet.siblingNodes()) {
+				if (sibling.siblingIndex() > coreqElemenet.siblingIndex()
+						&& (prereqElement == null || sibling.siblingIndex() < prereqElement
+								.siblingIndex())) {
+					coreqText += sibling.toString();
+				}
+			}
+		}
+		Requisite preReq = prereqText.equals("") ? null
+				: parseRequisite(prereqText);
+		Requisite coReq = coreqText.equals("") ? null
+				: parseRequisite(coreqText);
+		c.setReqs(preReq, coReq);
+	}
+
+	private static Requisite parseRequisite(String fullText)
+			throws SQLException {
+		Elements courses = Jsoup.parse(fullText).select("a");
+		Stack<Boolean> operators = new Stack<Boolean>();
+		Stack<Requisite> requisites = new Stack<Requisite>();
+		for (Element reqCourse : courses) {
+			Node previous = reqCourse.previousSibling();
+			requisites.push(new Requisite(reqCourse.text()));
+			if ((previous == null || !previous.toString().contains("("))
+					&& !operators.isEmpty()) {
+				Requisite right = requisites.pop();
+				Requisite left = requisites.pop();
+				requisites.push(new Requisite(left.getId(), right.getId(),
+						operators.pop()));
+			}
+			Node next = reqCourse.nextSibling();
+			if (next != null) {
+				String text = next.toString();
+				if (text.contains(")")) {
+					if (!operators.isEmpty()) {
+						Requisite right = requisites.pop();
+						Requisite left = requisites.pop();
+						requisites.push(new Requisite(left.getId(), right
+								.getId(), operators.pop()));
+					}
+				}
+				if (text.contains("and")) {
+					operators.push(true);
+				} else if (text.contains("or")) {
+					operators.push(false);
+				}
+			}
+		}
+		if (requisites.isEmpty()) {
+			return null;
+		} else {
+			return requisites.pop();
+		}
 	}
 
 	private static void createMeeting(Element meeting, SUClass tempSUClass)
