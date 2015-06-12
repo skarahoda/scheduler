@@ -7,7 +7,6 @@ import io.scheduler.data.TakenCourse;
 
 import java.awt.Component;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -30,13 +29,11 @@ public class PanelGraduationTable extends JPanel implements CustomComponent {
 	public PanelGraduationTable(Program program) {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.program = program;
-		List<String> columnNames = new ArrayList<String>();
-		columnNames.add("");
-
+		String[] columnNames = { "" };
 		String[][] data = { { "Taken Credit:" }, { "Remaining Credit:" },
 				{ "Total Credit:" }, { "Taken Courses:" },
 				{ "Remaining Courses:" }, { "Total Courses:" }, { "Courses:" } };
-		degreeReqModel = new NonEditableTableModel(data, columnNames.toArray());
+		degreeReqModel = new NonEditableTableModel(data, columnNames);
 		init();
 		JTable reqTable = new JTable(degreeReqModel);
 		GraduationTableRenderer renderer = new GraduationTableRenderer(
