@@ -2,14 +2,20 @@ package io.scheduler.gui;
 
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
+import io.scheduler.data.Meeting.DayofWeek;
 import io.scheduler.data.SUClass;
+import io.scheduler.data.handler.FiltersSUClass;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -19,8 +25,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.google.common.collect.Ordering;
-
 public class OptionSUClass {
 	private int option;
 	private DefaultListModel<SUClass> listModelSUClass;
@@ -29,16 +33,25 @@ public class OptionSUClass {
 	private JList<Course> jListCourse;
 	private JList<SUClass> jListSUClass;
 	private JList<Meeting> jListMeeting;
+	private Iterable<SUClass> filteredSuClasses;
 	private List<SUClass> suClasses;
+	private JCheckBox checkBoxCoReq;
+	private JComboBox<Object> comboBoxDay;
 
 	public OptionSUClass(List<SUClass> suClasses)
 			throws InvalidParameterException {
 		if (suClasses == null || suClasses.isEmpty())
 			throw new InvalidParameterException();
+		this.filteredSuClasses = new ArrayList<SUClass>(suClasses);
 		this.suClasses = suClasses;
 		JPanel optionPanel = initOptionPanel();
+		checkBoxCoReq = new JCheckBox("Courses without corequisite");
+		comboBoxDay = new JComboBox<Object>(DayofWeek.values());
+		comboBoxDay.insertItemAt("-none-", 0);
+		comboBoxDay.setSelectedIndex(0);
 		addEventListeners();
-		option = JOptionPane.showConfirmDialog(null, optionPanel, "Classes",
+		Object[] message = { comboBoxDay, checkBoxCoReq, optionPanel };
+		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -72,7 +85,7 @@ public class OptionSUClass {
 			public void valueChanged(ListSelectionEvent arg0) {
 				listModelSUClass.clear();
 				Course course = jListCourse.getSelectedValue();
-				for (SUClass suClass : suClasses) {
+				for (SUClass suClass : filteredSuClasses) {
 					if (suClass.getCourse().equals(course)) {
 						listModelSUClass.addElement(suClass);
 					}
@@ -95,6 +108,27 @@ public class OptionSUClass {
 
 			}
 		});
+		ActionListener filterListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				filter();
+			}
+		};
+		checkBoxCoReq.addActionListener(filterListener);
+		comboBoxDay.addActionListener(filterListener);
+	}
+
+	protected void filter() {
+		if (checkBoxCoReq.isSelected()) {
+			filteredSuClasses = FiltersSUClass.filterForCoReq(suClasses);
+		} else {
+			filteredSuClasses = new ArrayList<SUClass>(suClasses);
+		}
+		if (comboBoxDay.getSelectedIndex() > 0) {
+			filteredSuClasses = FiltersSUClass.filterForDay(filteredSuClasses,
+					(DayofWeek) comboBoxDay.getSelectedItem());
+		}
+		fillScrollCourse();
 	}
 
 	private JScrollPane createScrollSUClass() {
@@ -115,21 +149,28 @@ public class OptionSUClass {
 
 	private JScrollPane createScrollCourse() {
 		listModelCourse = new DefaultListModel<Course>();
-		Collections.sort(suClasses, Ordering.usingToString());
-		for (SUClass suClass : suClasses) {
+		jListCourse = new JList<Course>(listModelCourse);
+		jListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		fillScrollCourse();
+		JScrollPane returnVal = new JScrollPane(jListCourse);
+		return returnVal;
+	}
+
+	private void fillScrollCourse() {
+		listModelCourse.clear();
+		for (SUClass suClass : filteredSuClasses) {
 			Course course = suClass.getCourse();
 			if (course != null && !listModelCourse.contains(course)) {
 				listModelCourse.addElement(course);
 			}
 		}
-		jListCourse = new JList<Course>(listModelCourse);
-		jListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane returnVal = new JScrollPane(jListCourse);
-		return returnVal;
+		if (!listModelCourse.isEmpty()) {
+			jListCourse.setSelectedIndex(0);
+		}
 	}
 
 	public SUClass get() {
-		if (suClasses == null || option != JOptionPane.OK_OPTION) {
+		if (filteredSuClasses == null || option != JOptionPane.OK_OPTION) {
 			return null;
 		}
 		return jListSUClass.getSelectedValue();

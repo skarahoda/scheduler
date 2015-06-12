@@ -172,4 +172,8 @@ public class Course {
 		}
 		return true;
 	}
+
+	public boolean hasCoRequisite() {
+		return coReq != null;
+	}
 }

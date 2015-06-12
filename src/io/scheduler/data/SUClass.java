@@ -3,6 +3,8 @@
  */
 package io.scheduler.data;
 
+import io.scheduler.data.Meeting.DayofWeek;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -180,6 +182,45 @@ public class SUClass {
 		returnVal = new SUClass(crn, instructor, section, course, term);
 		DatabaseConnector.createIfNotExist(returnVal, SUClass.class);
 		return returnVal;
+	}
+
+	/**
+	 * @return
+	 * @throws SQLException
+	 * @see io.scheduler.data.Course#hasPreRequisiteRestriction()
+	 */
+	public boolean hasPreRequisiteRestriction() throws SQLException {
+		return course.hasPreRequisiteRestriction();
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 * @throws SQLException
+	 * @see io.scheduler.data.Course#hasCoRequisiteRestriction(io.scheduler.data.Schedule)
+	 */
+	public boolean hasCoRequisiteRestriction(Schedule s) throws SQLException {
+		return course.hasCoRequisiteRestriction(s);
+	}
+
+	/**
+	 * @return
+	 * @see io.scheduler.data.Course#hasCoRequisite()
+	 */
+	public boolean hasCoRequisite() {
+		return course.hasCoRequisite();
+	}
+
+	public boolean hasMeetingAt(DayofWeek day) {
+		if (day == DayofWeek.TBA && (meetings == null || meetings.isEmpty())) {
+			return true;
+		}
+		for (Meeting meeting : meetings) {
+			if (meeting.getDay() == day) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

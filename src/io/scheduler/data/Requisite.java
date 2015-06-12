@@ -92,7 +92,7 @@ public class Requisite {
 		return null;
 	}
 
-	public boolean isValid(Collection<Course> courses) {
+	public boolean isValid(Collection<Course> courses) throws SQLException {
 		Requisite right;
 		Requisite left;
 		switch (operation) {
@@ -104,25 +104,17 @@ public class Requisite {
 			}
 			return false;
 		case AND:
-			try {
-				left = getWithId(leftId);
-				right = getWithId(rightId);
-				if (left == null || right == null)
-					return false;
-				return left.isValid(courses) && right.isValid(courses);
-			} catch (SQLException e) {
+			left = getWithId(leftId);
+			right = getWithId(rightId);
+			if (left == null || right == null)
 				return false;
-			}
+			return left.isValid(courses) && right.isValid(courses);
 		case OR:
-			try {
-				left = getWithId(leftId);
-				right = getWithId(rightId);
-				if (left == null || right == null)
-					return false;
-				return left.isValid(courses) || right.isValid(courses);
-			} catch (SQLException e) {
+			left = getWithId(leftId);
+			right = getWithId(rightId);
+			if (left == null || right == null)
 				return false;
-			}
+			return left.isValid(courses) || right.isValid(courses);
 		}
 		return false;
 
