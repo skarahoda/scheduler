@@ -70,6 +70,7 @@ public class OptionConfig {
 							null,
 							"Database is already in use, please close the database connection.",
 							"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			return false;
 		}
 	}

@@ -49,6 +49,15 @@ public class User {
 		return singleton == null ? null : singleton.currentTerm;
 	}
 
+	public static boolean canGet() {
+		try {
+			singleton = DatabaseConnector.getFirst(User.class);
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
 	public static void setCurrentTerm(Term currentTerm)
 			throws IllegalArgumentException, SQLException {
 		if (currentTerm == null) {

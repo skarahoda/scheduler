@@ -43,7 +43,8 @@ public class DegreeParser {
 			// Web site connection
 			String degreeUrl = String.format(degreeUrlTemplate, term.toInt(),
 					pName, isUG ? "UG" : "G");
-			Document doc = Jsoup.connect(degreeUrl).maxBodySize(0).timeout(0).get();
+			Document doc = Jsoup.connect(degreeUrl).maxBodySize(0).timeout(0)
+					.get();
 			Elements rows = doc.select("table.t_mezuniyet").first().children()
 					.select("tr:gt(1)");
 			for (Element element : rows) {
@@ -51,7 +52,7 @@ public class DegreeParser {
 			}
 			return p;
 		} catch (Exception e) {
-			if(p != null)
+			if (p != null)
 				p.removeFromDb();
 			throw e;
 		}

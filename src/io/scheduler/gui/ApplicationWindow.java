@@ -52,16 +52,27 @@ public class ApplicationWindow {
 	}
 
 	private void initializeConfig() {
+		while (!User.canGet()) {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Database is already in use, please close the database connection.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+			exitOption();
+		}
 		if (User.getCurrentTerm() == null) {
 			while (!new OptionConfig().isApplied()) {
-				int option = JOptionPane
-						.showConfirmDialog(null, "Do you want to exit?",
-								"Configurations", JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE);
-				if (option == JOptionPane.OK_OPTION) {
-					System.exit(1);
-				}
+				exitOption();
 			}
+		}
+	}
+
+	private void exitOption() {
+		int option = JOptionPane.showConfirmDialog(null,
+				"Do you want to exit?", "Configurations",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (option == JOptionPane.OK_OPTION) {
+			System.exit(1);
 		}
 	}
 

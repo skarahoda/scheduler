@@ -162,8 +162,8 @@ public class Program {
 		Map<String, Object> fieldValues = new HashMap<String, Object>();
 		fieldValues.put(NAME_FIELD_NAME, name);
 		fieldValues.put(ENTER_TERM_FIELD_NAME, term);
-		List<Program> list = DatabaseConnector.get(Program.class, fieldValues );
-		if(list.isEmpty())
+		List<Program> list = DatabaseConnector.get(Program.class, fieldValues);
+		if (list.isEmpty())
 			return null;
 		else
 			return list.get(0);
@@ -200,10 +200,11 @@ public class Program {
 		return returnVal;
 	}
 
-	public static Program create(Term term, String name, boolean isUG) throws SQLException {
+	public static Program create(Term term, String name, boolean isUG)
+			throws SQLException {
 		Program returnVal;
 		returnVal = get(term, name, isUG);
-		if(returnVal == null){
+		if (returnVal == null) {
 			returnVal = new Program(term, name, isUG);
 		}
 		return returnVal;
@@ -211,7 +212,7 @@ public class Program {
 
 	public void removeFromDb() {
 		try {
-			if(requirements == null)
+			if (requirements == null)
 				setDegreeReqs();
 			for (DegreeReq degreeReq : requirements) {
 				degreeReq.deleteFromDb();

@@ -156,7 +156,7 @@ public class DegreeReq {
 
 	public void deleteFromDb() {
 		try {
-			if(courses == null)
+			if (courses == null)
 				setCourses();
 			for (DegreeCourse degreeCourse : courses) {
 				degreeCourse.deleteFromDb();
@@ -166,6 +166,6 @@ public class DegreeReq {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

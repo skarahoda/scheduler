@@ -1,7 +1,6 @@
 package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
-import io.scheduler.data.DatabaseConnector;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.Requisite;
 import io.scheduler.data.SUClass;
@@ -59,7 +58,7 @@ public class BannerParser {
 		Term oldTerm = User.getCurrentTerm();
 		try {
 			User.setCurrentTerm(term);
-			Collection<Course> courses = DatabaseConnector.get(Course.class);
+			Collection<Course> courses = Course.getAll();
 			// bannerweb connection
 			String bannerUrl = String.format(bannerUrlTemplate, term.toInt());
 			Document doc = Jsoup.connect(bannerUrl).maxBodySize(0).get();

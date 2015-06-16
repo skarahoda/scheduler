@@ -58,9 +58,9 @@ public class OptionProgram {
 		try {
 			p = Program.get(term, textFieldProgram.getText(),
 					checkBoxIsUG.isSelected());
-			if(p == null)
+			if (p == null)
 				return DegreeParser.parse(term, checkBoxIsUG.isSelected(),
-					textFieldProgram.getText());
+						textFieldProgram.getText());
 			return null;
 		} catch (IllegalArgumentException | IOException | SQLException e) {
 			return null;

@@ -31,7 +31,7 @@ public class DatabaseConnector {
 			DatabaseConnector.source = new JdbcConnectionSource(DATABASE_URL);
 	}
 
-	public static <T> int clearTable(Class<T> dataClass) throws SQLException {
+	static <T> int clearTable(Class<T> dataClass) throws SQLException {
 		setSource();
 		createTableIfNotExists(dataClass);
 		return TableUtils.clearTable(DatabaseConnector.source, dataClass);
@@ -50,22 +50,22 @@ public class DatabaseConnector {
 		}
 	}
 
-	public static <T> List<T> get(Class<T> dataClass) throws SQLException {
+	static <T> List<T> get(Class<T> dataClass) throws SQLException {
 		return DatabaseConnector.setDB(dataClass).queryForAll();
 	}
 
-	public static <T> List<T> get(Class<T> dataClass, String key, Object value)
+	static <T> List<T> get(Class<T> dataClass, String key, Object value)
 			throws SQLException {
 		return DatabaseConnector.setDB(dataClass).queryForEq(key, value);
 	}
 
-	public static <T> List<T> get(Class<T> dataClass,
-			Map<String, Object> fieldValues) throws SQLException {
+	static <T> List<T> get(Class<T> dataClass, Map<String, Object> fieldValues)
+			throws SQLException {
 		return DatabaseConnector.setDB(dataClass).queryForFieldValues(
 				fieldValues);
 	}
 
-	public static <T> T getFirst(Class<T> dataClass) throws SQLException {
+	static <T> T getFirst(Class<T> dataClass) throws SQLException {
 		List<T> list = DatabaseConnector.setDB(dataClass).queryForAll();
 		return (list.size() == 0) ? null : list.get(0);
 	}
