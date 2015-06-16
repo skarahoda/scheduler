@@ -33,12 +33,7 @@ public class DegreeFactory implements Factory {
 
 	@Override
 	public void removeFromDB(Object o) {
-		try {
-			((Program) o).removeFromDB();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		((Program) o).removeFromDb();
 
 	}
 

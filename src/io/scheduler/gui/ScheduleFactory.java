@@ -46,11 +46,7 @@ public class ScheduleFactory implements Factory {
 
 	@Override
 	public void removeFromDB(Object o) {
-		try {
-			((Schedule) o).removeFromDb();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		((Schedule) o).removeFromDb();
 
 	}
 

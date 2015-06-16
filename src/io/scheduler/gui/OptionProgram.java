@@ -58,15 +58,11 @@ public class OptionProgram {
 		try {
 			p = Program.get(term, textFieldProgram.getText(),
 					checkBoxIsUG.isSelected());
-			return DegreeParser.parse(term, checkBoxIsUG.isSelected(),
+			if(p == null)
+				return DegreeParser.parse(term, checkBoxIsUG.isSelected(),
 					textFieldProgram.getText());
+			return null;
 		} catch (IllegalArgumentException | IOException | SQLException e) {
-			try {
-				p.removeFromDB();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			return null;
 		}
 	}

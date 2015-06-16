@@ -6,7 +6,9 @@ package io.scheduler.data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -101,6 +103,7 @@ public class Program {
 	}
 
 	private void setDegreeReqs() throws SQLException {
+		DatabaseConnector.createTableIfNotExists(DegreeCourse.class);
 		DatabaseConnector.assignEmptyForeignCollection(this, Program.class,
 				REQ_FIELD_NAME);
 	}
@@ -156,17 +159,14 @@ public class Program {
 
 	public static Program get(Term term, String name, boolean isUG)
 			throws SQLException {
-		for (Program program : getAll()) {
-			if (program.enterTerm == term && program.name.equals(name)) {
-				return program;
-			}
-		}
-		return new Program(term, name, isUG);
-	}
-
-	public void removeFromDB() throws SQLException {
-		DatabaseConnector.delete(this, Program.class);
-
+		Map<String, Object> fieldValues = new HashMap<String, Object>();
+		fieldValues.put(NAME_FIELD_NAME, name);
+		fieldValues.put(ENTER_TERM_FIELD_NAME, term);
+		List<Program> list = DatabaseConnector.get(Program.class, fieldValues );
+		if(list.isEmpty())
+			return null;
+		else
+			return list.get(0);
 	}
 
 	/*
@@ -200,4 +200,25 @@ public class Program {
 		return returnVal;
 	}
 
+	public static Program create(Term term, String name, boolean isUG) throws SQLException {
+		Program returnVal;
+		returnVal = get(term, name, isUG);
+		if(returnVal == null){
+			returnVal = new Program(term, name, isUG);
+		}
+		return returnVal;
+	}
+
+	public void removeFromDb() {
+		try {
+			if(requirements == null)
+				setDegreeReqs();
+			for (DegreeReq degreeReq : requirements) {
+				degreeReq.deleteFromDb();
+			}
+			DatabaseConnector.delete(this, Program.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

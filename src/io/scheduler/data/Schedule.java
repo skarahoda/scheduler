@@ -138,8 +138,18 @@ public class Schedule {
 				CLASSES_FIELD_NAME);
 	}
 
-	public void removeFromDb() throws SQLException {
-		DatabaseConnector.delete(this, Schedule.class);
+	public void removeFromDb() {
+		try {
+			if (classes == null)
+				setClasses();
+			for (ScheduleSUClass scheduleSUClass : classes) {
+				scheduleSUClass.removeFromDb();
+			}
+			DatabaseConnector.delete(this, Schedule.class);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

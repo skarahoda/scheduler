@@ -36,18 +36,25 @@ public class DegreeParser {
 
 	public static Program parse(Term term, boolean isUG, String pName)
 			throws IOException, IllegalArgumentException, SQLException {
-		Program p = Program.get(term, pName, isUG);
+		Program p = null;
+		try {
+			p = Program.create(term, pName, isUG);
 
-		// Web site connection
-		String degreeUrl = String.format(degreeUrlTemplate, term.toInt(),
-				pName, isUG ? "UG" : "G");
-		Document doc = Jsoup.connect(degreeUrl).maxBodySize(0).timeout(0).get();
-		Elements rows = doc.select("table.t_mezuniyet").first().children()
-				.select("tr:gt(1)");
-		for (Element element : rows) {
-			parseRow(element, p);
+			// Web site connection
+			String degreeUrl = String.format(degreeUrlTemplate, term.toInt(),
+					pName, isUG ? "UG" : "G");
+			Document doc = Jsoup.connect(degreeUrl).maxBodySize(0).timeout(0).get();
+			Elements rows = doc.select("table.t_mezuniyet").first().children()
+					.select("tr:gt(1)");
+			for (Element element : rows) {
+				parseRow(element, p);
+			}
+			return p;
+		} catch (Exception e) {
+			if(p != null)
+				p.removeFromDb();
+			throw e;
 		}
-		return p;
 	}
 
 	private static String parseRow(Element element, Program p)

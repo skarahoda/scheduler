@@ -50,4 +50,13 @@ public class DegreeCourse {
 	public Course getCourse() {
 		return course;
 	}
+
+	public void deleteFromDb() {
+		try {
+			DatabaseConnector.delete(this, DegreeCourse.class);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -149,7 +149,23 @@ public class DegreeReq {
 	}
 
 	private void setCourses() throws SQLException {
+		DatabaseConnector.createTableIfNotExists(DegreeCourse.class);
 		DatabaseConnector.assignEmptyForeignCollection(this, DegreeReq.class,
 				COURSE_FIELD_NAME);
+	}
+
+	public void deleteFromDb() {
+		try {
+			if(courses == null)
+				setCourses();
+			for (DegreeCourse degreeCourse : courses) {
+				degreeCourse.deleteFromDb();
+			}
+			DatabaseConnector.delete(this, DegreeReq.class);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

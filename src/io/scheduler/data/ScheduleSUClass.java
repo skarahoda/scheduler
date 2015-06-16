@@ -46,4 +46,14 @@ public class ScheduleSUClass {
 	public Course getCourse() {
 		return suClass.getCourse();
 	}
+
+	public void removeFromDb() {
+		try {
+			DatabaseConnector.delete(this, ScheduleSUClass.class);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
