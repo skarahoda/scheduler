@@ -8,13 +8,13 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "schedule_su_classes")
 public class ScheduleSUClass {
 
-	public final static String CRN_FIELD_NAME = "crn";
+	public final static String SUCLASS_ID_FIELD_NAME = "su_class_id";
 	public final static String SCHEDULE_FIELD_NAME = "schedule";
 
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = CRN_FIELD_NAME, canBeNull = false)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = SUCLASS_ID_FIELD_NAME, canBeNull = false)
 	private SUClass suClass;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = SCHEDULE_FIELD_NAME, canBeNull = false)
