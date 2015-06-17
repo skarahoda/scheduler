@@ -3,27 +3,35 @@ package io.scheduler.gui;
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
+import io.scheduler.data.SUClass.ComparisonOperator;
 import io.scheduler.data.TakenCourse;
 import io.scheduler.data.handler.FiltersSUClass;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -39,6 +47,8 @@ public class OptionSUClass {
 	private Collection<SUClass> suClasses;
 	private JCheckBox checkBoxCoReq;
 	private JCheckBox checkBoxTaken;
+	private JComboBox<Object> comboBoxOp;
+	private JSpinner spinnerTime;
 
 	public OptionSUClass(Collection<SUClass> suClasses)
 			throws InvalidParameterException {
@@ -49,11 +59,26 @@ public class OptionSUClass {
 		JPanel optionPanel = initOptionPanel();
 		checkBoxCoReq = new JCheckBox("Courses without corequisite");
 		checkBoxTaken = new JCheckBox("Hide taken courses");
+		JPanel panelTimeComparer = initPanelTimeComparer();
 		addEventListeners();
 		fillScrollCourse();
-		Object[] message = { checkBoxCoReq, checkBoxTaken, optionPanel };
+		Object[] message = { panelTimeComparer, checkBoxCoReq, checkBoxTaken, optionPanel };
 		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	private JPanel initPanelTimeComparer() {
+		spinnerTime = new JSpinner();
+		spinnerTime.setModel(new SpinnerDateModel());
+		spinnerTime.setEditor(new JSpinner.DateEditor(spinnerTime, "HH:mm"));
+		comboBoxOp = new JComboBox<Object>(ComparisonOperator.values());
+		comboBoxOp.insertItemAt("-none-", 0);
+		comboBoxOp.setSelectedIndex(0);
+		JPanel returnVal = new JPanel();
+		returnVal.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		returnVal.add(spinnerTime);
+		returnVal.add(comboBoxOp);
+		return returnVal;
 	}
 
 	private JPanel initOptionPanel() {
@@ -119,6 +144,13 @@ public class OptionSUClass {
 		};
 		checkBoxCoReq.addActionListener(filterListener);
 		checkBoxTaken.addActionListener(filterListener);
+		comboBoxOp.addActionListener(filterListener);
+		spinnerTime.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				filter();
+			}
+		});
 	}
 
 	protected void filter() {
@@ -136,6 +168,9 @@ public class OptionSUClass {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		if(comboBoxOp.getSelectedIndex() > 0){
+			filteredSuClasses = FiltersSUClass.filterTime(filteredSuClasses, (ComparisonOperator)comboBoxOp.getSelectedItem(),(Date) spinnerTime.getValue() );
 		}
 		fillScrollCourse();
 	}

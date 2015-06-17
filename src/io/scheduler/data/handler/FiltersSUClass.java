@@ -4,8 +4,10 @@ import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.Meeting.DayOfWeek;
 import io.scheduler.data.SUClass;
+import io.scheduler.data.SUClass.ComparisonOperator;
 
 import java.util.Collection;
+import java.util.Date;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -50,4 +52,13 @@ public class FiltersSUClass {
 		});
 	}
 
+	public static Collection<SUClass> filterTime(Collection<SUClass> classes,
+			final ComparisonOperator op, final Date time) {
+		return Collections2.filter(classes, new Predicate<SUClass>() {
+			@Override
+			public boolean apply(SUClass arg0) {
+				return arg0.compare(op, time);
+			}
+		});
+	}
 }
