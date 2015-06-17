@@ -2,7 +2,6 @@ package io.scheduler.gui;
 
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
-import io.scheduler.data.Meeting.DayofWeek;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.handler.FiltersSUClass;
 
@@ -10,12 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -33,12 +31,11 @@ public class OptionSUClass {
 	private JList<Course> jListCourse;
 	private JList<SUClass> jListSUClass;
 	private JList<Meeting> jListMeeting;
-	private Iterable<SUClass> filteredSuClasses;
-	private List<SUClass> suClasses;
+	private Collection<SUClass> filteredSuClasses;
+	private Collection<SUClass> suClasses;
 	private JCheckBox checkBoxCoReq;
-	private JComboBox<Object> comboBoxDay;
 
-	public OptionSUClass(List<SUClass> suClasses)
+	public OptionSUClass(Collection<SUClass> suClasses)
 			throws InvalidParameterException {
 		if (suClasses == null || suClasses.isEmpty())
 			throw new InvalidParameterException();
@@ -46,11 +43,8 @@ public class OptionSUClass {
 		this.suClasses = suClasses;
 		JPanel optionPanel = initOptionPanel();
 		checkBoxCoReq = new JCheckBox("Courses without corequisite");
-		comboBoxDay = new JComboBox<Object>(DayofWeek.values());
-		comboBoxDay.insertItemAt("-none-", 0);
-		comboBoxDay.setSelectedIndex(0);
 		addEventListeners();
-		Object[] message = { comboBoxDay, checkBoxCoReq, optionPanel };
+		Object[] message = { checkBoxCoReq, optionPanel };
 		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
@@ -115,7 +109,6 @@ public class OptionSUClass {
 			}
 		};
 		checkBoxCoReq.addActionListener(filterListener);
-		comboBoxDay.addActionListener(filterListener);
 	}
 
 	protected void filter() {
@@ -123,10 +116,6 @@ public class OptionSUClass {
 			filteredSuClasses = FiltersSUClass.filterForCoReq(suClasses);
 		} else {
 			filteredSuClasses = new ArrayList<SUClass>(suClasses);
-		}
-		if (comboBoxDay.getSelectedIndex() > 0) {
-			filteredSuClasses = FiltersSUClass.filterForDay(filteredSuClasses,
-					(DayofWeek) comboBoxDay.getSelectedItem());
 		}
 		fillScrollCourse();
 	}

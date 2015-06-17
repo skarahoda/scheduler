@@ -2,11 +2,12 @@ package io.scheduler.gui;
 
 import io.scheduler.data.Term;
 import io.scheduler.data.Term.TermOfYear;
+import io.scheduler.data.User;
 import io.scheduler.data.handler.BannerParser;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.concurrent.Callable;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -51,28 +52,43 @@ public class OptionConfig {
 		try {
 			Term term = new Term(year,
 					(TermOfYear) comboBoxTerm.getSelectedItem());
-			BannerParser.parse(term);
+			parse(term);
 			return true;
 		} catch (IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(null, "Term is invalid.", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
-		} catch (IOException e) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"We cannot get information from the website please try again.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-			return false;
-		} catch (SQLException e) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Database is already in use, please close the database connection.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-			return false;
 		}
+	}
+
+	private void parse(final Term term) {
+		Callable<Void> mainExecution = new Callable<Void>() {
+
+			@Override
+			public Void call() throws Exception {
+				BannerParser.parse(term);
+				return null;
+			}
+		};
+		final Term oldTerm = User.getCurrentTerm();
+		Runnable cancelExecution = new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					User.setCurrentTerm(oldTerm);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		new IndeterminateProgressDialog("Classes are getting from internet...",
+				mainExecution, cancelExecution);
+
 	}
 
 }

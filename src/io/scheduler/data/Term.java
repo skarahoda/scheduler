@@ -49,6 +49,7 @@ public class Term {
 			this.term = TermOfYear.FALL;
 			break;
 		case 2:
+			this.year++;
 			this.term = TermOfYear.SPRING;
 			break;
 		default:
@@ -79,7 +80,7 @@ public class Term {
 	}
 
 	public int toInt() {
-		return (year * 100) + term.ordinal() + 1;
+		return ((year - term.ordinal()) * 100) + term.ordinal() + 1;
 	}
 
 	/*

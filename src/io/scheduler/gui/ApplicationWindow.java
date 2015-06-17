@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 public class ApplicationWindow {
 
@@ -136,7 +137,14 @@ public class ApplicationWindow {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& new OptionConfig().isApplied()) {
-					panelSchedule.updateWithTerm();
+					new SwingWorker<Void, Void>() {
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							panelSchedule.updateWithTerm();
+							return null;
+						}
+					}.execute();
 				}
 			};
 		});

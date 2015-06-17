@@ -5,15 +5,16 @@ import io.scheduler.data.Meeting.DayofWeek;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
 import io.scheduler.data.User;
+import io.scheduler.data.handler.FiltersSUClass;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.table.JTableHeader;
 
 import com.j256.ormlite.dao.ForeignCollection;
 
@@ -85,18 +87,40 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					Meeting meeting = createMeeting((JTable) e.getSource());
-					List<SUClass> suClasses = new ArrayList<SUClass>();
 					try {
-						for (SUClass suClass : SUClass.get(User
-								.getCurrentTerm())) {
-							if (suClass.intersect(meeting)) {
-								suClasses.add(suClass);
-							}
-						}
-						OptionSUClass option = new OptionSUClass(suClasses);
-						schedule.addSUClass(option.get());
-						fillTable();
+						Meeting meeting = createMeeting((JTable) e.getSource());
+						List<SUClass> suClasses = SUClass.get(User
+								.getCurrentTerm());
+						Collection<SUClass> filteredSuClasses = FiltersSUClass
+								.filterForMeeting(suClasses, meeting);
+						OptionSUClass option = new OptionSUClass(
+								filteredSuClasses);
+						addClass(option.get());
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		timeTable.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					try {
+						JTableHeader header = (JTableHeader) e.getSource();
+						int index = header.columnAtPoint(e.getPoint()) - 1;
+						DayofWeek d = DayofWeek.values()[index];
+						List<SUClass> suClasses = SUClass.get(User
+								.getCurrentTerm());
+						Collection<SUClass> filteredSuClasses = FiltersSUClass
+								.filterForDay(suClasses, d);
+						OptionSUClass option = new OptionSUClass(
+								filteredSuClasses);
+						addClass(option.get());
+					} catch (InvalidParameterException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
