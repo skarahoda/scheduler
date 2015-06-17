@@ -3,14 +3,17 @@ package io.scheduler.gui;
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
+import io.scheduler.data.TakenCourse;
 import io.scheduler.data.handler.FiltersSUClass;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -35,6 +38,7 @@ public class OptionSUClass {
 	private Collection<SUClass> filteredSuClasses;
 	private Collection<SUClass> suClasses;
 	private JCheckBox checkBoxCoReq;
+	private JCheckBox checkBoxTaken;
 
 	public OptionSUClass(Collection<SUClass> suClasses)
 			throws InvalidParameterException {
@@ -44,9 +48,10 @@ public class OptionSUClass {
 		this.suClasses = suClasses;
 		JPanel optionPanel = initOptionPanel();
 		checkBoxCoReq = new JCheckBox("Courses without corequisite");
+		checkBoxTaken = new JCheckBox("Hide taken courses");
 		addEventListeners();
 		fillScrollCourse();
-		Object[] message = { checkBoxCoReq, optionPanel };
+		Object[] message = { checkBoxCoReq, checkBoxTaken, optionPanel };
 		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
@@ -113,6 +118,7 @@ public class OptionSUClass {
 			}
 		};
 		checkBoxCoReq.addActionListener(filterListener);
+		checkBoxTaken.addActionListener(filterListener);
 	}
 
 	protected void filter() {
@@ -120,6 +126,16 @@ public class OptionSUClass {
 			filteredSuClasses = FiltersSUClass.filterForCoReq(suClasses);
 		} else {
 			filteredSuClasses = new ArrayList<SUClass>(suClasses);
+		}
+		if (checkBoxTaken.isSelected()) {
+			try {
+				List<Course> courses = TakenCourse.getAll();
+				filteredSuClasses = FiltersSUClass.filterExcept(
+						filteredSuClasses, courses);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		fillScrollCourse();
 	}

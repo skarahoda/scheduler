@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -62,10 +61,9 @@ public class PanelScheduler extends CardPanel {
 						timeTable.deleteClass(suClass);
 					}
 				} catch (InvalidParameterException e1) {
-					JOptionPane.showMessageDialog(new JFrame(),
+					JOptionPane.showMessageDialog(null,
 							"You don't have any class.");
 					e1.printStackTrace();
-
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -85,9 +83,9 @@ public class PanelScheduler extends CardPanel {
 							.getCurrentTerm()));
 					timeTable.addClass(option.get());
 				} catch (SQLException e1) {
-
+					e1.printStackTrace();
 				} catch (InvalidParameterException e1) {
-					JOptionPane.showMessageDialog(new JFrame(),
+					JOptionPane.showMessageDialog(null,
 							"There is no class.");
 					e1.printStackTrace();
 

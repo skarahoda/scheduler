@@ -22,6 +22,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -97,6 +98,11 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (InvalidParameterException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null,
+								"You don't have any class.");
+						e1.printStackTrace();
 					}
 				}
 			}
@@ -118,6 +124,8 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 						addClass(option.get());
 					} catch (InvalidParameterException e1) {
 						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null,
+								"You don't have any class.");
 						e1.printStackTrace();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
