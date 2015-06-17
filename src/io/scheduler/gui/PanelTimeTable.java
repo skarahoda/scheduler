@@ -28,8 +28,6 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.JTableHeader;
 
-import com.j256.ormlite.dao.ForeignCollection;
-
 public class PanelTimeTable extends JPanel implements CustomComponent {
 
 	/**
@@ -182,7 +180,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		if (classes == null)
 			return;
 		for (SUClass suClass : classes) {
-			ForeignCollection<Meeting> meetings = suClass.getMeetings();
+			Collection<Meeting> meetings = suClass.getMeetings();
 			if (meetings.isEmpty()) {
 				TBAClasses.addElement(suClass.getCourse().getCode());
 			}

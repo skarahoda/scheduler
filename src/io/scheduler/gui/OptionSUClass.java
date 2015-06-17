@@ -5,6 +5,7 @@ import io.scheduler.data.Meeting;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.handler.FiltersSUClass;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
@@ -44,6 +45,7 @@ public class OptionSUClass {
 		JPanel optionPanel = initOptionPanel();
 		checkBoxCoReq = new JCheckBox("Courses without corequisite");
 		addEventListeners();
+		fillScrollCourse();
 		Object[] message = { checkBoxCoReq, optionPanel };
 		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -53,6 +55,7 @@ public class OptionSUClass {
 		JPanel returnVal = new JPanel();
 		JPanel coursePanel = initCustomPanel(new JLabel("Course:"),
 				createScrollCourse());
+		coursePanel.setPreferredSize(new Dimension(600, 300));
 		JPanel suClassPanel = initCustomPanel(new JLabel("Class:"),
 				createScrollSUClass());
 		JPanel meetingPanel = initCustomPanel(new JLabel("Meeting:"),
@@ -69,6 +72,7 @@ public class OptionSUClass {
 		returnVal.setLayout(new BoxLayout(returnVal, BoxLayout.PAGE_AXIS));
 		returnVal.add(label);
 		returnVal.add(scroll);
+		returnVal.setPreferredSize(new Dimension(300, 300));
 		return returnVal;
 	}
 
@@ -140,7 +144,6 @@ public class OptionSUClass {
 		listModelCourse = new DefaultListModel<Course>();
 		jListCourse = new JList<Course>(listModelCourse);
 		jListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		fillScrollCourse();
 		JScrollPane returnVal = new JScrollPane(jListCourse);
 		return returnVal;
 	}

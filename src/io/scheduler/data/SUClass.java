@@ -6,6 +6,7 @@ package io.scheduler.data;
 import io.scheduler.data.Meeting.DayofWeek;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class SUClass {
 	@DatabaseField(columnName = TERM_FIELD_NAME, canBeNull = false, persisterClass = TermPersister.class)
 	private Term term;
 
-	@ForeignCollectionField
+	@ForeignCollectionField(eager = true)
 	private ForeignCollection<Meeting> meetings;
 
 	/**
@@ -99,7 +100,7 @@ public class SUClass {
 	/**
 	 * @return the meetings
 	 */
-	public ForeignCollection<Meeting> getMeetings() {
+	public Collection<Meeting> getMeetings() {
 		return meetings;
 	}
 
