@@ -3,7 +3,7 @@
  */
 package io.scheduler.data;
 
-import io.scheduler.data.Meeting.DayofWeek;
+import io.scheduler.data.Meeting.DayOfWeek;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -212,8 +212,8 @@ public class SUClass {
 		return course.hasCoRequisite();
 	}
 
-	public boolean hasMeetingAt(DayofWeek day) {
-		if (day == DayofWeek.TBA && (meetings == null || meetings.isEmpty())) {
+	public boolean hasMeetingAt(DayOfWeek day) {
+		if (day == DayOfWeek.TBA && (meetings == null || meetings.isEmpty())) {
 			return true;
 		}
 		for (Meeting meeting : meetings) {

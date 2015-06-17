@@ -1,7 +1,7 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.Meeting;
-import io.scheduler.data.Meeting.DayofWeek;
+import io.scheduler.data.Meeting.DayOfWeek;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.Schedule;
 import io.scheduler.data.User;
@@ -114,7 +114,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 					try {
 						JTableHeader header = (JTableHeader) e.getSource();
 						int index = header.columnAtPoint(e.getPoint()) - 1;
-						DayofWeek d = DayofWeek.values()[index];
+						DayOfWeek d = DayOfWeek.values()[index];
 						List<SUClass> suClasses = SUClass.get(User
 								.getCurrentTerm());
 						Collection<SUClass> filteredSuClasses = FiltersSUClass
@@ -159,7 +159,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Meeting.create(start, end, DayofWeek.valueOf(day), null, null);
+		return Meeting.create(start, end, DayOfWeek.valueOf(day), null, null);
 	}
 
 	public void deleteClass(SUClass suClass) {
@@ -193,8 +193,8 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 				TBAClasses.addElement(suClass.getCourse().getCode());
 			}
 			for (Meeting meeting : meetings) {
-				DayofWeek day = meeting.getDay();
-				if (day == DayofWeek.TBA) {
+				DayOfWeek day = meeting.getDay();
+				if (day == DayOfWeek.TBA) {
 					TBAClasses.addElement(suClass.getCode());
 					break;
 				}
@@ -226,7 +226,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		}
 	}
 
-	private int getIndex(DayofWeek day) {
+	private int getIndex(DayOfWeek day) {
 		switch (day) {
 		case MONDAY:
 			return 1;

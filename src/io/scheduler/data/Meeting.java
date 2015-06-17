@@ -15,7 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "meetings")
 public class Meeting {
-	public enum DayofWeek {
+	public enum DayOfWeek {
 		MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, TBA
 	}
 
@@ -29,7 +29,7 @@ public class Meeting {
 	private int id;
 
 	@DatabaseField(columnName = DAY_FIELD_NAME)
-	private DayofWeek day;
+	private DayOfWeek day;
 
 	@DatabaseField(columnName = START_FIELD_NAME)
 	private Date start;
@@ -49,7 +49,7 @@ public class Meeting {
 	Meeting() {
 	}
 
-	private Meeting(Date s, Date e, DayofWeek d, String p, SUClass suClass) {
+	private Meeting(Date s, Date e, DayOfWeek d, String p, SUClass suClass) {
 		this.day = d;
 		this.start = s;
 		this.end = e;
@@ -57,20 +57,20 @@ public class Meeting {
 		this.place = p;
 	}
 
-	public static DayofWeek stringToDay(String d) {
+	public static DayOfWeek stringToDay(String d) {
 		switch (d.charAt(0)) {
 		case 'M':
-			return DayofWeek.MONDAY;
+			return DayOfWeek.MONDAY;
 		case 'T':
-			return DayofWeek.TUESDAY;
+			return DayOfWeek.TUESDAY;
 		case 'W':
-			return DayofWeek.WEDNESDAY;
+			return DayOfWeek.WEDNESDAY;
 		case 'R':
-			return DayofWeek.THURSDAY;
+			return DayOfWeek.THURSDAY;
 		case 'F':
-			return DayofWeek.FRIDAY;
+			return DayOfWeek.FRIDAY;
 		case 'S':
-			return DayofWeek.SATURDAY;
+			return DayOfWeek.SATURDAY;
 		default:
 			throw new IllegalArgumentException(d);
 		}
@@ -86,7 +86,7 @@ public class Meeting {
 	/**
 	 * @return the day
 	 */
-	public DayofWeek getDay() {
+	public DayOfWeek getDay() {
 		return day;
 	}
 
@@ -122,14 +122,14 @@ public class Meeting {
 		return day + ", " + df.format(start) + " - " + df.format(end);
 	}
 
-	public static Meeting createForDb(Date start, Date end, DayofWeek day,
+	public static Meeting createForDb(Date start, Date end, DayOfWeek day,
 			String place, SUClass tempSUClass) throws SQLException {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
 		DatabaseConnector.createOrUpdate(returnVal, Meeting.class);
 		return returnVal;
 	}
 
-	public static Meeting create(Date start, Date end, DayofWeek day,
+	public static Meeting create(Date start, Date end, DayOfWeek day,
 			String place, SUClass tempSUClass) {
 		Meeting returnVal = new Meeting(start, end, day, place, tempSUClass);
 		return returnVal;

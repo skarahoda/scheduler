@@ -2,7 +2,7 @@ package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
 import io.scheduler.data.Meeting;
-import io.scheduler.data.Meeting.DayofWeek;
+import io.scheduler.data.Meeting.DayOfWeek;
 import io.scheduler.data.SUClass;
 
 import java.util.Collection;
@@ -21,7 +21,7 @@ public class FiltersSUClass {
 	}
 
 	public static Collection<SUClass> filterForDay(Collection<SUClass> classes,
-			final DayofWeek day) {
+			final DayOfWeek day) {
 		return Collections2.filter(classes, new Predicate<SUClass>() {
 			@Override
 			public boolean apply(SUClass arg0) {
