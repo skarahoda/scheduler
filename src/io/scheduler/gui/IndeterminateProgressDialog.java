@@ -3,6 +3,7 @@ package io.scheduler.gui;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -10,7 +11,7 @@ import javax.swing.SwingWorker;
 
 public class IndeterminateProgressDialog {
 
-	private SwingWorker<Void, Void> task;
+	private SwingWorker<Boolean, Void> task;
 	private SwingWorker<Void, Void> option;
 
 	public IndeterminateProgressDialog(final String message,
@@ -39,12 +40,13 @@ public class IndeterminateProgressDialog {
 			}
 
 		};
-		this.task = new SwingWorker<Void, Void>() {
+		this.task = new SwingWorker<Boolean, Void>() {
 
 			@Override
-			protected Void doInBackground() throws Exception {
+			protected Boolean doInBackground() throws Exception {
 				try {
 					mainExecution.call();
+					return true;
 				} catch (IllegalArgumentException e) {
 					JOptionPane.showMessageDialog(null, "Invalid options.",
 							"Error", JOptionPane.ERROR_MESSAGE);
@@ -67,7 +69,7 @@ public class IndeterminateProgressDialog {
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
-				return null;
+				return false;
 			}
 
 			@Override
@@ -78,5 +80,15 @@ public class IndeterminateProgressDialog {
 		};
 		this.task.execute();
 		this.option.run();
+	}
+
+	public boolean isApplied() {
+		try {
+			return task.get().booleanValue();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

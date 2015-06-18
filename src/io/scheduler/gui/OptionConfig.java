@@ -52,8 +52,7 @@ public class OptionConfig {
 		try {
 			Term term = new Term(year,
 					(TermOfYear) comboBoxTerm.getSelectedItem());
-			parse(term);
-			return true;
+			return parse(term);
 		} catch (IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(null, "Term is invalid.", "Error",
 					JOptionPane.ERROR_MESSAGE);
@@ -61,7 +60,7 @@ public class OptionConfig {
 		}
 	}
 
-	private void parse(final Term term) {
+	private boolean parse(final Term term) {
 		Callable<Void> mainExecution = new Callable<Void>() {
 
 			@Override
@@ -86,8 +85,9 @@ public class OptionConfig {
 				}
 			}
 		};
-		new IndeterminateProgressDialog("Classes are getting from internet...",
-				mainExecution, cancelExecution);
+		return new IndeterminateProgressDialog(
+				"Classes are getting from internet...", mainExecution,
+				cancelExecution).isApplied();
 
 	}
 
