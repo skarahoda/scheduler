@@ -1,6 +1,7 @@
 package io.scheduler.data;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -155,9 +156,10 @@ public class Course {
 		return isCheckedForReq;
 	}
 
-	public boolean hasPreRequisiteRestriction() throws SQLException {
+	public boolean hasPreRequisiteRestriction(Collection<Course> courses)
+			throws SQLException {
 		if (preReq != null) {
-			if (preReq.isValid(TakenCourse.getAll()) == false) {
+			if (preReq.isValid(courses) == false) {
 				return false;
 			}
 		}

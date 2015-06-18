@@ -208,12 +208,14 @@ public class SUClass {
 	}
 
 	/**
+	 * @param courses
 	 * @return
 	 * @throws SQLException
 	 * @see io.scheduler.data.Course#hasPreRequisiteRestriction()
 	 */
-	public boolean hasPreRequisiteRestriction() throws SQLException {
-		return course.hasPreRequisiteRestriction();
+	public boolean hasPreRequisiteRestriction(Collection<Course> courses)
+			throws SQLException {
+		return course.hasPreRequisiteRestriction(courses);
 	}
 
 	/**

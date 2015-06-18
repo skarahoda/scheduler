@@ -39,6 +39,8 @@ public class Requisite {
 
 	@DatabaseField(columnName = RIGHT_FIELD_NAME)
 	private int rightId;
+	private Requisite right;
+	private Requisite left;
 
 	Requisite() {
 	}
@@ -62,8 +64,8 @@ public class Requisite {
 			throws SQLException, IllegalArgumentException {
 		this.leftId = leftId;
 		this.rightId = rightId;
-		Requisite left = getWithId(leftId);
-		Requisite right = getWithId(rightId);
+		this.left = getWithId(leftId);
+		this.right = getWithId(rightId);
 		if (left == null || right == null)
 			throw new IllegalArgumentException();
 		this.operation = isAnd ? Operation.AND : Operation.OR;
@@ -85,9 +87,9 @@ public class Requisite {
 		case UNARY:
 			return courseCode;
 		case AND:
-			return "( " + leftId + " and " + rightId + " )";
+			return "( " + leftId + " and " + getRight() + " )";
 		case OR:
-			return "( " + leftId + " or " + rightId + " )";
+			return "( " + leftId + " or " + getRight() + " )";
 		}
 		return null;
 	}
@@ -104,14 +106,14 @@ public class Requisite {
 			}
 			return false;
 		case AND:
-			left = getWithId(leftId);
-			right = getWithId(rightId);
+			left = getRight();
+			right = getLeft();
 			if (left == null || right == null)
 				return false;
 			return left.isValid(courses) && right.isValid(courses);
 		case OR:
-			left = getWithId(leftId);
-			right = getWithId(rightId);
+			left = getRight();
+			right = getLeft();
 			if (left == null || right == null)
 				return false;
 			return left.isValid(courses) || right.isValid(courses);
@@ -122,5 +124,53 @@ public class Requisite {
 
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * @return the right
+	 */
+	private Requisite getRight() {
+		setRight();
+		return right;
+	}
+
+	/**
+	 * @param right
+	 *            the right to set
+	 */
+	private void setRight() {
+		if (right != null)
+			return;
+		try {
+			right = getWithId(rightId);
+		} catch (SQLException e) {
+			right = null;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the left
+	 */
+	private Requisite getLeft() {
+		setLeft();
+		return left;
+	}
+
+	/**
+	 * @param left
+	 *            the left to set
+	 */
+	private void setLeft() {
+		if (left != null)
+			return;
+		try {
+			left = getWithId(leftId);
+		} catch (SQLException e) {
+			left = null;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

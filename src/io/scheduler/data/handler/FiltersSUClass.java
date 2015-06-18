@@ -6,6 +6,7 @@ import io.scheduler.data.Meeting.DayOfWeek;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.SUClass.ComparisonOperator;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 
@@ -58,6 +59,22 @@ public class FiltersSUClass {
 			@Override
 			public boolean apply(SUClass arg0) {
 				return arg0.compare(op, time);
+			}
+		});
+	}
+
+	public static Collection<SUClass> filterPreReq(Collection<SUClass> classes,
+			final Collection<Course> courses) {
+		return Collections2.filter(classes, new Predicate<SUClass>() {
+			@Override
+			public boolean apply(SUClass arg0) {
+				try {
+					return arg0.hasPreRequisiteRestriction(courses);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return true;
+				}
 			}
 		});
 	}

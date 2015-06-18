@@ -46,6 +46,7 @@ public class OptionSUClass {
 	private Collection<SUClass> filteredSuClasses;
 	private Collection<SUClass> suClasses;
 	private JCheckBox checkBoxCoReq;
+	private JCheckBox checkBoxPreReq;
 	private JCheckBox checkBoxTaken;
 	private JComboBox<Object> comboBoxOp;
 	private JSpinner spinnerTime;
@@ -58,13 +59,14 @@ public class OptionSUClass {
 		this.suClasses = suClasses;
 		JPanel optionPanel = initOptionPanel();
 		checkBoxCoReq = new JCheckBox("Courses without corequisite");
+		checkBoxPreReq = new JCheckBox("Courses that is valid for prerequisite");
 		checkBoxTaken = new JCheckBox("Hide taken courses");
 		JPanel panelTimeComparer = initPanelTimeComparer();
 		addEventListeners();
 		fillScrollCourse();
-		Object[] message = { panelTimeComparer, checkBoxCoReq, checkBoxTaken,
-				optionPanel };
-		option = JOptionPane.showConfirmDialog(null, message, "Classes",
+		Object[] messages = { panelTimeComparer, checkBoxCoReq, checkBoxPreReq,
+				checkBoxTaken, optionPanel };
+		option = JOptionPane.showConfirmDialog(null, messages, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -144,6 +146,7 @@ public class OptionSUClass {
 			}
 		};
 		checkBoxCoReq.addActionListener(filterListener);
+		checkBoxPreReq.addActionListener(filterListener);
 		checkBoxTaken.addActionListener(filterListener);
 		comboBoxOp.addActionListener(filterListener);
 		spinnerTime.addChangeListener(new ChangeListener() {
@@ -159,6 +162,16 @@ public class OptionSUClass {
 			filteredSuClasses = FiltersSUClass.filterForCoReq(suClasses);
 		} else {
 			filteredSuClasses = new ArrayList<SUClass>(suClasses);
+		}
+		if (checkBoxPreReq.isSelected()) {
+			try {
+				List<Course> courses = TakenCourse.getAll();
+				filteredSuClasses = FiltersSUClass.filterPreReq(
+						filteredSuClasses, courses);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (checkBoxTaken.isSelected()) {
 			try {
