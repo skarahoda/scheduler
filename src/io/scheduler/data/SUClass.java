@@ -26,9 +26,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "su_classes")
 public class SUClass {
 	public enum ComparisonOperator {
-		LE,GE;
+		LE, GE;
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Enum#toString()
 		 */
 		@Override
@@ -41,8 +43,9 @@ public class SUClass {
 			}
 			return "";
 		}
-		
+
 	}
+
 	public static final String CRN_FIELD_NAME = "crn";
 	public static final String INSTRUCTOR_FIELD_NAME = "instructor";
 	public static final String SECTION_FIELD_NAME = "section";
@@ -242,9 +245,9 @@ public class SUClass {
 		}
 		return false;
 	}
-	
-	public boolean compare(ComparisonOperator op, Date time){
-		if(time == null)
+
+	public boolean compare(ComparisonOperator op, Date time) {
+		if (time == null)
 			return true;
 		if (meetings == null || meetings.isEmpty()) {
 			return false;
@@ -252,12 +255,12 @@ public class SUClass {
 		for (Meeting meeting : meetings) {
 			switch (op) {
 			case LE:
-				if(time.before(meeting.getEnd())){
+				if (time.before(meeting.getEnd())) {
 					return false;
 				}
 				break;
 			case GE:
-				if(meeting.getStart().before(time)){
+				if (meeting.getStart().before(time)) {
 					return false;
 				}
 				break;

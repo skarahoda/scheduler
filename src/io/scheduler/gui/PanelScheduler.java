@@ -85,8 +85,7 @@ public class PanelScheduler extends CardPanel {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} catch (InvalidParameterException e1) {
-					JOptionPane.showMessageDialog(null,
-							"There is no class.");
+					JOptionPane.showMessageDialog(null, "There is no class.");
 					e1.printStackTrace();
 
 				}

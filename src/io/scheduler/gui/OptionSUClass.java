@@ -62,7 +62,8 @@ public class OptionSUClass {
 		JPanel panelTimeComparer = initPanelTimeComparer();
 		addEventListeners();
 		fillScrollCourse();
-		Object[] message = { panelTimeComparer, checkBoxCoReq, checkBoxTaken, optionPanel };
+		Object[] message = { panelTimeComparer, checkBoxCoReq, checkBoxTaken,
+				optionPanel };
 		option = JOptionPane.showConfirmDialog(null, message, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
@@ -169,8 +170,10 @@ public class OptionSUClass {
 				e.printStackTrace();
 			}
 		}
-		if(comboBoxOp.getSelectedIndex() > 0){
-			filteredSuClasses = FiltersSUClass.filterTime(filteredSuClasses, (ComparisonOperator)comboBoxOp.getSelectedItem(),(Date) spinnerTime.getValue() );
+		if (comboBoxOp.getSelectedIndex() > 0) {
+			filteredSuClasses = FiltersSUClass.filterTime(filteredSuClasses,
+					(ComparisonOperator) comboBoxOp.getSelectedItem(),
+					(Date) spinnerTime.getValue());
 		}
 		fillScrollCourse();
 	}
