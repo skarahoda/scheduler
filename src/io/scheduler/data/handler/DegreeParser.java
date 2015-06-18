@@ -28,11 +28,11 @@ public class DegreeParser {
 	/**
 	 * constant URL for web site of degree requirements.
 	 */
-	private static final String degreeUrlTemplate = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_degree_detail?P_TERM=%d&P_PROGRAM=%s&P_SUBMIT=&P_LANG=EN&P_LEVEL=%s";
-	private static final String courseDegreeUrlTemplate = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=%s&P_PROGRAM=%s&P_LANG=EN&P_LEVEL=%s";
-	private static final String fensCourses = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_FENS&P_PROGRAM=%s&P_FAC=E&P_LANG=EN&P_LEVEL=UG";
-	private static final String fassCourses = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_FASS&P_PROGRAM=%s&P_FAC=S&P_LANG=EN&P_LEVEL=UG";
-	private static final String somCourses = "http://www.sabanciuniv.edu/en/prospective-students/degree-detail?SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_SOM&P_PROGRAM=%s&P_FAC=M&P_LANG=EN&P_LEVEL=UG";
+	private static final String degreeUrlTemplate = "https://suis.sabanciuniv.edu/prod/SU_DEGREE.p_degree_detail?P_TERM=%d&P_PROGRAM=%s&P_SUBMIT=&P_LANG=EN&P_LEVEL=%s";
+	private static final String courseDegreeUrlTemplate = "https://suis.sabanciuniv.edu/prod/SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=%s&P_PROGRAM=%s&P_LANG=EN&P_LEVEL=%s";
+	private static final String fensCourses = "https://suis.sabanciuniv.edu/prod/SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_FENS&P_PROGRAM=%s&P_FAC=E&P_LANG=EN&P_LEVEL=UG";
+	private static final String fassCourses = "https://suis.sabanciuniv.edu/prod/SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_FASS&P_PROGRAM=%s&P_FAC=S&P_LANG=EN&P_LEVEL=UG";
+	private static final String somCourses = "https://suis.sabanciuniv.edu/prod/SU_DEGREE.p_list_courses?P_TERM=%d&P_AREA=FC_SOM&P_PROGRAM=%s&P_FAC=M&P_LANG=EN&P_LEVEL=UG";
 
 	public static Program parse(Term term, boolean isUG, String pName)
 			throws IOException, IllegalArgumentException, SQLException {
