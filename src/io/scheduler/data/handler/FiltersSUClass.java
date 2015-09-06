@@ -1,6 +1,7 @@
 package io.scheduler.data.handler;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.DegreeReq;
 import io.scheduler.data.Meeting;
 import io.scheduler.data.Meeting.DayOfWeek;
 import io.scheduler.data.SUClass;
@@ -77,5 +78,20 @@ public class FiltersSUClass {
 				}
 			}
 		});
+	}
+
+	public static Collection<SUClass> filterDegreeReq(
+			Collection<SUClass> classes, DegreeReq degreeReq) {
+		try {
+			final Collection<Course> courses = degreeReq.getCourses();
+			return Collections2.filter(classes, new Predicate<SUClass>() {
+				@Override
+				public boolean apply(SUClass arg0) {
+					return courses.contains(arg0.getCourse());
+				}
+			});
+		} catch (SQLException e1) {
+			return classes;
+		}
 	}
 }

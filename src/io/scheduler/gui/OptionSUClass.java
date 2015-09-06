@@ -1,7 +1,9 @@
 package io.scheduler.gui;
 
 import io.scheduler.data.Course;
+import io.scheduler.data.DegreeReq;
 import io.scheduler.data.Meeting;
+import io.scheduler.data.Program;
 import io.scheduler.data.SUClass;
 import io.scheduler.data.SUClass.ComparisonOperator;
 import io.scheduler.data.TakenCourse;
@@ -49,6 +51,9 @@ public class OptionSUClass {
 	private JCheckBox checkBoxPreReq;
 	private JCheckBox checkBoxTaken;
 	private JComboBox<Object> comboBoxOp;
+	private JComboBox<DegreeReq> comboBoxFirstProgram;
+	private JComboBox<DegreeReq> comboBoxSecondProgram;
+	private JComboBox<DegreeReq> comboBoxThirdProgram;
 	private JSpinner spinnerTime;
 
 	public OptionSUClass(Collection<SUClass> suClasses)
@@ -62,12 +67,64 @@ public class OptionSUClass {
 		checkBoxPreReq = new JCheckBox("Courses that is valid for prerequisite");
 		checkBoxTaken = new JCheckBox("Hide taken courses");
 		JPanel panelTimeComparer = initPanelTimeComparer();
+		comboBoxFirstProgram = new JComboBox<DegreeReq>();
+		comboBoxFirstProgram.addItem(null);
+		JPanel panelFirstProgram = initPanelProgram(
+				"Course type for first program:", comboBoxFirstProgram);
+		comboBoxSecondProgram = new JComboBox<DegreeReq>();
+		comboBoxSecondProgram.addItem(null);
+		JPanel panelSecondProgram = initPanelProgram(
+				"Course type for second program:", comboBoxSecondProgram);
+		comboBoxThirdProgram = new JComboBox<DegreeReq>();
+		comboBoxThirdProgram.addItem(null);
+		JPanel panelThirdProgram = initPanelProgram(
+				"Course type for third program:", comboBoxThirdProgram);
 		addEventListeners();
 		fillScrollCourse();
 		Object[] messages = { panelTimeComparer, checkBoxCoReq, checkBoxPreReq,
-				checkBoxTaken, optionPanel };
+				checkBoxTaken, panelFirstProgram, panelSecondProgram,
+				panelThirdProgram, optionPanel };
 		option = JOptionPane.showConfirmDialog(null, messages, "Classes",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	private JPanel initPanelProgram(String message,
+			final JComboBox<DegreeReq> comboBoxReq) {
+
+		final JComboBox<Program> comboBoxProgram = new JComboBox<Program>();
+		JPanel returnVal = new JPanel();
+		comboBoxProgram.addItem(null);
+		try {
+			for (Program program : Program.getAll()) {
+				comboBoxProgram.addItem(program);
+			}
+		} catch (SQLException e) {
+		}
+
+		comboBoxProgram.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				comboBoxReq.removeAllItems();
+				comboBoxReq.addItem(null);
+				if (comboBoxProgram.getSelectedItem() == null)
+					return;
+				for (DegreeReq req : ((Program) comboBoxProgram
+						.getSelectedItem()).getRequirements()) {
+					try {
+						if (!req.getCourses().isEmpty())
+							comboBoxReq.addItem(req);
+					} catch (SQLException e) {
+					}
+				}
+			}
+		});
+
+		returnVal.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		returnVal.add(new JLabel(message));
+		returnVal.add(comboBoxProgram);
+		returnVal.add(comboBoxReq);
+		return returnVal;
 	}
 
 	private JPanel initPanelTimeComparer() {
@@ -79,6 +136,7 @@ public class OptionSUClass {
 		comboBoxOp.setSelectedIndex(0);
 		JPanel returnVal = new JPanel();
 		returnVal.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		returnVal.add(new JLabel("Filter for time"));
 		returnVal.add(spinnerTime);
 		returnVal.add(comboBoxOp);
 		return returnVal;
@@ -149,6 +207,9 @@ public class OptionSUClass {
 		checkBoxPreReq.addActionListener(filterListener);
 		checkBoxTaken.addActionListener(filterListener);
 		comboBoxOp.addActionListener(filterListener);
+		comboBoxFirstProgram.addActionListener(filterListener);
+		comboBoxSecondProgram.addActionListener(filterListener);
+		comboBoxThirdProgram.addActionListener(filterListener);
 		spinnerTime.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -187,6 +248,21 @@ public class OptionSUClass {
 			filteredSuClasses = FiltersSUClass.filterTime(filteredSuClasses,
 					(ComparisonOperator) comboBoxOp.getSelectedItem(),
 					(Date) spinnerTime.getValue());
+		}
+		if (comboBoxFirstProgram.getSelectedItem() != null) {
+			filteredSuClasses = FiltersSUClass.filterDegreeReq(
+					filteredSuClasses,
+					(DegreeReq) comboBoxFirstProgram.getSelectedItem());
+		}
+		if (comboBoxSecondProgram.getSelectedItem() != null) {
+			filteredSuClasses = FiltersSUClass.filterDegreeReq(
+					filteredSuClasses,
+					(DegreeReq) comboBoxSecondProgram.getSelectedItem());
+		}
+		if (comboBoxThirdProgram.getSelectedItem() != null) {
+			filteredSuClasses = FiltersSUClass.filterDegreeReq(
+					filteredSuClasses,
+					(DegreeReq) comboBoxThirdProgram.getSelectedItem());
 		}
 		fillScrollCourse();
 	}
