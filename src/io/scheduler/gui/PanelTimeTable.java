@@ -149,7 +149,7 @@ public class PanelTimeTable extends JPanel implements CustomComponent {
 		String day = source.getColumnName(column);
 		day = day.toUpperCase();
 		String[] times = timeInterval.split("-");
-		DateFormat format = new SimpleDateFormat("h:mm");
+		DateFormat format = new SimpleDateFormat("H:mm");
 		Date start = null;
 		Date end = null;
 		try {
