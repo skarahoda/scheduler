@@ -9,7 +9,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "courses")
-public class Course {
+public class Course implements Comparable<Course> {
 
 	public static final String CODE_FIELD_NAME = "code";
 	public static final String NAME_FIELD_NAME = "name";
@@ -177,5 +177,10 @@ public class Course {
 
 	public boolean hasCoRequisite() {
 		return coReq != null;
+	}
+
+	@Override
+	public int compareTo(Course o) {
+		return toString().compareTo(o.toString());
 	}
 }

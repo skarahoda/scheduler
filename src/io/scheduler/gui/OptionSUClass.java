@@ -40,7 +40,7 @@ import javax.swing.event.ListSelectionListener;
 public class OptionSUClass {
 	private int option;
 	private DefaultListModel<SUClass> listModelSUClass;
-	private DefaultListModel<Course> listModelCourse;
+	private SortedListModel<Course> listModelCourse;
 	private DefaultListModel<Meeting> listModelMeeting;
 	private JList<Course> jListCourse;
 	private JList<SUClass> jListSUClass;
@@ -284,7 +284,7 @@ public class OptionSUClass {
 	}
 
 	private JScrollPane createScrollCourse() {
-		listModelCourse = new DefaultListModel<Course>();
+		listModelCourse = new SortedListModel<Course>();
 		jListCourse = new JList<Course>(listModelCourse);
 		jListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane returnVal = new JScrollPane(jListCourse);
@@ -296,7 +296,7 @@ public class OptionSUClass {
 		for (SUClass suClass : filteredSuClasses) {
 			Course course = suClass.getCourse();
 			if (course != null && !listModelCourse.contains(course)) {
-				listModelCourse.addElement(course);
+				listModelCourse.add(course);
 			}
 		}
 		if (!listModelCourse.isEmpty()) {
